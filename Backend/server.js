@@ -1,5 +1,5 @@
 import app from "./app.js";
-import { connectToMongo } from "#drivers/mongo.js";
+import { connectToMongo } from "./drivers/mongo.js";
 
 async function startServer() {
   try {
