@@ -2,6 +2,7 @@ import express from "express";
 
 import { corsPlugin, bodyParserPlugin } from "./plugins/corsPlugin.js";
 import { loggerPlugin } from "./plugins/loggerPlugin.js";
+import { setupRoutes } from "./routes.js";
 import { notFoundError, internalError } from "./controllers/errors/index.js";
 
 import dotenv from "dotenv";
@@ -11,6 +12,7 @@ const app = express();
 corsPlugin(app);
 bodyParserPlugin(app);
 loggerPlugin(app);
+setupRoutes(app);
 
 app.use(notFoundError);
 app.use(internalError);
