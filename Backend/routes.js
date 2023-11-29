@@ -6,11 +6,11 @@ export const setupRoutes = (app) => {
   app.get("/auth/logout", controllers.authLogout);
 
   app.post("/transactions", controllers.addTransaction);
-  app.get("/transactions");
+  app.get("/transactions", controllers.getTransactions);
 
-  app.get("/categories/:id");
+  app.get("/categories/:id", controllers.getCategory);
 
-  app.get("/statistics");
+  app.get("/statistics", controllers.getStatistics);
 
-  app.get("/users/current");
+  app.get("/users/current", controllers.getUser);
 };
