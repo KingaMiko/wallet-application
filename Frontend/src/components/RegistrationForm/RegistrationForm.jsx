@@ -1,30 +1,52 @@
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
 import styles from './RegistrationForm.module.scss';
 
 export const RegistrationForm = () => {
+  const initialValues = {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    alert(JSON.stringify(values));
+  };
+
   return (
-    <form className={styles['registration-form']}>
-      <input type="email" name="email" placeholder="Email" required />
+    <>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {() => (
+          <Form className={styles['registration-form']}>
+            <Field type="text" name="name" placeholder="First name" />
+            <ErrorMessage name="name" component="div" />
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-        autoComplete="off"
-      />
+            <Field type="email" name="email" placeholder="E-mail" />
+            <ErrorMessage name="email" component="div" />
 
-      <input
-        type="password"
-        name="confirm-password"
-        placeholder="Confirm password"
-        required
-        autoComplete="off"
-      />
+            <Field
+              type="password"
+              name="password"
+              placeholder="Password"
+              autoComplete="off"
+            />
+            <ErrorMessage name="password" component="div" />
 
-      <input type="text" name="name" placeholder="First name" required />
+            <Field
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm password"
+              autoComplete="off"
+            />
+            <ErrorMessage name="confirmPassword" component="div" />
 
-      <button type="submit">register</button>
-      <button type="submit">log in</button>
-    </form>
+            <button type="submit">Register</button>
+
+            <button type="button">Log in</button>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
