@@ -17,3 +17,5 @@ export * from "./configurations/setConfiguration.js";
 
 export * from "./curriencies/addCurrency.js";
 export * from "./curriencies/getCurrency.js";
+
+export * from "./errors/index.js";
