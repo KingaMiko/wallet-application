@@ -1,16 +1,14 @@
+import { Routes, Route } from 'react-router-dom';
+import { lazy } from 'react';
+
+const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
+const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
+
 export const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      React homework template
-    </div>
+    <Routes>
+      <Route path="home" element={<LoginPage />} />
+      <Route path="register" element={<RegisterPage />} />
+    </Routes>
   );
 };
