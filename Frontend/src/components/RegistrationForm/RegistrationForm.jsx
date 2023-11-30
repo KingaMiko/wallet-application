@@ -1,6 +1,8 @@
+import styles from './RegistrationForm.module.scss';
+
 export const RegistrationForm = () => {
   return (
-    <form>
+    <form className={styles['registration-form']}>
       <input type="email" name="email" placeholder="Email" required />
 
       <input

@@ -1,0 +1,13 @@
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & input {
+    margin-bottom: 40px;
+  }
+
+  & button:not(:last-of-type) {
+    margin-bottom: 20px;
+  }
+}
