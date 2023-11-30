@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import styles from './RegistrationForm.module.scss';
+import { Button } from 'components';
 
 export const RegistrationForm = () => {
   const initialValues = {
@@ -92,9 +93,13 @@ export const RegistrationForm = () => {
                 component="div"
               />
             </div>
-            <button type="submit">Register</button>
+            <Button type="submit" theme="color">
+              Register
+            </Button>
 
-            <button type="button">Log in</button>
+            <Button type="button" theme="white">
+              Log in
+            </Button>
           </Form>
         )}
       </Formik>
