@@ -8,9 +8,6 @@ export const setupRoutes = (app) => {
   const usersRouter = Router();
 
   rootRouter.post("/signup", controllers.authSignup);
-  /**
-   * POST /api/signin
-   */
   rootRouter.post("/signin", controllers.authSignin);
   /**
    * GET /api/logout
