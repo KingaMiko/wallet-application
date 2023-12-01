@@ -22,7 +22,7 @@ export const authSignup = async (req, res, next) => {
     const verificationToken = nanoid();
 
     if (user) {
-      return response.status(409).json({
+      return res.status(409).json({
         statusCode: 409,
         description: "Email in use",
       });
