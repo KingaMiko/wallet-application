@@ -1,5 +1,5 @@
 @use 'utils/mixins';
-@use 'utils/vars';
+// @use 'utils/vars';
 
 .wrapper {
   &-page {
@@ -22,7 +22,6 @@
     display: none;
 
     background-color: lightblue;
-    // background-color: vars.get-color('brand_color-fifteenth');
 
     @include mixins.mq(tablet) {
       @include mixins.flex(center, center);
@@ -40,11 +39,8 @@
     background-color: pink;
 
     @include mixins.mq(desktop) {
-      display: flex;
+      @include mixins.flex(center, center);
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
       flex-basis: 730px;
     }
   }
