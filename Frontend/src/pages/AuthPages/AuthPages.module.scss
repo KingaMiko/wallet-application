@@ -14,7 +14,9 @@
     }
 
     @include mixins.mq(desktop) {
+      padding-top: 0;
       flex-direction: row;
+      justify-content: center;
       gap: 50px;
     }
   }
@@ -56,7 +58,7 @@
 
   @include mixins.mq(tablet) {
     width: 553px;
-    padding: 40px 60px 60px;
+    padding: 40px 0 60px;
     border-radius: 20px;
   }
 }
