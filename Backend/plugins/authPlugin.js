@@ -40,8 +40,8 @@ export const auth = (request, response, next) => {
   passport.authenticate("jwt", { session: false }, (error, user) => {
     if (error) {
       return response.status(401).json({
-        code: 401,
-        message: error.message,
+        statusCode: 401,
+        description: error.message,
       });
     }
 
