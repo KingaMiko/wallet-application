@@ -21,7 +21,7 @@ export const sendVerificationMail = async (
   const verificationLink = process.env.BASE_URL + "/users/verify/" + token;
 
   const message = {
-    from: "grzegorz.jozw@gmail.com",
+    from: "welcome.to.your.wallat@gmail.com",
     to,
     subject: "Wallet App: New User Verification",
     text:
