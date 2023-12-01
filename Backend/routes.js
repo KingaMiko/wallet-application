@@ -4,53 +4,56 @@ import { auth } from "./plugins/authPlugin.js";
 import * as controllers from "./controllers/index.js";
 
 export const setupRoutes = (app) => {
-  const router = Router();
+  const rootRouter = Router();
+  const usersRouter = Router();
 
-  router.post("/signup", controllers.authSignup);
+  rootRouter.post("/signup", controllers.authSignup);
   /**
    * POST /api/signin
    */
-  router.post("/signin", controllers.authSignin);
+  rootRouter.post("/signin", controllers.authSignin);
   /**
    * GET /api/logout
    * 
    * @security BearerAuth
    */
-  router.get("/logout", auth, controllers.authLogout);
+  rootRouter.get("/logout", auth, controllers.authLogout);
 
   /**
    * POST /api/transactions
    * 
    * @security BearerAuth
    */
-  router.post("/transactions", auth, controllers.addTransaction);
+  rootRouter.post("/transactions", auth, controllers.addTransaction);
   /**
    * GET /api/transactions
    * 
    * @security BearerAuth
    */
-  router.get("/transactions", auth, controllers.getTransactions);
+  rootRouter.get("/transactions", auth, controllers.getTransactions);
 
   /**
    * GET /api/categories/:id
    * 
    * @security BearerAuth
    */
-  router.get("/categories/:id", auth, controllers.getCategory);
+  rootRouter.get("/categories/:id", auth, controllers.getCategory);
 
   /**
    * GET /api/statistics
    * 
    * @security BearerAuth
    */
-  router.get("/statistics", auth, controllers.getStatistics);
+  rootRouter.get("/statistics", auth, controllers.getStatistics);
 
   /**
    * GET /api/users/current
    * 
    * @security BearerAuth
    */
-  router.get("/users/current", auth, controllers.getUser);
+  usersRouter.get("/current", auth, controllers.getUser);
+  usersRouter.get("/verify/:verificationToken", controllers.verifyUser);
 
-  app.use("/api", router);
+  app.use("/api", rootRouter);
+  app.use("/api/users", usersRouter);
 };
