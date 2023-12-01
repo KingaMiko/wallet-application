@@ -8,7 +8,7 @@ import User from "#models/user.js";
  * POST /api/signup
  * @param {RegisterUserSchema} request.body.required
  * @return {ResponseWithDataSchema} 200 - Success
- * @return {ResponseSchema} 409 - Error - Email in use
+ * @return {ResponseSchema} 409 - Error: Email in use
  * @return {ResponseSchema} 400 - Error
  */
 
