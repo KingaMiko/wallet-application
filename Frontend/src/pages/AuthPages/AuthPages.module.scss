@@ -1,0 +1,64 @@
+@use 'utils/mixins';
+// @use 'utils/vars';
+
+.wrapper {
+  &-page {
+    @include mixins.flex(center, center);
+    height: 100vh;
+
+    @include mixins.mq(tablet) {
+      padding-top: 60px;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 30px;
+    }
+
+    @include mixins.mq(desktop) {
+      padding-top: 0;
+      flex-direction: row;
+      justify-content: center;
+      gap: 50px;
+    }
+  }
+
+  &-img {
+    display: none;
+
+    background-color: lightblue;
+
+    @include mixins.mq(tablet) {
+      @include mixins.flex(center, center);
+      gap: 30px;
+    }
+
+    @include mixins.mq(desktop) {
+      flex-direction: column;
+      flex-basis: 550px;
+      gap: 50px;
+    }
+  }
+
+  &-form {
+    background-color: pink;
+
+    @include mixins.mq(desktop) {
+      @include mixins.flex(center, center);
+      flex-direction: column;
+      flex-basis: 730px;
+    }
+  }
+}
+
+.box {
+  @include mixins.flex(center, center);
+  flex-direction: column;
+
+  background-color: #fff;
+  padding: 20px;
+
+  @include mixins.mq(tablet) {
+    width: 553px;
+    padding: 40px 0 60px;
+    border-radius: 20px;
+  }
+}

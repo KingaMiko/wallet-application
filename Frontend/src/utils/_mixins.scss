@@ -1,0 +1,21 @@
+// MEDIA QUERY FOR RWD
+$breakpoints: (
+  'tablet': 768px,
+  'desktop': 1200px,
+);
+
+@mixin mq($width) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map-get($breakpoints, $width);
+    @media screen and (min-width: $width) {
+      @content;
+    }
+  }
+}
+
+// DISPLAY FLEX
+@mixin flex($justify, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}

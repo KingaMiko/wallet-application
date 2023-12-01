@@ -1,10 +1,10 @@
-import { Transactions } from 'components/Transactions/Transactions';
-import css from './Home.module.scss';
+import { Stats } from 'components/Stats/Stats';
+import css from './Statistics.module.scss';
 import { CurrencyTable } from 'components/CurrencyTable/CurrencyTable';
 import { Balance } from 'components/Balance/Balance';
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Statistics = () => {
   return (
     <div>
       <section className={css.dashboard_container}>
@@ -23,13 +23,13 @@ const Home = () => {
             <CurrencyTable />
           </div>
           <div className={css.main}>
-            <p>Add transaction</p>
-            <Transactions />
+            <Stats />
           </div>
         </div>
       </section>
+      Home page
     </div>
   );
 };
 
-export default Home;
+export default Statistics;

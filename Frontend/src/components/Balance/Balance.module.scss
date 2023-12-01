@@ -1,8 +1,29 @@
+@import '../../utils/_vars.scss';
+
 .balance {
   background-color: get-color('brand_color-first');
   width: 395px;
   height: 80px;
-  top: 214px;
-  left: 16px;
+  margin-top: 28px;
+  margin-left: 16px;
   border-radius: 30px;
+  display: flex;
+  padding-left: 30px;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+}
+
+p {
+  margin: 0;
+}
+
+.title {
+  font-size: 12px;
+  font-family: get-font('primary');
+}
+
+.amount {
+  font-size: get-font-size('title');
+  font-family: get-font('secondary');
 }
