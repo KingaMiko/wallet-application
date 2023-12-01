@@ -1,17 +1,16 @@
-import { ButtonColor, ButtonWhite } from './Button.styled';
+
+import styles from './Button.module.scss';
 
 export const Button = ({ children, type = 'button', theme }) => {
-  if (theme === 'color') {
-    return (
-      <ButtonColor type={type} theme={theme}>
-        {children}
-      </ButtonColor>
-    );
-  } else if (theme === 'white') {
-    return (
-      <ButtonWhite type={type} theme={theme}>
-        {children}
-      </ButtonWhite>
-    );
-  }
-};
+  const buttonClass =
+    theme === 'color'
+      ? styles['button-color']
+      : theme === 'white'
+      ? styles['button-white']
+      : '';
+
+  return (
+    <button className={`${styles.Button} ${buttonClass}`} type={type}>
+      {children}
+    </button>
+  );
