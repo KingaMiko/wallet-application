@@ -1,28 +1,65 @@
+@use 'utils/mixins';
+@use 'utils/vars';
+
 .wrapper {
   &-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include mixins.flex(center, center);
     height: 100vh;
-    gap: 30px;
+
+    @include mixins.mq(tablet) {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 30px;
+    }
+
+    @include mixins.mq(desktop) {
+      flex-direction: row;
+      gap: 50px;
+    }
   }
 
   &-img {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: none;
 
-    flex-basis: 550px;
     background-color: lightblue;
+    // background-color: vars.get-color('brand_color-fifteenth');
+
+    @include mixins.mq(tablet) {
+      @include mixins.flex(center, center);
+      gap: 30px;
+    }
+
+    @include mixins.mq(desktop) {
+      flex-direction: column;
+      flex-basis: 550px;
+      gap: 50px;
+    }
   }
 
   &-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    flex-basis: 730px;
     background-color: pink;
+
+    @include mixins.mq(desktop) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      flex-basis: 730px;
+    }
+  }
+}
+
+.box {
+  @include mixins.flex(center, center);
+  flex-direction: column;
+
+  background-color: #fff;
+  padding: 20px;
+
+  @include mixins.mq(tablet) {
+    width: 553px;
+    padding: 40px 60px 60px;
+    border-radius: 20px;
   }
 }

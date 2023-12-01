@@ -11,7 +11,10 @@ const RegisterPage = () => {
         </div>
 
         <div className={styles['wrapper-form']}>
-          <RegistrationForm />
+          <div className={styles['box']}>
+            <p>Logo</p>
+            <RegistrationForm />
+          </div>
         </div>
       </div>
     </>
