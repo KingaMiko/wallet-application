@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 import styles from './LoginForm.module.scss';
 import { Button } from 'components';
@@ -64,10 +65,11 @@ export const LoginForm = () => {
             <Button type="button" theme="color">
               Log in
             </Button>
-
-            <Button type="submit" theme="white">
-              Register
-            </Button>
+            <Link to="/register">
+              <Button type="submit" theme="white">
+                Register
+              </Button>
+            </Link>
           </Form>
         )}
       </Formik>
