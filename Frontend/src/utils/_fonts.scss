@@ -3,7 +3,17 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(sciezka/do/pliku.woff2) format('woff2');
+  src: url('https://db.onlinewebfonts.com/t/0373adad7b4c1a926865084f2f8fab7f.eot');
+  src: url('https://db.onlinewebfonts.com/t/0373adad7b4c1a926865084f2f8fab7f.eot?#iefix')
+      format('embedded-opentype'),
+    url('https://db.onlinewebfonts.com/t/0373adad7b4c1a926865084f2f8fab7f.woff2')
+      format('woff2'),
+    url('https://db.onlinewebfonts.com/t/0373adad7b4c1a926865084f2f8fab7f.woff')
+      format('woff'),
+    url('https://db.onlinewebfonts.com/t/0373adad7b4c1a926865084f2f8fab7f.ttf')
+      format('truetype'),
+    url('https://db.onlinewebfonts.com/t/0373adad7b4c1a926865084f2f8fab7f.svg#Circe')
+      format('svg');
 }
 
 @font-face {
