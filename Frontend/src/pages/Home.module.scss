@@ -1,0 +1,13 @@
+@import '../utils/_vars.scss';
+
+body {
+  background-color: #e7eaf2;
+  font-family: get-font('secondary');
+  font-size: get-font-size('primary');
+  color: get-color('brand_color-second');
+}
+
+.container {
+  margin: 40px 16px;
+  display: flex;
+}
