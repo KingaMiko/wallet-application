@@ -9,11 +9,6 @@ export const setupRoutes = (app) => {
 
   rootRouter.post("/signup", controllers.authSignup);
   rootRouter.post("/signin", controllers.authSignin);
-  /**
-   * GET /api/logout
-   * 
-   * @security BearerAuth
-   */
   rootRouter.get("/logout", auth, controllers.authLogout);
 
   /**
