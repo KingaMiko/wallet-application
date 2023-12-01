@@ -18,7 +18,7 @@ export const sendVerificationMail = async (
   token,
   username = "new user"
 ) => {
-  const verificationLink = process.env.BASE_URL + "/users/verify/" + token;
+  const verificationLink = `${process.env.BASE_URL}/users/verify/${token}`;
 
   const message = {
     from: "welcome.to.your.wallat@gmail.com",
