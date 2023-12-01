@@ -1,0 +1,28 @@
+.wrapper {
+  &-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 30px;
+  }
+
+  &-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    flex-basis: 550px;
+    background-color: lightblue;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    flex-basis: 730px;
+    background-color: pink;
+  }
+}
