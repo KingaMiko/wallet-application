@@ -7,7 +7,7 @@ const transactionSchema = {
     required: [true, "Transaction type is required"],
   },
   category: {
-    type: SchemaTypes.ObjectId,
+    type: String,
     ref: "category",
     required: [true, "Transaction category is required"],
   },
@@ -21,6 +21,11 @@ const transactionSchema = {
   date: {
     type: Date,
     required: [true, "Transaction date is required"],
+  },
+  owner: {
+    type: SchemaTypes.ObjectId,
+    index: 1,
+    required: [true, "owner is required"],
   },
 };
 

@@ -12,7 +12,7 @@ export const setupRoutes = (app) => {
   router.post("/transactions", controllers.addTransaction);
   router.get("/transactions", controllers.getTransactions);
 
-  router.get("/categories/:id", controllers.getCategory);
+  router.get("/categories", controllers.getCategory);
 
   router.get("/statistics", controllers.getStatistics);
 
