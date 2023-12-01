@@ -8,7 +8,7 @@ const server = {
   port: 587,
   secure: false,
   auth: {
-    user: "apikey",
+    user: process.env.SENDGRID_API_KEYNAME,
     pass: process.env.SENDGRID_API_KEY,
   },
 };
