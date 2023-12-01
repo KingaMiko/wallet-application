@@ -7,6 +7,7 @@
     height: 100vh;
 
     @include mixins.mq(tablet) {
+      padding-top: 60px;
       flex-direction: column;
       justify-content: flex-start;
       gap: 30px;
