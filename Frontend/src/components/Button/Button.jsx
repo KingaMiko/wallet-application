@@ -1,3 +1,4 @@
+
 import styles from './Button.module.scss';
 
 export const Button = ({ children, type = 'button', theme }) => {
@@ -13,4 +14,3 @@ export const Button = ({ children, type = 'button', theme }) => {
       {children}
     </button>
   );
-};

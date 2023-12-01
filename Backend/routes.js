@@ -1,22 +1,59 @@
 import { Router } from "express";
 
+import { auth } from "./plugins/authPlugin.js";
 import * as controllers from "./controllers/index.js";
 
 export const setupRoutes = (app) => {
-  const router = Router();
+  const rootRouter = Router();
+  const usersRouter = Router();
 
-  router.post("/auth/signup", controllers.authSignup);
-  router.post("/auth/signin", controllers.authSignin);
-  router.get("/auth/logout", controllers.authLogout);
+  rootRouter.post("/signup", controllers.authSignup);
+  /**
+   * POST /api/signin
+   */
+  rootRouter.post("/signin", controllers.authSignin);
+  /**
+   * GET /api/logout
+   * 
+   * @security BearerAuth
+   */
+  rootRouter.get("/logout", auth, controllers.authLogout);
 
-  router.post("/transactions", controllers.addTransaction);
-  router.get("/transactions", controllers.getTransactions);
+  /**
+   * POST /api/transactions
+   * 
+   * @security BearerAuth
+   */
+  rootRouter.post("/transactions", auth, controllers.addTransaction);
+  /**
+   * GET /api/transactions
+   * 
+   * @security BearerAuth
+   */
+  rootRouter.get("/transactions", auth, controllers.getTransactions);
 
-  router.get("/categories/:id", controllers.getCategory);
+  /**
+   * GET /api/categories/:id
+   * 
+   * @security BearerAuth
+   */
+  rootRouter.get("/categories/:id", auth, controllers.getCategory);
 
-  router.get("/statistics", controllers.getStatistics);
+  /**
+   * GET /api/statistics
+   * 
+   * @security BearerAuth
+   */
+  rootRouter.get("/statistics", auth, controllers.getStatistics);
 
-  router.get("/users/current", controllers.getUser);
+  /**
+   * GET /api/users/current
+   * 
+   * @security BearerAuth
+   */
+  usersRouter.get("/current", auth, controllers.getUser);
+  usersRouter.get("/verify/:verificationToken", controllers.verifyUser);
 
-  app.use("/api", router);
+  app.use("/api", rootRouter);
+  app.use("/api/users", usersRouter);
 };
