@@ -10,6 +10,7 @@ export * from "./categories/getCategory.js";
 export * from "./statistics/getStatistics.js";
 
 export * from "./users/getUser.js";
+export * from "./users/verifyUser.js";
 
 export * from "./configurations/addConfiguration.js";
 export * from "./configurations/getConfiguration.js";
