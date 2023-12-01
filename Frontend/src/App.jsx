@@ -7,7 +7,7 @@ const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
 export const App = () => {
   return (
     <Routes>
-      <Route path="home" element={<LoginPage />} />
+      <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
     </Routes>
   );
