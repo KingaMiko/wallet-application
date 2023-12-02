@@ -10,39 +10,11 @@ export const setupRoutes = (app) => {
   rootRouter.post("/signup", controllers.authSignup);
   rootRouter.post("/signin", controllers.authSignin);
   rootRouter.get("/logout", auth, controllers.authLogout);
-
-  /**
-   * POST /api/transactions
-   * 
-   * @security BearerAuth
-   */
   rootRouter.post("/transactions", auth, controllers.addTransaction);
-  /**
-   * GET /api/transactions
-   * 
-   * @security BearerAuth
-   */
   rootRouter.get("/transactions", auth, controllers.getTransactions);
-
-  /**
-   * GET /api/categories/:id
-   * 
-   * @security BearerAuth
-   */
   rootRouter.get("/categories/:id", auth, controllers.getCategory);
-
-  /**
-   * GET /api/statistics
-   * 
-   * @security BearerAuth
-   */
   rootRouter.get("/statistics", auth, controllers.getStatistics);
 
-  /**
-   * GET /api/users/current
-   * 
-   * @security BearerAuth
-   */
   usersRouter.get("/current", auth, controllers.getUser);
   usersRouter.get("/verify/:verificationToken", controllers.verifyUser);
 

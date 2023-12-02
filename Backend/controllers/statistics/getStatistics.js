@@ -1,3 +1,9 @@
+/**
+ * GET /api/statistics
+ *
+ * @security BearerAuth
+ */
+
 export const getStatistics = (req, res, next) => {
   res.json({
     statusCode: 200,
