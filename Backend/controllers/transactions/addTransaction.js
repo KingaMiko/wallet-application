@@ -1,6 +1,6 @@
 import transaction from "../../models/transaction.js";
 export const addTransaction = async (req, res, next) => {
-  const { type, category, sum, comment, date } = req.body;
+  const { type, category, sum, comment, date, owner } = req.body;
   const ourDate = new Date(date);
   console.log(ourDate.getDate());
 
