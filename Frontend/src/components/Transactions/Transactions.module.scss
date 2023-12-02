@@ -1,0 +1,42 @@
+@import '../../styles/utils/_vars.scss';
+
+.transactionsTable {
+  width: 715px;
+  border-collapse: collapse;
+  line-height: 23.58px;
+  color: get-color('black');
+  table-layout: fixed;
+  overflow: hidden;
+}
+
+.transactionsTableHead {
+  background-color: get-color('white');
+  border-radius: 30px;
+}
+
+.transactionsTablebody {
+  background-color: transparent;
+}
+
+.transactionsTable th {
+  text-align: center;
+  width: 16.66%;
+  font-size: get-font-size('primary');
+}
+
+.transactionsTable td {
+  text-align: center;
+  font-size: get-font-size('secondary');
+}
+
+.transactionsTable tr {
+  height: 60px;
+}
+
+.transactionsTable tr td {
+  border-bottom: 1px solid #ccc;
+}
+
+.transactionsTable tr:last-child td {
+  border-bottom: none;
+}

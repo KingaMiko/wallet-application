@@ -23,7 +23,7 @@ const Home = () => {
             <CurrencyTable />
           </div>
           <div className={css.main}>
-            <p>Add transaction</p>
+            {/* <p>Add your first transaction</p> */}
             <Transactions />
           </div>
         </div>

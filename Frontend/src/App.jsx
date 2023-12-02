@@ -4,8 +4,8 @@ import { Suspense } from 'react';
 
 const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
-const HomePage = lazy(() => import('pages/Home'));
-const StatisticsPage = lazy(() => import('pages/Statistics'));
+const HomePage = lazy(() => import('pages/Home/Home.jsx'));
+const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
   return (

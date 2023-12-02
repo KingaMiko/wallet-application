@@ -2,7 +2,7 @@ import css from './CurrencyTable.module.scss';
 
 export const CurrencyTable = () => {
   return (
-    <div>
+    <div className={css.tableBg}>
       <table className={css.currencyTable}>
         <thead className={css.currencyTableHead}>
           <tr>
