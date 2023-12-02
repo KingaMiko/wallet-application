@@ -4,7 +4,7 @@ import Currency from "#models/currency.js";
 
 /**
  * POST /api/currencies
- * 
+ *
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error
  */
@@ -19,6 +19,8 @@ export const updateCurrencies = async (req, res, next) => {
 
     const actual = data[0].rates;
     const result = await Currency.insertMany(actual);
+
+    console.log("Currencies updated.");
 
     res.status(200).json({
       statusCode: 200,
