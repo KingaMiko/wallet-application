@@ -1,0 +1,29 @@
+@import '../../utils/_vars.scss';
+
+.currencyTable {
+  display: inline-block;
+  margin-top: 32px;
+  margin-left: 16px;
+  // font-family: get-font('primary');
+  // font-size: get-font-size('primary');
+  border-collapse: collapse;
+  line-height: 23.58px;
+  color: get-color('brand_color-first');
+  background-color: get-color('brand_color-eleventh');
+  min-width: 393px;
+  min-height: 331px;
+  border-radius: 30px;
+}
+
+.currencyTableHead {
+  background-color: get-color('brand_color-seventeenth');
+}
+
+tr {
+  height: 30px;
+}
+
+th,
+td {
+  text-align: center;
+}
