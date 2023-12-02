@@ -21,7 +21,7 @@ const userSchema = {
   },
   currency: {
     type: String,
-    default: "USD",
+    default: "PLN",
   },
   // token autoryzacji jwt bearer token
   token: {
