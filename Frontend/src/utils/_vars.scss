@@ -23,23 +23,30 @@ $fonts-size: (
 );
 
 $colors: (
-  'brand_color-first': #ffffff,
-  'brand_color-second': #000000,
-  'brand_color-third': #bdbdbd,
-  'brand_color-fourth': #f7a9a0,
-  'brand_color-fifth': #ebebeb,
-  'brand_color-sixth': #455a64,
-  'brand_color-seventh': #263238,
-  'brand_color-eight': #e0e0e0,
-  'brand_color-ninth': #a6a6a6,
-  'brand_color-tenth': #24cca7,
-  'brand_color-eleventh': #4a56e2,
-  'brand_color-twelveth': #ff6596,
-  'brand_color-thirteenth': #fed057,
-  'brand_color-fourteenth': #ffd8d0,
-  'brand_color-fifteenth': #fd9498,
-  'brand_color-sixteenth': #c5baff,
-  'brand_color-seventeenth': #6e78e8,
-  'brand_color-eighteenth': #81e1ff,
-  'brand_color-nineteenth': #00ad84,
+  'white': #ffffff,
+
+  'black': #000000,
+
+  'gray1': #ebebeb,
+  'gray2': #e0e0e0,
+  'gray3': #bdbdbd,
+  'gray4': #a6a6a6,
+  'gray5': #455a64,
+  'gray6': #263238,
+
+  'purple1': #c5baff,
+  'purple2': #6e78e8,
+  'purple3': #4a56e2,
+
+  'green1': #24cca7,
+  'green2': #00ad84,
+
+  'blue': #81e1ff,
+
+  'pink1': #ffd8d0,
+  'pink2': #f7a9a0,
+  'pink3': #fd9498,
+  'pink4': #ff6596,
+
+  'yellow': #fed057,
 );
