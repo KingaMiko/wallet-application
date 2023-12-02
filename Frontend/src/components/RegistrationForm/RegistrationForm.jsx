@@ -1,8 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 import styles from './RegistrationForm.module.scss';
 import { Button } from 'components';
+import { passwordPattern, namePattern } from 'utils/patterns';
 
 export const RegistrationForm = () => {
   const initialValues = {
@@ -14,10 +16,15 @@ export const RegistrationForm = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
+      .matches(namePattern, 'Name can only contains letters')
       .required('Name is required')
       .max(12, 'Name should be at most 12 characters'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
+      .matches(
+        passwordPattern,
+        'The password should contain at least one uppercase letter, one special character, and one digit'
+      )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
       .max(12, 'Password should be at most 12 characters'),
@@ -97,9 +104,11 @@ export const RegistrationForm = () => {
               Register
             </Button>
 
-            <Button type="button" theme="white">
-              Log in
-            </Button>
+            <Link to="/login">
+              <Button type="button" theme="white">
+                Log in
+              </Button>
+            </Link>
           </Form>
         )}
       </Formik>
