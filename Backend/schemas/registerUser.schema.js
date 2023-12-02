@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { namePattern, passwordPattern } from "../utils/regexPatterns.js";
+import { namePattern, passwordPattern } from "#utils/regexPatterns.js";
 
 /**
  * @typedef {object} RegisterUserSchema
