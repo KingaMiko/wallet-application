@@ -1,7 +1,12 @@
 import express from "express";
 
-import { corsPlugin, bodyParserPlugin } from "./plugins/corsPlugin.js";
-import { loggerPlugin } from "./plugins/loggerPlugin.js";
+import {
+  corsPlugin,
+  bodyParserPlugin,
+  loggerPlugin,
+  authPlugin,
+  swaggerPlugin
+} from "./plugins/index.js";
 import { setupRoutes } from "./routes.js";
 import { notFoundError, internalError } from "./controllers/errors/index.js";
 
@@ -9,10 +14,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+loggerPlugin(app);
+authPlugin();
 corsPlugin(app);
 bodyParserPlugin(app);
-loggerPlugin(app);
 setupRoutes(app);
+swaggerPlugin(app);
 
 app.use(notFoundError);
 app.use(internalError);

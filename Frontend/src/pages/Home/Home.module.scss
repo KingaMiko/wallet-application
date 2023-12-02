@@ -1,0 +1,22 @@
+@import '../../styles/utils/vars';
+
+body {
+  background-color: #e7eaf2;
+  font-family: get-font('secondary');
+  font-size: get-font-size('primary');
+  color: get-color('brand_color-second');
+}
+
+.container {
+  margin: 40px 16px;
+  display: flex;
+}
+
+.sidebar {
+  width: 480px;
+}
+
+.main {
+  width: 800px;
+  margin-left: 69px;
+}

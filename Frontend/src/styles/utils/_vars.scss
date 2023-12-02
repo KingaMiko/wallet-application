@@ -1,0 +1,52 @@
+@function get-color($key) {
+  @return map-get($colors, $key);
+}
+
+@function get-font($key) {
+  @return map-get($fonts, $key);
+}
+
+@function get-font-size($key) {
+  @return map-get($fonts-size, $key);
+}
+
+$fonts: (
+  'primary': 'Circe',
+  'secondary': 'Poppins',
+);
+
+$fonts-size: (
+  'primary': 18px,
+  'secondary': 16px,
+  'title': 30px,
+  'button': 18px,
+);
+
+$colors: (
+  'white': #ffffff,
+
+  'black': #000000,
+
+  'gray1': #ebebeb,
+  'gray2': #e0e0e0,
+  'gray3': #bdbdbd,
+  'gray4': #a6a6a6,
+  'gray5': #455a64,
+  'gray6': #263238,
+
+  'purple1': #c5baff,
+  'purple2': #6e78e8,
+  'purple3': #4a56e2,
+
+  'green1': #24cca7,
+  'green2': #00ad84,
+
+  'blue': #81e1ff,
+
+  'pink1': #ffd8d0,
+  'pink2': #f7a9a0,
+  'pink3': #fd9498,
+  'pink4': #ff6596,
+
+  'yellow': #fed057,
+);

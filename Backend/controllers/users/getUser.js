@@ -1,3 +1,9 @@
+/**
+ * GET /api/users/current
+ *
+ * @security BearerAuth
+ */
+
 export const getUser = (req, res, next) => {
   // zbieram id urzytkownika przez auth midleware
   // const ourUser = user.find({id})

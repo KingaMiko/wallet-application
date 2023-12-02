@@ -1,22 +1,23 @@
 import { Router } from "express";
 
+import { auth } from "./plugins/authPlugin.js";
 import * as controllers from "./controllers/index.js";
 
 export const setupRoutes = (app) => {
-  const router = Router();
+  const rootRouter = Router();
+  const usersRouter = Router();
 
-  router.post("/auth/signup", controllers.authSignup);
-  router.post("/auth/signin", controllers.authSignin);
-  router.get("/auth/logout", controllers.authLogout);
+  rootRouter.post("/signup", controllers.authSignup);
+  rootRouter.post("/signin", controllers.authSignin);
+  rootRouter.get("/logout", auth, controllers.authLogout);
+  rootRouter.post("/transactions", auth, controllers.addTransaction);
+  rootRouter.get("/transactions", auth, controllers.getTransactions);
+  rootRouter.get("/categories/:id", auth, controllers.getCategory);
+  rootRouter.get("/statistics", auth, controllers.getStatistics);
 
-  router.post("/transactions", controllers.addTransaction);
-  router.get("/transactions", controllers.getTransactions);
+  usersRouter.get("/current", auth, controllers.getUser);
+  usersRouter.get("/verify/:verificationToken", controllers.verifyUser);
 
-  router.get("/categories", controllers.getCategory);
-
-  router.get("/statistics", controllers.getStatistics);
-
-  router.get("/users/current", controllers.getUser);
-
-  app.use("/api", router);
+  app.use("/api", rootRouter);
+  app.use("/api/users", usersRouter);
 };

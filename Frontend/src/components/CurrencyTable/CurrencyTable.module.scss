@@ -1,0 +1,39 @@
+@import '../../styles/utils/_vars.scss';
+
+.tableBg {
+  margin-top: 32px;
+  margin-left: 16px;
+  background-color: get-color('purple3');
+  width: 393px;
+  height: 331px;
+  border-radius: 30px;
+}
+
+.currencyTable {
+  border-collapse: collapse;
+  line-height: 23.58px;
+  color: get-color('white');
+  min-width: 393px;
+  border-radius: 30px;
+  table-layout: fixed;
+  overflow: hidden;
+}
+
+.currencyTableHead {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.currencyTable th {
+  text-align: center;
+  width: 33.33%;
+  font-size: get-font-size('primary');
+}
+
+.currencyTable td {
+  text-align: center;
+  font-size: get-font-size('secondary');
+}
+
+.currencyTable tr {
+  height: 60px;
+}
