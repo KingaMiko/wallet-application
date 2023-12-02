@@ -37,6 +37,7 @@
     "#drivers/*": "./drivers/*",
     "#plugins/*": "./plugins/*",
     "#schemas/*": "./schemas/*",
+    "#utils/*": "./utils/*",
     "#root/*": "./*"
   }
 }
