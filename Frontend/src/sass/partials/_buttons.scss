@@ -1,0 +1,73 @@
+.btn {
+  &__logIn {
+    background: get-color(brand_color-tenth);
+    border-radius: 20px;
+    color: get-color(brand_color-first);
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: normal;
+    width: 280px;
+    height: 50px;
+    display: block;
+
+    @media (min-width: 768px) {
+      width: 300px;
+    }
+    @media (min-width: 1280) {
+      width: 300px;
+    }
+  }
+}
+&__register {
+  background: get-color(brand_color-first);
+  border: 1px solid get-color(brand_color-eleventh);
+  border-radius: 20px;
+  color: get-color(brand_color-eleventh);
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+  width: 280px;
+  height: 50px;
+  display: block;
+
+  @media (min-width: 768px) {
+    width: 300px;
+  }
+  @media (min-width: 1280) {
+    width: 300px;
+  }
+}
+//Tyczy się makiety z Panem. Na makiecie z Panią kolor tła jest na odwrót//
+&__statistics {
+  background: transparent;
+  border: 1px solid get-color(brand_color-second);
+  border-radius: 30px;
+  color: get-color(brand_color-second);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  width: 280px;
+  height: 50px;
+  display: block;
+
+  @media (min-width: 768px) {
+    width: 160px;
+  }
+  @media (min-width: 1280) {
+    width: 182px;
+  }
+}
+&__delete {
+  background: get-color(brand_color-tenth);
+  border-radius: 18px;
+  color: get-color(brand_color-first);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  width: 67px;
+  height: 26px;
+  display: block;
+}
