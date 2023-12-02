@@ -27,7 +27,6 @@ const Statistics = () => {
           </div>
         </div>
       </section>
-      Home page
     </div>
   );
 };

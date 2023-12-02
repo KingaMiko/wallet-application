@@ -1,7 +1,7 @@
 @import '../../styles/utils/_vars.scss';
 
 .balance {
-  background-color: get-color('brand_color-first');
+  background-color: get-color('white');
   width: 395px;
   height: 80px;
   margin-top: 28px;
@@ -10,8 +10,7 @@
   display: flex;
   padding-left: 30px;
   flex-direction: column;
-  gap: 12px;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 p {
@@ -19,6 +18,7 @@ p {
 }
 
 .title {
+  padding-top: 8px;
   font-size: 12px;
   font-family: get-font('primary');
 }
@@ -26,4 +26,5 @@ p {
 .amount {
   font-size: get-font-size('title');
   font-family: get-font('secondary');
+  padding-bottom: 11px;
 }
