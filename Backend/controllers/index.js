@@ -16,7 +16,7 @@ export * from "./configurations/addConfiguration.js";
 export * from "./configurations/getConfiguration.js";
 export * from "./configurations/setConfiguration.js";
 
-export * from "./curriencies/addCurrency.js";
-export * from "./curriencies/getCurrency.js";
+export * from "./curriencies/getCurrencies.js";
+export * from "./curriencies/updateCurrencies.js";
 
 export * from "./errors/index.js";

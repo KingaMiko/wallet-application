@@ -14,6 +14,7 @@ import User from "#models/user.js";
 
 /**
  * POST /api/signin
+ * 
  * @param {LoginUserSchema} request.body.required
  * @return {ResponseWithTokenSchema} 200 - Success
  * @return {ResponseSchema} 401 - Error: Not Authorized
