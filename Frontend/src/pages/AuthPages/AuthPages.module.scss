@@ -24,7 +24,7 @@
   &-img {
     display: none;
 
-    background-color: lightblue;
+    // background-color: lightblue;
 
     @include mixins.mq(tablet) {
       @include mixins.flex(center, center);
@@ -39,7 +39,7 @@
   }
 
   &-form {
-    background-color: pink;
+    // background-color: pink;
 
     @include mixins.mq(desktop) {
       @include mixins.flex(center, center);
