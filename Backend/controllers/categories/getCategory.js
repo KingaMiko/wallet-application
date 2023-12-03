@@ -5,7 +5,7 @@ import category from "#models/category.js";
  * @security BearerAuth
  * @param {string} id.path - Verification token
  * @return {ResponseSchemaWithData} 200 - Success
- * @return {ResponseSchema} 404 - Error: User not found
+ * @return {ResponseSchema} 400 - Error
  */
 export const getCategory = async (req, res, next) => {
   const { id } = req.params;
@@ -19,6 +19,7 @@ export const getCategory = async (req, res, next) => {
 
     return res.status(200).json({
       statusCode: 200,
+      description: "All categories",
       data: result,
     });
   } catch (error) {

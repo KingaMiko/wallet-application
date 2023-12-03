@@ -17,7 +17,6 @@ import { getIncome } from "#helpers/getIncome.js";
  * GET /api/statistics
  *
  * @security BearerAuth
- * @property
  * @param {Date} req.body.required
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error: Bad Request
@@ -53,6 +52,7 @@ export const getStatistics = async (req, res, next) => {
 
     return res.status(200).json({
       statusCode: 200,
+      description: "Users statistics",
       data: {
         stats,
         expanses,

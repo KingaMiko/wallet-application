@@ -19,6 +19,7 @@ export const getTransactions = async (req, res, next) => {
 
    return res.status(200).json({
       statusCode: 200,
+      description: "Users Transactions",
       data: result,
     });
   } catch (error) {

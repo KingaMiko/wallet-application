@@ -33,6 +33,7 @@ export const addTransaction = async (req, res, next) => {
     const result = await transaction.create(newTrasaction);
     return res.status(201).json({
       statusCode: 201,
+      description: "Transaction added",
       data: result,
     });
   } catch (error) {

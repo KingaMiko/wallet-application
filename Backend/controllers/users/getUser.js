@@ -14,15 +14,16 @@ export const getUser = async (req, res, next) => {
     if (!ourUser) {
       return res.status(404).json({
         statusCode: 404,
-        message: "User not Found",
+        description: "User not Found",
       });
     }
     return res.status(200).json({
       statusCode: 200,
+      description: "Users data",
       data: ourUser,
     });
   } catch (error) {
     console.error("Error fetching user:", error);
-    return res.status(400).json({ statusCode: 400, message: error.message });
+    return res.status(400).json({ statusCode: 400, description: error.message });
   }
 };
