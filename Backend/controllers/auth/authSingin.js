@@ -1,5 +1,5 @@
 import JWT from "jsonwebtoken";
-import configDotEnv from "dotenv";
+import { configDotenv} from "dotenv";
 
 import { loginUserSchema } from "#schemas/loginUser.schema.js";
 import User from "#models/user.js";
@@ -35,13 +35,13 @@ export const authSignin = async (req, res, next) => {
       });
     }
 
-    configDotEnv();
+    configDotenv();
     const secret = process.env.SECRET_KEY;
     const refSecret = process.env.REFRESH_SECRET_KEY;
 
     const { id, name } = user;
     const token = await JWT.sign({ id, name }, secret, {
-      expiresIn: "1g",
+      expiresIn: "1h",
     });
     const refToken = await JWT.sign({ id, name }, refSecret, {
       expiresIn: "1d",
