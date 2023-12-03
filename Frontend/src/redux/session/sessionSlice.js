@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signUp } from './operations';
+import { signUp, signIn } from './operations';
 
 const initialState = {
   user: { name: null, email: null },
@@ -11,10 +11,16 @@ const sessionSlice = createSlice({
   name: 'session',
   initialState,
   extraReducers: builder => {
-    builder.addCase(signUp.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      state.isLoggedIn = true;
-    });
+    builder
+      .addCase(signUp.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.isLoggedIn = true;
+      })
+      .addCase(signIn.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
+      });
   },
 });
 
