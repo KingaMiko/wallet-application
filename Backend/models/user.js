@@ -23,8 +23,12 @@ const userSchema = {
     type: String,
     default: "PLN",
   },
-  // token autoryzacji jwt bearer token
+  // tokeny autoryzacji jwt bearer token
   token: {
+    type: String,
+    default: null,
+  },
+  refreshToken: {
     type: String,
     default: null,
   },
