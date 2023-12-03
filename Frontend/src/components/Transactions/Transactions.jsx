@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'components';
 import css from './Transactions.module.scss';
 
@@ -17,6 +17,9 @@ export const Transactions = () => {
     column: null,
     direction: 'asc',
   });
+  const [sumPlus, setSumPlus] = useState(0);
+  const [sumMinus, setSumMinus] = useState(0);
+  const [balance, setBalance] = useState(0);
 
   const handleSort = column => {
     const direction =
@@ -46,47 +49,89 @@ export const Transactions = () => {
     setSortOrder({ column, direction });
   };
 
+  const updateSums = () => {
+    let totalPlus = 0;
+    let totalMinus = 0;
+
+    transactions.forEach(transaction => {
+      const amount = parseFloat(transaction[4]);
+      if (transaction[1] === '+') {
+        totalPlus += amount;
+      } else if (transaction[1] === '-') {
+        totalMinus += amount;
+      }
+    });
+
+    setSumPlus(totalPlus);
+    setSumMinus(totalMinus);
+
+    setBalance(totalPlus - totalMinus);
+  };
+
+  useEffect(() => {
+    updateSums();
+  }, [transactions]);
+
   return (
-    <div className={css.tableBg}>
-      <table className={css.transactionsTable}>
-        <thead className={css.transactionsTableHead}>
-          <tr>
-            <th onClick={() => handleSort(0)} title="Sort">
-              Date
-            </th>
-            <th onClick={() => handleSort(1)} title="Sort">
-              Type
-            </th>
-            <th onClick={() => handleSort(2)} title="Sort">
-              Category
-            </th>
-            <th onClick={() => handleSort(3)} title="Sort">
-              Comment
-            </th>
-            <th onClick={() => handleSort(4)} title="Sort">
-              Sum
-            </th>
-            <th>Options</th>
-          </tr>
-        </thead>
-        <tbody className={css.transactionsTableBody}>
-          {transactions.map((transaction, index) => (
-            <tr key={index}>
-              {transaction.map((data, dataIndex) => (
-                <td key={dataIndex}>{data}</td>
-              ))}
-              <td>
-                <Button type="button" theme="white" width="80px" height="40px">
-                  Edit
-                </Button>
-                <Button type="button" theme="color" width="80px" height="40px">
-                  Delete
-                </Button>
-              </td>
+    <div>
+      <div className={css.tableBg}>
+        <table className={css.transactionsTable}>
+          <thead className={css.transactionsTableHead}>
+            <tr>
+              <th onClick={() => handleSort(0)} title="Sort">
+                Date
+              </th>
+              <th onClick={() => handleSort(1)} title="Sort">
+                Type
+              </th>
+              <th onClick={() => handleSort(2)} title="Sort">
+                Category
+              </th>
+              <th onClick={() => handleSort(3)} title="Sort">
+                Comment
+              </th>
+              <th onClick={() => handleSort(4)} title="Sort">
+                Sum
+              </th>
+              <th>Options</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className={css.transactionsTableBody}>
+            {transactions.map((transaction, index) => (
+              <tr key={index}>
+                {transaction.map((data, dataIndex) => (
+                  <td key={dataIndex}>{data}</td>
+                ))}
+                <td>
+                  <Button
+                    type="button"
+                    theme="white"
+                    width="80px"
+                    height="40px"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    type="button"
+                    theme="color"
+                    width="80px"
+                    height="40px"
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className={css.sumSection}>
+        <p>Incomes: {sumPlus.toFixed(2)}</p>
+        <p>Expenses: {sumMinus.toFixed(2)}</p>
+        <p>
+          <b>Balance: {balance.toFixed(2)}</b>
+        </p>
+      </div>
     </div>
   );
 };
