@@ -1,18 +1,19 @@
 import transaction from "#models/transaction.js";
 
 /**
- * @typedef {object} ResponseWithDataSchema
- * @property {string} statusCode
- * @property {string} description
- * @property {string} token
- * @property {object} data
+ * @typedef {object} Transaction
+ * @property {string} type.required - type of transaction
+ * @property {ObjectId} category - category of transaction
+ * @property {number} sum - sum of transaction 
+ * @property {string} comment - comment of transaction 
+ * @property {date} date.required - date of transaction
  */
 
 /**
  * POST /api/transactions
  *
  * @security BearerAuth
- * @param {object} request.body.required
+ * @param {Transaction} request.body.required
  * @return {ResponseWithDataSchema} 201 - Success
  * @return {ResponseSchema} 400 - Error: Bad Request
  */

@@ -5,21 +5,21 @@ import { getExpense } from "#helpers/getExpense.js";
 import { getIncome } from "#helpers/getIncome.js";
 
 /**
- * @typedef {object} ResponseWithDataSchema
- * @property {string} statusCode
- * @property {string} description
- * @property {string} token
- * @property {object} data
+ * A date
+ * @typedef {object} Date
+ * @property {integer} month.required - The title
+ * @property {integer} year.required - The year - double
  */
-
 /**
  * GET /api/statistics
  *
  * @security BearerAuth
- * @param {object} req.body.required
+ * @property
+ * @param {Date} req.body.required
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
+
 export const getStatistics = async (req, res, next) => {
   const { month, year } = req.body;
   const ObjectId = mongoose.Types.ObjectId;
