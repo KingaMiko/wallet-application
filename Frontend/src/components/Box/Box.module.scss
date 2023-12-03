@@ -1,0 +1,15 @@
+@use 'styles/utils/mixins';
+@import 'styles/utils/vars';
+
+.box {
+  @include mixins.flex(center, center);
+  flex-direction: column;
+
+  background-color: get-color('white');
+  padding: 20px;
+
+  @include mixins.mq(tablet) {
+    padding: 40px 60px 60px;
+    border-radius: 20px;
+  }
+}
