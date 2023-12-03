@@ -1,3 +1,7 @@
+import cron from "node-cron";
+import axios from "axios";
+import { config } from "dotenv";
+
 import app from "./app.js";
 import { connectToMongo } from "./drivers/mongo.js";
 
@@ -16,3 +20,9 @@ async function startServer() {
 }
 
 startServer();
+
+cron.schedule("0 * * * * *", async () => {
+  config();
+
+  await axios.post(`${process.env.BASE_URL}/currencies`);
+});

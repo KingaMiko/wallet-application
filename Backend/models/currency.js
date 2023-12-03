@@ -1,13 +1,16 @@
 import { model, Schema } from "mongoose";
 
 const currencySchema = {
+  currency: {
+    type: String,
+  },
   code: {
     type: String,
   },
-  name: {
-    type: String,
+  bid: {
+    type: Number,
   },
-  valueInUSD: {
+  ask: {
     type: Number,
   },
 };
