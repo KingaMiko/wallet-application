@@ -9,9 +9,9 @@ import User from "#models/user.js";
 export const getUser = async (req, res, next) => {
   const id = req.user.id;
   try {
-    const ourUser = await User.find({ _id: id });
+    const ourUser = await User.findOne({ _id: id });
 
-    if (!ourUser.length) {
+    if (!ourUser) {
       return res.json({
         statusCode: 404,
         message: "User not Found",
@@ -22,6 +22,7 @@ export const getUser = async (req, res, next) => {
       data: ourUser,
     });
   } catch (error) {
+    console.error("Error fetching user:", error);
     return res.json({ statusCode: 400, message: error.message });
   }
 };
