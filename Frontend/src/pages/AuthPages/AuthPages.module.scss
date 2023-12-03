@@ -1,5 +1,4 @@
-@use '../../styles/utils/mixins';
-// @use 'utils/vars';
+@use 'styles/utils/mixins';
 
 .wrapper {
   &-page {
@@ -24,8 +23,6 @@
   &-img {
     display: none;
 
-    // background-color: lightblue;
-
     @include mixins.mq(tablet) {
       @include mixins.flex(center, center);
       gap: 30px;
@@ -39,8 +36,6 @@
   }
 
   &-form {
-    // background-color: pink;
-
     @include mixins.mq(desktop) {
       @include mixins.flex(center, center);
       flex-direction: column;
