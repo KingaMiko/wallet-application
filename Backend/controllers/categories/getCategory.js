@@ -1,10 +1,10 @@
 import category from "#models/category.js";
 /**
- * GET /api/categories/{verificationToken}
+ * GET /api/categories/{id}
  *
  * @security BearerAuth
- * @param {string} verificationToken.path - Verification token
- * @return {ResponseSchema} 200 - Success
+ * @param {string} id.path - Verification token
+ * @return {ResponseSchemaWithData} 200 - Success
  * @return {ResponseSchema} 404 - Error: User not found
  */
 export const getCategory = async (req, res, next) => {
@@ -17,7 +17,7 @@ export const getCategory = async (req, res, next) => {
     const result = await category.find({});
     const usersId = req.user.id;
 
-    res.json({
+   return res.json({
       statusCode: 200,
       data: result,
     });

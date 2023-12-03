@@ -11,6 +11,9 @@ import { getIncome } from "#helpers/getIncome.js";
  * @property {integer} year.required - The year - double
  */
 /**
+ 
+
+/**
  * GET /api/statistics
  *
  * @security BearerAuth
@@ -51,9 +54,12 @@ export const getStatistics = async (req, res, next) => {
     console.log(stats);
     res.json({
       statusCode: 200,
-      stats,
-      expanses,
-      income,
+      data:{
+        stats,
+        expanses,
+        income,
+      }
+      
     });
   } catch (error) {
     res.status(400).json({
