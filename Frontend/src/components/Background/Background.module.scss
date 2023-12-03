@@ -1,0 +1,28 @@
+@use 'styles/utils/mixins';
+
+.background {
+  @include mixins.mq(tablet) {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    &::before {
+      content: url('../../images/bg/bg-pink.svg');
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      z-index: -1;
+    }
+
+    &::after {
+      content: url('../../images/bg/bg-violet.svg');
+      position: absolute;
+      bottom: -7px;
+      left: 0px;
+      z-index: -1;
+    }
+  }
+}
