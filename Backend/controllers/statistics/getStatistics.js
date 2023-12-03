@@ -50,19 +50,17 @@ export const getStatistics = async (req, res, next) => {
       },
       0
     );
-    console.log(expanses);
-    console.log(stats);
-    res.json({
+
+    return res.status(200).json({
       statusCode: 200,
-      data:{
+      data: {
         stats,
         expanses,
         income,
-      }
-      
+      },
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       statusCode: 400,
       description: error.message,
     });

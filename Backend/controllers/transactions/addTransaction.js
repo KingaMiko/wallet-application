@@ -31,12 +31,12 @@ export const addTransaction = async (req, res, next) => {
       owner: ownerId,
     });
     const result = await transaction.create(newTrasaction);
-    res.json({
+    return res.status(201).json({
       statusCode: 201,
       data: result,
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       statusCode: 400,
       description: error.message,
     });

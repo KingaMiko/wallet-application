@@ -12,12 +12,12 @@ export const getCategory = async (req, res, next) => {
   try {
     if (id) {
       const result = await category.find({ _id: id });
-      return res.json({ statusCode: 200, data: result });
+      return res.status(200).json({ statusCode: 200, data: result });
     }
     const result = await category.find({});
     const usersId = req.user.id;
 
-   return res.json({
+    return res.status(200).json({
       statusCode: 200,
       data: result,
     });
