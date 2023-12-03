@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
-import transaction from "../../models/transaction.js";
-import { findTransactions } from "../../helpers/findTransactions.js";
+
+import { findTransactions } from "#helpers/findTransactions.js";
+/**
+ * GET /api/transactions
+ *
+ * @security BearerAuth
+ */
 export const getTransactions = async (req, res, next) => {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;

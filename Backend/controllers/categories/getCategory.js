@@ -1,5 +1,10 @@
-import category from "../../models/category.js";
 
+import category from "#models/category.js";
+/**
+ * GET /api/categories/:id
+ *
+ * @security BearerAuth
+ */
 export const getCategory = async (req, res, next) => {
   const { id } = req.params;
   try {

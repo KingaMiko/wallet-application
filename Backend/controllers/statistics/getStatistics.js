@@ -1,8 +1,13 @@
 import mongoose from "mongoose";
-import { findTransactions } from "../../helpers/findTransactions.js";
-import category from "../../models/category.js";
-import { getExpense } from "../../helpers/getExpense.js";
-import { getIncome } from "../../helpers/getIncome.js";
+import { findTransactions } from "#helpers/findTransactions.js";
+import category from "#models/category.js";
+import { getExpense } from "#helpers/getExpense.js";
+import { getIncome } from "#helpers/getIncome.js";
+/**
+ * GET /api/statistics
+ *
+ * @security BearerAuth
+ */
 export const getStatistics = async (req, res, next) => {
   const { month, year } = req.body;
   const ObjectId = mongoose.Types.ObjectId;
@@ -24,11 +29,12 @@ export const getStatistics = async (req, res, next) => {
       },
       0
     );
-    const income = await (
-      await getIncome(ownerId, month, year)
-    ).reduce((previouseValue, element) => {
-      return (previouseValue += element.sum);
-    }, 0);
+    const income = (await getIncome(ownerId, month, year)).reduce(
+      (previouseValue, element) => {
+        return (previouseValue += element.sum);
+      },
+      0
+    );
     console.log(expanses);
     console.log(stats);
     res.json({

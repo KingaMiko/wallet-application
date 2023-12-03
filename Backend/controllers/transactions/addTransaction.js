@@ -1,4 +1,12 @@
-import transaction from "../../models/transaction.js";
+
+
+import transaction from "#models/transaction.js";
+/**
+ * POST /api/transactions
+ *
+ * @security BearerAuth
+ */
+
 export const addTransaction = async (req, res, next) => {
   const { type, category, sum, comment, date } = req.body;
   const ownerId = req.user.id;

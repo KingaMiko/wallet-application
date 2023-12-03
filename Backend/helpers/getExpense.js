@@ -1,4 +1,4 @@
-import transaction from "../models/transaction.js";
+import transaction from "#models/transaction.js";
 export const getExpense = (ownerId, month, year) => {
   return transaction.aggregate([
     {
