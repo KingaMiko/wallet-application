@@ -49,6 +49,14 @@
   gap: 10px;
 }
 
-th:hover {
+th:not(:last-child):hover {
   cursor: pointer;
+}
+
+.sumSection {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
 }
