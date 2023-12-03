@@ -1,7 +1,7 @@
 import { RegistrationForm } from 'components';
 import styles from './AuthPages.module.scss';
 import sprite from 'images/icons.svg';
-import { Background } from 'components';
+import { Background, Box } from 'components';
 
 const RegisterPage = () => {
   return (
@@ -18,10 +18,10 @@ const RegisterPage = () => {
         </div>
 
         <div className={styles['wrapper-form']}>
-          <div className={styles['box']}>
+          <Box>
             <p>Logo</p>
             <RegistrationForm />
-          </div>
+          </Box>
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import { LoginForm } from 'components';
 import styles from './AuthPages.module.scss';
 import sprite from 'images/icons.svg';
-import { Background } from 'components';
+import { Background, Box } from 'components';
 
 const LoginPage = () => {
   return (
@@ -18,10 +18,10 @@ const LoginPage = () => {
         </div>
 
         <div className={styles['wrapper-form']}>
-          <div className={styles['box']}>
+          <Box>
             <p>Logo</p>
             <LoginForm />
-          </div>
+          </Box>
         </div>
       </div>
     </>
