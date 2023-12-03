@@ -11,25 +11,25 @@ const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    isLoading: (state, action) => {
+    setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
-    isModalLogoutOpen: (state, action) => {
+    setIsModalLogoutOpen: (state, action) => {
       state.isModalLogoutOpen = action.payload;
     },
-    isModalAddTransactionOpen: (state, action) => {
+    setIsModalAddTransactionOpen: (state, action) => {
       state.isModalAddTransactionOpen = action.payload;
     },
-    isModalEditTransactionOpen: (state, action) => {
+    setIsModalEditTransactionOpen: (state, action) => {
       state.isModalEditTransactionOpen = action.payload;
     },
   },
 });
 
 export const {
-  isLoading,
-  isModalLogoutOpen,
-  isModalAddTransactionOpen,
-  isModalEditTransactionOpen,
+  setIsLoading,
+  setIsModalLogoutOpen,
+  setIsModalAddTransactionOpen,
+  setIsModalEditTransactionOpen,
 } = globalSlice.actions;
 export const globalReducer = globalSlice.reducer;
