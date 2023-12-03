@@ -3,10 +3,22 @@ import { findTransactions } from "#helpers/findTransactions.js";
 import category from "#models/category.js";
 import { getExpense } from "#helpers/getExpense.js";
 import { getIncome } from "#helpers/getIncome.js";
+
+/**
+ * @typedef {object} ResponseWithDataSchema
+ * @property {string} statusCode
+ * @property {string} description
+ * @property {string} token
+ * @property {object} data
+ */
+
 /**
  * GET /api/statistics
  *
  * @security BearerAuth
+ * @param {object} req.body.required
+ * @return {ResponseWithDataSchema} 200 - Success
+ * @return {ResponseSchema} 400 - Error: Bad Request
  */
 export const getStatistics = async (req, res, next) => {
   const { month, year } = req.body;

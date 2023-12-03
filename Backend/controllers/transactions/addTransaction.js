@@ -1,10 +1,20 @@
-
-
 import transaction from "#models/transaction.js";
+
+/**
+ * @typedef {object} ResponseWithDataSchema
+ * @property {string} statusCode
+ * @property {string} description
+ * @property {string} token
+ * @property {object} data
+ */
+
 /**
  * POST /api/transactions
  *
  * @security BearerAuth
+ * @param {object} request.body.required
+ * @return {ResponseWithDataSchema} 201 - Success
+ * @return {ResponseSchema} 400 - Error: Bad Request
  */
 
 export const addTransaction = async (req, res, next) => {

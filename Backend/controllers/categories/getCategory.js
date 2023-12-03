@@ -1,9 +1,11 @@
-
 import category from "#models/category.js";
 /**
  * GET /api/categories/:id
  *
  * @security BearerAuth
+ * @param {string} id.query
+ * @return {ResponseWithDataSchema} 200 - succes
+ * @return {ResponseSchema} 400 - bad request
  */
 export const getCategory = async (req, res, next) => {
   const { id } = req.params;
