@@ -1,8 +1,9 @@
 import transaction from "../../models/transaction.js";
 export const addTransaction = async (req, res, next) => {
-  const { type, category, sum, comment, date, owner } = req.body;
-  const ourDate = new Date(date);
-  console.log(ourDate.getDate());
+  const { type, category, sum, comment, date } = req.body;
+
+  const ownerId = req.user.id;
+  
 
   try {
     const newTrasaction = new transaction({
@@ -11,7 +12,7 @@ export const addTransaction = async (req, res, next) => {
       sum,
       comment,
       date,
-      owner,
+      owner: ownerId,
     });
     const result = await transaction.create(newTrasaction);
     res.json({

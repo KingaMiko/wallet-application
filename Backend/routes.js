@@ -12,7 +12,7 @@ export const setupRoutes = (app) => {
   rootRouter.get("/logout", auth, controllers.authLogout);
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);
-  rootRouter.get("/categories/:id", auth, controllers.getCategory);
+  rootRouter.get("/categories", auth, controllers.getCategory);
   rootRouter.get("/statistics", auth, controllers.getStatistics);
 
   usersRouter.get("/current", auth, controllers.getUser);
