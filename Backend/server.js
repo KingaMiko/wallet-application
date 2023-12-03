@@ -21,7 +21,7 @@ async function startServer() {
 
 startServer();
 
-cron.schedule("0 * * * * *", async () => {
+cron.schedule("0 0 0 * * *", async () => {
   config();
 
   await axios.post(`${process.env.BASE_URL}/currencies`);
