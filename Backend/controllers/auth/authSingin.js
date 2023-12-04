@@ -5,7 +5,7 @@ import { loginUserSchema } from "#schemas/loginUser.schema.js";
 import User from "#models/user.js";
 
 /**
- * POST /api/signin
+ * POST /api/auth/signin
  *
  * @param {LoginUserSchema} request.body.required
  * @return {ResponseWithTokenSchema} 200 - Success
