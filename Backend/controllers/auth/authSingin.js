@@ -5,14 +5,6 @@ import { loginUserSchema } from "#schemas/loginUser.schema.js";
 import User from "#models/user.js";
 
 /**
- * @typedef {object} ResponseWithTokenSchema
- * @property {string} statusCode
- * @property {string} description
- * @property {string} token
- * @property {object} data
- */
-
-/**
  * POST /api/signin
  *
  * @param {LoginUserSchema} request.body.required
@@ -41,7 +33,7 @@ export const authSignin = async (req, res, next) => {
 
     const { id, name } = user;
     const token = await JWT.sign({ id, name }, secret, {
-      expiresIn: "1h",
+      expiresIn: "10m",
     });
     const refToken = await JWT.sign({ id, name }, refSecret, {
       expiresIn: "1d",
