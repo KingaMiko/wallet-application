@@ -7,7 +7,7 @@ export * from "./transactions/getTransactions.js";
 
 export * from "./categories/getCategories.js";
 export * from "./categories/getCategory.js";
-export * from "./categories/addCategory.js";
+export * from "./categories/createCategory.js";
 
 export * from "./statistics/getStatistics.js";
 
