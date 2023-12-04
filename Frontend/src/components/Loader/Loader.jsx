@@ -10,7 +10,6 @@ const Loader = ({ isVisible = true }) => {
       wrapperClass={css.loader}
       visible={isVisible}
       ariaLabel="hourglass-loading"
-      wrapperStyle={{}}
       colors={['#000000', '#ed9f72']}
     />
   );
