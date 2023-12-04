@@ -1,6 +1,23 @@
 import category from "#models/category.js";
 import User from "#models/user.js";
 
+/**
+ * @typedef {object} CategoryCreate
+ * @property {string} name.required - Name of the category
+ * @property {string} description - Description of the category
+ * @property {string} thumbUrl - Thumbnail URL of the category
+ */
+
+/**
+ * POST /api/categories
+ * Creates a new category and associates it with the current user.
+ *
+ * @security BearerAuth
+ * @param {CategoryCreate} request.body.required - Category data
+ * @return {ResponseWithDataSchema<CategoryCreate>} 201 - Success, category created
+ * @return {ResponseSchema} 400 - Error: Bad Request
+ */
+
 export const createCategory = async (req, res) => {
   try {
     const { name, description, thumbUrl } = req.body;
