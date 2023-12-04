@@ -2,6 +2,7 @@ import JWT from "jsonwebtoken";
 import { configDotenv } from "dotenv";
 
 import User from "#models/user.js";
+import Session from "#models/session.js";
 
 /**
  * POST /api/auth/refresh
