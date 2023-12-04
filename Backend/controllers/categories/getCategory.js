@@ -4,7 +4,7 @@ import category from "#models/category.js";
  *
  * @security BearerAuth
  * @param {string} id.path - Verification token
- * @return {ResponseSchemaWithData} 200 - Success
+ * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error
  */
 export const getCategory = async (req, res, next) => {
