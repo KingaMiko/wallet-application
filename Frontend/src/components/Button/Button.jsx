@@ -1,6 +1,6 @@
 import styles from './Button.module.scss';
 
-export const Button = ({ children, type = 'button', theme }) => {
+export const Button = ({ children, type = 'button', theme, className }) => {
   const buttonClass =
     theme === 'color'
       ? styles['button-color']
@@ -9,7 +9,10 @@ export const Button = ({ children, type = 'button', theme }) => {
       : '';
 
   return (
-    <button className={`${styles.Button} ${buttonClass}`} type={type}>
+    <button
+      className={`${styles.Button} ${buttonClass} ${className}`}
+      type={type}
+    >
       {children}
     </button>
   );
