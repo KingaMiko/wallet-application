@@ -5,7 +5,8 @@ import User from "#models/user.js";
  * 
  * @param {string} verificationToken.path - Verification token
  * @return {ResponseSchema} 200 - Success
- * @return {ResponseSchema} 404 - Error: User not found
+ * @return {ResponseSchema} 404 - User not found
+ * @return {ResponseSchema} 400 - Error
  */
 
 export const verifyUser = async (req, res, next) => {

@@ -5,7 +5,7 @@ import { registerUserSchema } from "#schemas/registerUser.schema.js";
 import User from "#models/user.js";
 
 /**
- * POST /api/signup
+ * POST /api/auth/signup
  * 
  * @param {RegisterUserSchema} request.body.required
  * @return {ResponseWithDataSchema} 200 - Success
