@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { lazy } from 'react';
 import { Suspense } from 'react';
+
 import SharedLayout from 'components/SharedLayout/SharedLayout';
 
 const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
