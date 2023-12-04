@@ -63,4 +63,9 @@ export const authRefresh = async (req, res, next) => {
       next(error);
     }
   }
+
+  return res.status(400).json({
+    statusCode: 400,
+    description: "No cookie",
+  });
 };
