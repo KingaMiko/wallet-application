@@ -13,8 +13,8 @@ export const setupRoutes = (app) => {
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);
 
-  rootRouter.get("/categories", auth, controllers.getAllCategories);
-  rootRouter.get("/categories/:id", auth, controllers.getCategoryById);
+  rootRouter.get("/categories", auth, controllers.getAllUserCategories);
+  rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
   rootRouter.post("/categories", auth, controllers.createCategory);
 
   rootRouter.get("/statistics", auth, controllers.getStatistics);

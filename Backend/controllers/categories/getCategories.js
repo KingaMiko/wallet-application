@@ -1,26 +1,20 @@
 import category from "#models/category.js";
 
 /**
- * @typedef {object} Category
- * @property {string} name.required - Name of the category
- * @property {string} description - Description of the category
- * @property {string} thumbUrl - Thumbnail URL of the category
- */
-
-/**
  * GET /api/categories
- * Gets all categories.
+ * Gets all categories associated with the logged-in user.
  *
  * @security BearerAuth
- * @return {ResponseWithDataSchema<Category[]>} 200 - Success, returns all categories
+ * @return {ResponseWithDataSchema<Category[]>} 200 - Success, returns user's categories
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
-export const getAllCategories = async (req, res) => {
+export const getAllUserCategories = async (req, res) => {
   try {
-    const result = await category.find({});
+    const userId = req.user.id;
+    const result = await category.find({ owner: userId });
     return res.status(200).json({
       statusCode: 200,
-      description: "All categories",
+      description: "User's categories",
       data: result,
     });
   } catch (error) {
