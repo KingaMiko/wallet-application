@@ -1,5 +1,5 @@
 import JWT from "jsonwebtoken";
-import { configDotenv} from "dotenv";
+import { configDotenv } from "dotenv";
 
 import { loginUserSchema } from "#schemas/loginUser.schema.js";
 import User from "#models/user.js";
@@ -9,8 +9,8 @@ import User from "#models/user.js";
  *
  * @param {LoginUserSchema} request.body.required
  * @return {ResponseWithTokenSchema} 200 - Success
- * @return {ResponseSchema} 401 - Error: Not Authorized
- * @return {ResponseSchema} 400 - Error: Bad Request
+ * @return {ResponseSchema} 401 - Not Authorized
+ * @return {ResponseSchema} 400 - Error
  */
 
 export const authSignin = async (req, res, next) => {
@@ -43,6 +43,13 @@ export const authSignin = async (req, res, next) => {
     user.refreshToken = refToken;
     await user.save();
 
+    res.cookie("jwt", refToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     return res.status(200).json({
       statusCode: 200,
       description: "User successfuly logged in",
@@ -53,9 +60,6 @@ export const authSignin = async (req, res, next) => {
       },
     });
   } catch (error) {
-    return res.status(400).json({
-      statusCode: 400,
-      description: error.message,
-    });
+    next(error);
   }
 };
