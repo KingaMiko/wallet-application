@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import css from './Header.module.css';
 import { selectIsAuth, selectUser } from 'redux/session/selectors';
 import { logOut } from 'redux/session/operations';
-import Logo from 'components/Logo/Logo';
+import { Logo } from 'components/Logo/Logo';
 
 const Header = () => {
   const dispatch = useDispatch();
