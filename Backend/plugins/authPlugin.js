@@ -5,9 +5,9 @@ import { config } from "dotenv";
 
 import User from "#models/user.js";
 
-export const authPlugin = () => {
-  config();
+config();
 
+export const authPlugin = () => {
   const options = {
     secretOrKey: process.env.SECRET_KEY,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -34,6 +34,36 @@ export const authPlugin = () => {
       }
     })
   );
+};
+
+export const createTokens = async (
+  data,
+  accessTokenExpIn = "10m",
+  refreshTokenExpIn = "1d"
+) => {
+  const secret = process.env.SECRET_KEY;
+  const refSecret = process.env.REFRESH_SECRET_KEY;
+
+  const accessToken = await JWT.sign(data, secret, {
+    expiresIn: accessTokenExpIn,
+  });
+  const refreshToken = await JWT.sign(data, refSecret, {
+    expiresIn: refreshTokenExpIn,
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
+
+export const sendRefreshToken = (res, refreshToken, numOfDays = 1) => {
+  res.cookie("jwt", refreshToken, {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+    maxAge: numOfDays * 24 * 60 * 60 * 1000,
+  });
 };
 
 export const auth = (request, response, next) => {
