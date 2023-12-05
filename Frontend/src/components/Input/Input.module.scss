@@ -22,6 +22,11 @@
     color: get-color('gray3');
   }
 
+  &:not(:placeholder-shown) {
+    font-weight: 500;
+    color: get-color('black');
+  }
+
   + svg {
     width: 24px;
     height: 24px;
