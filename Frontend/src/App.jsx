@@ -11,15 +11,41 @@ const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Routes>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="/" element={<SharedLayout />}>
-          <Route path="home" element={<HomePage />} />
-          <Route path="statistics" element={<StatisticsPage />} />
-        </Route>
-      </Routes>
-    </Suspense>
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route
+          path="login"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <LoginPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="register"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <RegisterPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="home"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <HomePage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="statistics"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <StatisticsPage />
+            </Suspense>
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
