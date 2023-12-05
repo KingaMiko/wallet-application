@@ -8,9 +8,8 @@ body {
 }
 
 .container {
-  margin: 40px 16px;
+  margin: 120px 16px 40px 16px;
   display: flex;
-  background-color: get-color('brand_color-fourteenth');
 }
 
 .sidebar {
@@ -19,4 +18,5 @@ body {
 
 .main {
   width: 800px;
+  margin-left: 69px;
 }
