@@ -1,0 +1,44 @@
+.link {
+  color: #4a56e2;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #172af1;
+  }
+
+  svg {
+    fill: #4a56e2;
+    transition: filter 0.3s ease, fill 0.3s ease;
+  }
+
+  &:hover svg {
+    fill: #172af1;
+    filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+  }
+}
+
+.active {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #4a56e2;
+  font-weight: 600;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #172af1;
+  }
+
+  svg {
+    fill: #4a56e2;
+    transition: filter 0.3s ease, fill 0.3s ease;
+  }
+
+  &:hover svg {
+    fill: #172af1;
+    filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+  }
+}
