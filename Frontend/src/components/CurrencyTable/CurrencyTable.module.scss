@@ -7,6 +7,8 @@
   width: 393px;
   height: 331px;
   border-radius: 30px;
+
+  overflow-y: auto;
   position: absolute;
 
   &::after {
