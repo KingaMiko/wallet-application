@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { useField } from 'formik';
 
 import sprite from 'images/icons.svg';
@@ -18,4 +20,12 @@ export const Input = ({ iconID, ...props }) => {
       ) : null}
     </div>
   );
+};
+
+Input.propTypes = {
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  autoComplete: PropTypes.string,
+  iconID: PropTypes.string.isRequired,
 };

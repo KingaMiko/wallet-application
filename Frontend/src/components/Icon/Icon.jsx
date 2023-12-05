@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import sprite from 'images/icons.svg';
 
 export const Icon = ({
@@ -11,4 +13,11 @@ export const Icon = ({
       <use href={`${sprite}#${iconID}`} />
     </svg>
   );
+};
+
+Icon.propTypes = {
+  iconID: PropTypes.string.isRequired,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  className: PropTypes.string,
 };
