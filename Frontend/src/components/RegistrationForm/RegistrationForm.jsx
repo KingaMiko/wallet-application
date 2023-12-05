@@ -58,7 +58,7 @@ export const RegistrationForm = () => {
         onSubmit={handleSubmit}
       >
         {() => (
-          <Form className={styles['registration-form']}>
+          <Form className={styles['registration-form']} autoComplete="off">
             <Input
               type="text"
               name="name"

@@ -47,7 +47,7 @@ export const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         {() => (
-          <Form className={styles['login-form']}>
+          <Form className={styles['login-form']} autoComplete="off">
             <Input
               type="email"
               name="email"
