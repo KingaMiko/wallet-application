@@ -1,12 +1,16 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn } from 'redux/session/operations';
 
 import styles from './LoginForm.module.scss';
 import { Button } from 'components';
 import { passwordPattern } from 'utils/patterns';
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+
   const initialValues = {
     name: '',
     email: '',
@@ -26,8 +30,16 @@ export const LoginForm = () => {
       .max(20, 'Password should be at most 20 characters'),
   });
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
     alert(JSON.stringify(values));
+
+    dispatch(
+      signIn({
+        email: values.email,
+        password: values.password,
+      })
+    );
+    resetForm();
   };
 
   return (
@@ -67,11 +79,11 @@ export const LoginForm = () => {
               />
             </div>
 
-            <Button type="button" theme="color">
+            <Button type="submit" theme="color">
               Log in
             </Button>
             <Link to="/register">
-              <Button type="submit" theme="white">
+              <Button type="button" theme="white">
                 Register
               </Button>
             </Link>
