@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signIn } from 'redux/session/operations';
 
@@ -10,6 +10,7 @@ import { passwordPattern } from 'utils/patterns';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const initialValues = {
     name: '',
@@ -82,11 +83,14 @@ export const LoginForm = () => {
             <Button type="submit" theme="color">
               Log in
             </Button>
-            <Link to="/register">
-              <Button type="button" theme="white">
-                Register
-              </Button>
-            </Link>
+
+            <Button
+              type="button"
+              theme="white"
+              onClick={() => navigate('/register')}
+            >
+              Register
+            </Button>
           </Form>
         )}
       </Formik>
