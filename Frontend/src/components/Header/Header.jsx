@@ -26,7 +26,7 @@ const Header = () => {
         </div>
         <div className={css.headerSide}>
           {isAuth && (
-            <p className={css.headerSideText}>{user.username ?? 'Hello'}</p>
+            <p className={css.headerSideText}>{user.name ?? 'Hello'}</p>
           )}
           {isAuth ? (
             <button className={css.headerLogout} onClick={handleLogout}>
