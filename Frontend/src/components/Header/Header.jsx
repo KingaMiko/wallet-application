@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 //import Svg from 'images/icons.svg';
 import css from './Header.module.css';
-import { selectIsLoggedIn, selectUser } from 'redux/session/selectors';
+import { selectIsAuth, selectUser } from 'redux/session/selectors';
 import { logOut } from 'redux/session/operations';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isAuth = useSelector(selectIsAuth);
   const user = useSelector(selectUser);
 
   const handleLogout = () => {
@@ -25,10 +25,10 @@ const Header = () => {
           </Link>
         </div>
         <div className={css.headerSide}>
-          {isLoggedIn && (
+          {isAuth && (
             <p className={css.headerSideText}>{user.username ?? 'Hello'}</p>
           )}
-          {isLoggedIn ? (
+          {isAuth ? (
             <button className={css.headerLogout} onClick={handleLogout}>
               {/* <Svg icon="logout" size="18" /> */}
               <p className={css.headerSideText}>Exit</p>

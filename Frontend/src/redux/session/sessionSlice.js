@@ -24,7 +24,7 @@ const sessionSlice = createSlice({
       .addCase(logOut.fulfilled, state => {
         state.user = { name: null, email: null };
         state.token = null;
-        state.isLoggedIn = false;
+        state.isAuth = false;
       });
   },
 });
