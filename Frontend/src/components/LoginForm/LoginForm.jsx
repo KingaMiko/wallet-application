@@ -13,10 +13,8 @@ export const LoginForm = () => {
   const navigate = useNavigate();
 
   const initialValues = {
-    name: '',
     email: '',
     password: '',
-    confirmPassword: '',
   };
 
   const validationSchema = Yup.object().shape({
