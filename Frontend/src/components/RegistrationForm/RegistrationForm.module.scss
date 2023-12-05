@@ -3,16 +3,6 @@
   flex-direction: column;
   align-items: center;
 
-  input {
-    margin-bottom: 40px;
-  }
-
-  & .error-message {
-    position: absolute;
-    top: 20px;
-    color: red;
-  }
-
   .box {
     position: relative;
   }
