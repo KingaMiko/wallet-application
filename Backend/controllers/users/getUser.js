@@ -4,26 +4,33 @@ import User from "#models/user.js";
  * GET /api/users/current
  *
  * @security BearerAuth
+ * @return {ResponseWithDataSchema} 200 - Success
+ * @return {ResponseSchema} 404 - User Not Found
+ * @return {ResponseSchema} 400 - Error
  */
 
 export const getUser = async (req, res, next) => {
-  const id = req.user.id;
   try {
-    const ourUser = await User.findOne({ _id: id });
+    const user = await User.findOne({ _id: req.user.id }).lean();
 
-    if (!ourUser) {
+    if (!user) {
       return res.status(404).json({
         statusCode: 404,
-        description: "User not Found",
+        description: "Current user not found",
       });
     }
+
+    const { name, email } = user;
+
     return res.status(200).json({
       statusCode: 200,
-      description: "Users data",
-      data: ourUser,
+      description: "Current user successfuly fetched.",
+      data: {
+        email,
+        name,
+      },
     });
   } catch (error) {
-    console.error("Error fetching user:", error);
-    return res.status(400).json({ statusCode: 400, description: error.message });
+    next(error);
   }
 };

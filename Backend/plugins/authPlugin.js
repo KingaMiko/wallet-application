@@ -37,7 +37,7 @@ export const authPlugin = () => {
 };
 
 export const auth = (request, response, next) => {
-  passport.authenticate("jwt", { session: false }, (error, user) => {
+  passport.authenticate("jwt", { session: false }, (error, user, info) => {
     if (error) {
       return response.status(401).json({
         statusCode: 401,
@@ -45,10 +45,17 @@ export const auth = (request, response, next) => {
       });
     }
 
+    if (info && info.message === "jwt expired") {
+      return response.status(401).json({
+        statusCode: 401,
+        description: "Access expired",
+      });
+    }
+
     if (!user) {
       return response.status(401).json({
         statusCode: 401,
-        description: "Not authorized",
+        description: "Access unauthorized",
       });
     }
 

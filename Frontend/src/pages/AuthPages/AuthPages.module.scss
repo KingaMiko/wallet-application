@@ -1,5 +1,5 @@
-@use '../../styles/utils/mixins';
-// @use 'utils/vars';
+@use 'styles/utils/mixins';
+@import 'styles/utils/vars';
 
 .wrapper {
   &-page {
@@ -10,55 +10,68 @@
       padding-top: 60px;
       flex-direction: column;
       justify-content: flex-start;
-      gap: 30px;
+      gap: 50px;
     }
 
     @include mixins.mq(desktop) {
       padding-top: 0;
       flex-direction: row;
       justify-content: center;
-      gap: 50px;
+      gap: 0;
     }
   }
 
   &-img {
     display: none;
 
-    // background-color: lightblue;
-
     @include mixins.mq(tablet) {
       @include mixins.flex(center, center);
-      gap: 30px;
     }
 
     @include mixins.mq(desktop) {
       flex-direction: column;
-      flex-basis: 550px;
-      gap: 50px;
+      align-items: flex-end;
+      gap: 30px;
+
+      width: 45vw;
+      padding-right: 30px;
+    }
+
+    & .box {
+      @include mixins.mq(tablet) {
+        @include mixins.flex(center, center);
+        gap: 40px;
+      }
+
+      @include mixins.mq(desktop) {
+        flex-direction: column;
+        gap: 28px;
+      }
+    }
+
+    & .heading {
+      color: get-color('black');
+      text-align: center;
+      font-family: get-font('secondary');
+      font-size: get-font-size('title');
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      margin: 0;
     }
   }
 
   &-form {
-    // background-color: pink;
-
     @include mixins.mq(desktop) {
-      @include mixins.flex(center, center);
+      @include mixins.flex(center, flex-start);
       flex-direction: column;
-      flex-basis: 730px;
+
+      width: 55vw;
+      padding-left: 107px;
+
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(25px);
+      height: 100vh;
     }
-  }
-}
-
-.box {
-  @include mixins.flex(center, center);
-  flex-direction: column;
-
-  background-color: #fff;
-  padding: 20px;
-
-  @include mixins.mq(tablet) {
-    width: 553px;
-    padding: 40px 0 60px;
-    border-radius: 20px;
   }
 }

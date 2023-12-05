@@ -20,7 +20,7 @@ export const signUp = createAsyncThunk(
   'session/signup',
   async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/signup', credentials);
+      const res = await axios.post('/auth/signup', credentials);
       return res.data;
     } catch (error) {
       // obsługa error
@@ -38,8 +38,8 @@ export const signIn = createAsyncThunk(
   'session/signin',
   async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/signin', credentials);
-      setAuthHeader(res.data.token);
+      const res = await axios.post('/auth/signin', credentials);
+      setAuthHeader(res.token);
       return res.data;
     } catch (error) {
       // obsługa error
@@ -57,7 +57,7 @@ export const logOut = createAsyncThunk(
   'session/logout',
   async (_, thunkAPI) => {
     try {
-      await axios.post('/logout');
+      await axios.post('/auth/logout');
       clearAuthHeader();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

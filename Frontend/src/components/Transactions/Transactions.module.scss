@@ -1,5 +1,12 @@
 @import '../../styles/utils/_vars.scss';
 
+.tableBg {
+  border-radius: 30px;
+  overflow: auto;
+  width: 755px;
+  background-color: rgba(115, 115, 115, 0.043);
+}
+
 .transactionsTable {
   width: 755px;
   border-collapse: collapse;
@@ -7,6 +14,7 @@
   color: get-color('black');
   // table-layout: fixed;
   overflow: hidden;
+  border-radius: 30px;
 }
 
 .transactionsTableHead {
@@ -20,8 +28,20 @@
 
 .transactionsTable th {
   text-align: center;
-  // width: calc(100% / 6);
   font-size: get-font-size('primary');
+  position: relative;
+}
+
+.thName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+
+  &:hover .iconSort {
+    fill: #172af1;
+    filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+  }
 }
 
 .transactionsTable td {
@@ -46,10 +66,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
-th:not(:last-child):hover {
+.transactionsTable th:not(:last-child):hover {
   cursor: pointer;
 }
 
@@ -59,4 +79,26 @@ th:not(:last-child):hover {
   align-items: center;
   justify-content: center;
   gap: 60px;
+}
+
+.iconTransactions:hover {
+  cursor: pointer;
+}
+
+svg {
+  fill: #4a56e2;
+  transition: filter 0.3s ease, fill 0.3s ease;
+
+  &:hover {
+    fill: #172af1;
+    filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+  }
+}
+
+.amountPlus {
+  color: rgb(17, 192, 17);
+}
+
+.amountMinus {
+  color: rgb(255, 0, 0);
 }
