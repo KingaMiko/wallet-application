@@ -2,7 +2,7 @@ import { Transactions } from 'components/Transactions/Transactions';
 import css from './Home.module.scss';
 import { CurrencyTable } from 'components/CurrencyTable/CurrencyTable';
 import { Balance } from 'components/Balance/Balance';
-import { Link } from 'react-router-dom';
+import Navigation from 'components/Navigation/Navigation';
 
 const Home = () => {
   return (
@@ -10,15 +10,7 @@ const Home = () => {
       <section className={css.dashboard_container}>
         <div className={css.container}>
           <div className={css.sidebar}>
-            <ul className={css.navigation}>
-              <li>
-                <Link to="/home">Home</Link>
-              </li>
-
-              <li>
-                <Link to="/statistics">Statistics</Link>
-              </li>
-            </ul>
+            <Navigation />
             <Balance />
             <CurrencyTable />
           </div>
