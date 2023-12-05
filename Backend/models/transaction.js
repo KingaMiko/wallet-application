@@ -3,13 +3,12 @@ import { model, Schema, SchemaTypes } from "mongoose";
 const transactionSchema = {
   type: {
     type: String,
-    enum: ["Income, Expense"],
+    enum: ["Income", "Expense"],
     required: [true, "Transaction type is required"],
   },
   category: {
     type: SchemaTypes.ObjectId,
     ref: "category",
-    required: [true, "Transaction category is required"],
   },
   sum: {
     type: Number,
@@ -21,6 +20,11 @@ const transactionSchema = {
   date: {
     type: Date,
     required: [true, "Transaction date is required"],
+  },
+  owner: {
+    type: SchemaTypes.ObjectId,
+    index: 1,
+    required: [true, "owner is required"],
   },
 };
 

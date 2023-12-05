@@ -13,6 +13,7 @@ jobs:
 
       - name: Install, lint, build 🔧
         run: |
+          cd Frontend
           npm install
           npm run lint:js
           npm run build
@@ -21,4 +22,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages
-          folder: ./frontend/build
+          folder: ./Frontend/build

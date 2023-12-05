@@ -40,6 +40,7 @@
     "#plugins/*": "./plugins/*",
     "#schemas/*": "./schemas/*",
     "#utils/*": "./utils/*",
-    "#root/*": "./*"
+    "#root/*": "./*",
+    "#helpers/*": "./helpers/*"
   }
 }
