@@ -2,10 +2,15 @@ import { RegistrationForm } from 'components';
 import styles from './AuthPages.module.scss';
 import sprite from 'images/icons.svg';
 import { Background, Box } from 'components';
+import { Helmet } from 'react-helmet';
 
 const RegisterPage = () => {
   return (
     <>
+      <Helmet>
+        <title>Sign Up - Wallet</title>
+      </Helmet>
+
       <Background />
       <div className={styles['wrapper-page']}>
         <div className={styles['wrapper-img']}>
