@@ -1,4 +1,4 @@
-export const selectIsLoggedIn = state => state.session.isLoggedIn;
+export const selectIsAuth = state => state.session.isAuth;
 
 export const selectUser = state => state.session.user;
 

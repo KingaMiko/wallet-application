@@ -1,17 +1,20 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn } from 'redux/session/operations';
 
 import styles from './LoginForm.module.scss';
 import { Button } from 'components';
 import { passwordPattern } from 'utils/patterns';
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const initialValues = {
-    name: '',
     email: '',
     password: '',
-    confirmPassword: '',
   };
 
   const validationSchema = Yup.object().shape({
@@ -23,11 +26,17 @@ export const LoginForm = () => {
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
-      .max(12, 'Password should be at most 12 characters'),
+      .max(20, 'Password should be at most 20 characters'),
   });
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    alert(JSON.stringify(values));
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    dispatch(
+      signIn({
+        email: values.email,
+        password: values.password,
+      })
+    );
+    resetForm();
   };
 
   return (
@@ -67,14 +76,17 @@ export const LoginForm = () => {
               />
             </div>
 
-            <Button type="button" theme="color">
+            <Button type="submit" theme="color">
               Log in
             </Button>
-            <Link to="/register">
-              <Button type="submit" theme="white">
-                Register
-              </Button>
-            </Link>
+
+            <Button
+              type="button"
+              theme="white"
+              onClick={() => navigate('/register')}
+            >
+              Register
+            </Button>
           </Form>
         )}
       </Formik>

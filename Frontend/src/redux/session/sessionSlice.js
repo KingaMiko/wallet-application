@@ -14,17 +14,17 @@ const sessionSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(signUp.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload.data;
       })
       .addCase(signIn.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload.data;
         state.token = action.payload.token;
         state.isAuth = true;
       })
       .addCase(logOut.fulfilled, state => {
         state.user = { name: null, email: null };
         state.token = null;
-        state.isLoggedIn = false;
+        state.isAuth = false;
       });
   },
 });
