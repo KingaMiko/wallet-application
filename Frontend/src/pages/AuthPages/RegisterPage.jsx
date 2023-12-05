@@ -10,9 +10,8 @@ const RegisterPage = () => {
       <div className={styles['wrapper-page']}>
         <div className={styles['wrapper-img']}>
           <div>
-            {' '}
             <svg className={styles['clients-icon']} width="435" height="420">
-              <use href={sprite + '#icon-Frame-1-woman-with-telephone'}></use>
+              <use href={`${sprite}#icon-Frame-1-woman-with-telephone`}></use>
             </svg>
           </div>
           <h1>Finance App</h1>
