@@ -4,6 +4,14 @@ export const updateUser = (id, fields) => {
   return User.findByIdAndUpdate({ _id: id }, { $set: fields });
 };
 
+export const updateTransactionById = (id, fields) => {
+  return transaction.findByIdAndUpdate(
+    { _id: id },
+    { $set: fields },
+    { new: true }
+  );
+};
+
 export const findTransactions = (ownerId, month, year) => {
   return transaction.aggregate([
     {
