@@ -7,6 +7,14 @@
   width: 393px;
   height: 331px;
   border-radius: 30px;
+  position: absolute;
+
+  &::after {
+    content: url('../../images/baseline.svg');
+    position: relative;
+    bottom: -30px;
+    right: 0px;
+  }
 }
 
 .currencyTable {

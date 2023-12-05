@@ -5,7 +5,7 @@
   border-collapse: collapse;
   line-height: 23.58px;
   color: get-color('black');
-  // table-layout: fixed;
+  table-layout: fixed;
   overflow: hidden;
 }
 
@@ -20,8 +20,8 @@
 
 .transactionsTable th {
   text-align: center;
-  // width: calc(100% / 6);
   font-size: get-font-size('primary');
+  position: relative;
 }
 
 .transactionsTable td {
@@ -46,11 +46,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
-th:not(:last-child):hover {
+.transactionsTable th:not(:last-child):hover {
   cursor: pointer;
+
+  &:hover::after {
+    content: url('../../images/sort.svg');
+    font-size: 10px;
+    color: #172af1;
+    position: absolute;
+    top: 87%;
+    transform: translateY(-50%);
+    right: 45%;
+  }
 }
 
 .sumSection {
@@ -59,4 +69,18 @@ th:not(:last-child):hover {
   align-items: center;
   justify-content: center;
   gap: 60px;
+}
+
+.iconTransactions:hover {
+  cursor: pointer;
+}
+
+svg {
+  fill: #4a56e2;
+  transition: filter 0.3s ease, fill 0.3s ease;
+
+  &:hover {
+    fill: #172af1;
+    filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'components';
 import css from './Transactions.module.scss';
+import sprite from 'images/icons.svg';
 
 const initialTransactions = [
   ['2023-12-04', '-', 'Other', 'Christmas gift', '300.00'],
@@ -47,6 +47,14 @@ export const Transactions = () => {
 
     setTransactions(sortedTransactions);
     setSortOrder({ column, direction });
+  };
+
+  const handleDelete = index => {
+    const updatedTransactions = [...transactions];
+
+    updatedTransactions.splice(index, 1);
+
+    setTransactions(updatedTransactions);
   };
 
   const updateSums = () => {
@@ -103,22 +111,22 @@ export const Transactions = () => {
                   <td key={dataIndex}>{data}</td>
                 ))}
                 <td>
-                  <Button
-                    type="button"
-                    theme="white"
-                    width="80px"
-                    height="40px"
+                  <svg
+                    className={css.iconTransactions}
+                    width="20px"
+                    height="20px"
                   >
-                    Edit
-                  </Button>
-                  <Button
-                    type="button"
-                    theme="color"
-                    width="80px"
-                    height="40px"
+                    <use href={`${sprite}#icon-pencil2`}></use>
+                  </svg>
+
+                  <svg
+                    className={css.iconTransactions}
+                    width="20px"
+                    height="20px"
+                    onClick={() => handleDelete(index)}
                   >
-                    Delete
-                  </Button>
+                    <use href={`${sprite}#icon-bin`}></use>
+                  </svg>
                 </td>
               </tr>
             ))}
