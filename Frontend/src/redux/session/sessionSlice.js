@@ -14,10 +14,10 @@ const sessionSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(signUp.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload.data;
       })
       .addCase(signIn.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload.data;
         state.token = action.payload.token;
         state.isAuth = true;
       })
