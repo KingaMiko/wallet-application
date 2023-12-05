@@ -19,13 +19,7 @@
     padding: 20px 16px;
   }
 }
-.headerSide {
-  display: flex;
-  align-items: center;
-}
-.headerSide:nth-child(2) {
-  gap: 24px;
-}
+
 .headerLogo {
   display: flex;
   align-items: center;
