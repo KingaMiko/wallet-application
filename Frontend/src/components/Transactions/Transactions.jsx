@@ -76,7 +76,8 @@ export const Transactions = () => {
 
   useEffect(() => {
     updateSums();
-  }, [transactions]);
+  });
+  // }, [transactions]);
 
   const getAmountClass = type => {
     return type === '+' ? css.amountPlus : type === '-' ? css.amountMinus : '';
