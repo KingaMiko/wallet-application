@@ -8,9 +8,9 @@ export const CurrencyTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Używając twojego tokena JWT
+        //do zrobienia pobieranie tokena
         const authToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmVlMjg5ZGIyY2U4ZDdiMmI0ZWYwYSIsIm5hbWUiOiJLaW5nYSIsImlhdCI6MTcwMTc3OTUyMywiZXhwIjoxNzAxNzkxNTIzfQ.jZGVb_UJUyVFCVrMJ2ozUFO_7lUx-m6AY8XUAca53pc';
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmY0NjRkMmJlOGRkZWQxYWY4MDhjNyIsIm5hbWUiOiJLaW5nYSIsImlhdCI6MTcwMTc5MTM0MiwiZXhwIjoxNzAxNzk0OTQyfQ.IYdeMehD9ZMqXjBY2nl8Wu4jQBbOq1F86hjCgTzBKXs';
         const response = await axios.get(
           'http://localhost:3000/api/currencies',
           {
