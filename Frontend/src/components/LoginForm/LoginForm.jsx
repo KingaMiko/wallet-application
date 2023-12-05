@@ -23,7 +23,7 @@ export const LoginForm = () => {
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
-      .max(12, 'Password should be at most 12 characters'),
+      .max(20, 'Password should be at most 20 characters'),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
