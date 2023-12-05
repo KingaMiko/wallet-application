@@ -14,9 +14,9 @@ const LoginPage = () => {
       <Background />
       <div className={styles['wrapper-page']}>
         <div className={styles['wrapper-img']}>
-          <div className={styles['box']}>
-            <svg width="435" height="420">
-              <use href={`${sprite}#icon-Frame-2-man-with-telephone`}></use>
+          <div>
+            <svg className={styles['clients-icon']} width="435" height="420">
+              <use href={`${sprite}#icon-Frame-3-man-with-phone`}></use>
             </svg>
             <h1 className={styles['heading']}>Finance App</h1>
           </div>
