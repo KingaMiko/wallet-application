@@ -30,8 +30,6 @@ export const LoginForm = () => {
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    alert(JSON.stringify(values));
-
     dispatch(
       signIn({
         email: values.email,

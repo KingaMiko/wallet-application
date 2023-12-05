@@ -40,7 +40,6 @@ export const RegistrationForm = () => {
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    alert(JSON.stringify(values));
     dispatch(
       signUp({
         name: values.name,
