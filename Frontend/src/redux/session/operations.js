@@ -20,6 +20,11 @@ const setAuthHeaderFromLocalStorage = () => {
   }
 };
 
+//////////// AUTORYZACJA ////////////
+// axios.defaults.withCredentials = true;
+
+//////////// AUTORYZACJA ////////////
+
 /*
  * POST @ /signup
  * body: { name, email, password }
@@ -79,6 +84,30 @@ export const logOut = createAsyncThunk(
       const errorMessage = error.response.data.description;
       toast.error(errorMessage);
       return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
+/*
+ * GET @ /users/current
+ * headers: Authorization: Bearer token
+ */
+export const refreshUser = createAsyncThunk(
+  'session/refresh',
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const persistedToken = state.session.token;
+
+    if (persistedToken === null) {
+      return thunkAPI.rejectWithValue('Unable to fetch user');
+    }
+
+    try {
+      setAuthHeader(persistedToken);
+      const res = await axios.get('/users/current');
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
