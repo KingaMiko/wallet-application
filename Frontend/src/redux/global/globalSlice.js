@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getPatterns } from './operations';
 
 const initialState = {
   isLoading: false,
   isModalLogoutOpen: false,
   isModalAddTransactionOpen: false,
   isModalEditTransactionOpen: false,
+  patterns: null,
 };
 
 const globalSlice = createSlice({
@@ -23,6 +25,11 @@ const globalSlice = createSlice({
     setIsModalEditTransactionOpen: (state, action) => {
       state.isModalEditTransactionOpen = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(getPatterns.fulfilled, (state, action) => {
+      state.patterns = action.payload;
+    });
   },
 });
 
