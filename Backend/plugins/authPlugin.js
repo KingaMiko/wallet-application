@@ -1,5 +1,6 @@
 import JWT from "jsonwebtoken";
 import passport from "passport";
+import cookieparser from "cookie-parser";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { config } from "dotenv";
 
@@ -7,7 +8,7 @@ import User from "#models/user.js";
 
 config();
 
-export const authPlugin = () => {
+export const authPlugin = (app) => {
   const options = {
     secretOrKey: process.env.SECRET_KEY,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -34,6 +35,7 @@ export const authPlugin = () => {
       }
     })
   );
+  app.use(cookieparser());
 };
 
 export const createTokens = async (
