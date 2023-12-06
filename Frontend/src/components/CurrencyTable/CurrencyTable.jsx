@@ -8,9 +8,12 @@ export const CurrencyTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //do zrobienia pobieranie tokena
-        const authToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmY0NjRkMmJlOGRkZWQxYWY4MDhjNyIsIm5hbWUiOiJLaW5nYSIsImlhdCI6MTcwMTc5MTM0MiwiZXhwIjoxNzAxNzk0OTQyfQ.IYdeMehD9ZMqXjBY2nl8Wu4jQBbOq1F86hjCgTzBKXs';
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          console.error('No auth token found');
+          return;
+        }
+
         const response = await axios.get(
           'http://localhost:3000/api/currencies',
           {
@@ -19,6 +22,7 @@ export const CurrencyTable = () => {
             },
           }
         );
+
         setCurrencies(response.data.data.currencies);
       } catch (error) {
         console.error('Error fetching currencies', error);
@@ -27,6 +31,7 @@ export const CurrencyTable = () => {
 
     fetchData();
   }, []);
+  // }, [authToken]); Obecnie fetchData jest wywoływana tylko raz. Jeśli token ulegnie zmianie, można ponownie załadować dane.
 
   return (
     <div className={css.tableBg}>
