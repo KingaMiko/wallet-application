@@ -5,6 +5,7 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { config } from "dotenv";
 
 import User from "#models/user.js";
+import Session from "#models/session.js";
 
 config();
 
@@ -60,12 +61,27 @@ export const createTokens = async (
 };
 
 export const sendRefreshToken = (res, refreshToken, numOfDays = 1) => {
+  const durationMs = numOfDays * 24 * 60 * 60 * 1000;
+
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
     sameSite: "None",
     secure: true,
-    maxAge: numOfDays * 24 * 60 * 60 * 1000,
+    maxAge: durationMs,
   });
+
+  return durationMs;
+};
+
+export const cleanNotValidSessions = async () => {
+  const now = Date.now();
+  const sessions = await Session.find().lean();
+
+  for (const session of sessions) {
+    if (session.expireAt >= now) {
+      await Session.findByIdAndDelete(session.id);
+    }
+  }
 };
 
 export const auth = (request, response, next) => {
