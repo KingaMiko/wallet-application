@@ -11,32 +11,30 @@ const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<SharedLayout />}>
-        <Route index element={<Navigate to="/home" replace />} />
-        <Route
-          path="home"
-          element={
-            <PrivateRoute>
-              <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<Navigate to="/home" replace />} />
+          <Route
+            path="home"
+            element={
+              <PrivateRoute>
                 <HomePage />
-              </Suspense>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="statistics"
-          element={
-            <PrivateRoute>
-              <Suspense fallback={<div>Loading...</div>}>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="statistics"
+            element={
+              <PrivateRoute>
                 <StatisticsPage />
-              </Suspense>
-            </PrivateRoute>
-          }
-        />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-      </Route>
-    </Routes>
+              </PrivateRoute>
+            }
+          />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
