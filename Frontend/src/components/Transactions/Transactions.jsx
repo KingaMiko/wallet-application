@@ -56,24 +56,24 @@ export const Transactions = () => {
     setTransactions(updatedTransactions);
   };
 
-  const updateSums = () => {
-    let totalPlus = 0;
-    let totalMinus = 0;
+  // const updateSums = () => {
+  //   let totalPlus = 0;
+  //   let totalMinus = 0;
 
-    transactions.forEach(transaction => {
-      const amount = parseFloat(transaction[4]);
-      if (transaction[1] === '+') {
-        totalPlus += amount;
-      } else if (transaction[1] === '-') {
-        totalMinus += amount;
-      }
-    });
+  //   transactions.forEach(transaction => {
+  //     const amount = parseFloat(transaction[4]);
+  //     if (transaction[1] === '+') {
+  //       totalPlus += amount;
+  //     } else if (transaction[1] === '-') {
+  //       totalMinus += amount;
+  //     }
+  //   });
 
-    setSumPlus(totalPlus);
-    setSumMinus(totalMinus);
+  //   setSumPlus(totalPlus);
+  //   setSumMinus(totalMinus);
 
-    setBalance(totalPlus - totalMinus);
-  };
+  //   setBalance(totalPlus - totalMinus);
+  // };
 
   useEffect(() => {
     const fetchTransactions = async () => {
