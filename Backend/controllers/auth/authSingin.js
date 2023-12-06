@@ -1,7 +1,5 @@
-import JWT from "jsonwebtoken";
-import { configDotenv } from "dotenv";
-
 import { loginUserSchema } from "#schemas/loginUser.schema.js";
+import { createTokens, sendRefreshToken } from "#plugins/authPlugin.js";
 import User from "#models/user.js";
 
 /**
@@ -27,33 +25,19 @@ export const authSignin = async (req, res, next) => {
       });
     }
 
-    configDotenv();
-    const secret = process.env.SECRET_KEY;
-    const refSecret = process.env.REFRESH_SECRET_KEY;
-
     const { id, name } = user;
-    const token = await JWT.sign({ id, name }, secret, {
-      expiresIn: "10m",
-    });
-    const refToken = await JWT.sign({ id, name }, refSecret, {
-      expiresIn: "1d",
-    });
+    const { accessToken, refreshToken } = await createTokens({ id, name });
 
-    user.token = token;
-    user.refreshToken = refToken;
+    user.token = accessToken;
+    user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("jwt", refToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    sendRefreshToken(res, refreshToken);
 
     return res.status(200).json({
       statusCode: 200,
       description: "User successfuly logged in",
-      token: token,
+      token: accessToken,
       data: {
         email,
         name,
