@@ -13,6 +13,11 @@ export const setupRoutes = (app) => {
   authRouter.post("/refresh", controllers.authRefresh);
   authRouter.get("/logout", auth, controllers.authLogout);
 
+    
+  rootRouter.get("/categories", auth, controllers.getAllUserCategories);
+  rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
+  rootRouter.post("/categories", auth, controllers.createCategory);
+
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);
   rootRouter.get("/categories/:id", auth, controllers.getCategory);
@@ -29,3 +34,5 @@ export const setupRoutes = (app) => {
   app.use("/api/auth", authRouter);
   app.use("/api/users", usersRouter);
 };
+
+

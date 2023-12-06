@@ -1,25 +1,32 @@
 import category from "#models/category.js";
+
 /**
  * GET /api/categories/{id}
+ * Gets a specific category by ID, if it belongs to the logged-in user.
  *
  * @security BearerAuth
- * @param {string} id.path - Verification token
- * @return {ResponseWithDataSchema} 200 - Success
- * @return {ResponseSchema} 400 - Error
+
+ * @param {string} id.path.required - ID of the category to retrieve
+ * @return {ResponseWithDataSchema<Category>} 200 - Success, returns the category
+ * @return {ResponseSchema} 400 - Error: Bad Request
+ * @return {ResponseSchema} 404 - Error: Not Found
  */
-export const getCategory = async (req, res, next) => {
+export const getUserCategoryById = async (req, res) => {
   const { id } = req.params;
+  const userId = req.user.id; // ID zalogowanego użytkownika
   try {
-    if (id) {
-      const result = await category.find({ _id: id });
-      return res.status(200).json({ statusCode: 200, data: result });
+    const result = await category.findOne({ _id: id, owner: userId });
+
+    if (!result) {
+      return res.status(404).json({
+        statusCode: 404,
+        description: "Category not found or does not belong to the user",
+      });
     }
-    const result = await category.find({});
-    const usersId = req.user.id;
 
     return res.status(200).json({
       statusCode: 200,
-      description: "All categories",
+      description: "Category details",
       data: result,
     });
   } catch (error) {
