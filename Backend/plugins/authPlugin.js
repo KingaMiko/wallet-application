@@ -1,13 +1,15 @@
 import JWT from "jsonwebtoken";
 import passport from "passport";
+import cookieparser from "cookie-parser";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { config } from "dotenv";
 
 import User from "#models/user.js";
+import Session from "#models/session.js";
 
-export const authPlugin = () => {
-  config();
+config();
 
+export const authPlugin = (app) => {
   const options = {
     secretOrKey: process.env.SECRET_KEY,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -34,6 +36,52 @@ export const authPlugin = () => {
       }
     })
   );
+  app.use(cookieparser());
+};
+
+export const createTokens = async (
+  data,
+  accessTokenExpIn = "10m",
+  refreshTokenExpIn = "1d"
+) => {
+  const secret = process.env.SECRET_KEY;
+  const refSecret = process.env.REFRESH_SECRET_KEY;
+
+  const accessToken = await JWT.sign(data, secret, {
+    expiresIn: accessTokenExpIn,
+  });
+  const refreshToken = await JWT.sign(data, refSecret, {
+    expiresIn: refreshTokenExpIn,
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
+
+export const sendRefreshToken = (res, refreshToken, numOfDays = 1) => {
+  const durationMs = numOfDays * 24 * 60 * 60 * 1000;
+
+  res.cookie("jwt", refreshToken, {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+    maxAge: durationMs,
+  });
+
+  return durationMs;
+};
+
+export const cleanNotValidSessions = async () => {
+  const now = Date.now();
+  const sessions = await Session.find().lean();
+
+  for (const session of sessions) {
+    if (session.expireAt >= now) {
+      await Session.findByIdAndDelete(session.id);
+    }
+  }
 };
 
 export const auth = (request, response, next) => {

@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 loggerPlugin(app);
-authPlugin();
+authPlugin(app);
 corsPlugin(app);
 bodyParserPlugin(app);
 setupRoutes(app);
