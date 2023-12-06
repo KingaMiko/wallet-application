@@ -27,10 +27,16 @@ const sessionSlice = createSlice({
         state.token = null;
         state.isAuth = false;
       })
+      .addCase(refreshUser.pending, state => {
+        state.isRefreshing = true;
+      })
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.user = action.payload.data;
         state.token = action.payload.token;
         state.isAuth = true;
+      })
+      .addCase(refreshUser.rejected, state => {
+        state.isRefreshing = false;
       });
   },
 });
