@@ -24,4 +24,6 @@ export * from "./configurations/setConfiguration.js";
 export * from "./curriencies/getCurrencies.js";
 export * from "./curriencies/updateCurrencies.js";
 
+export * from "./validation/getPatterns.js";
+
 export * from "./errors/index.js";

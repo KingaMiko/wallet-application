@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { namePattern, passwordPattern } from "#utils/regexPatterns.js";
+import patterns from "#utils/regexPatterns.json" assert { type: "json" };
 
 /**
  * @typedef {object} RegisterUserSchema
@@ -11,6 +11,9 @@ import { namePattern, passwordPattern } from "#utils/regexPatterns.js";
 
 export const registerUserSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().pattern(passwordPattern).min(6).required(),
-  name: Joi.string().pattern(namePattern).min(3),
+  password: Joi.string()
+    .pattern(new RegExp(patterns.passwordPattern.pattern))
+    .min(6)
+    .required(),
+  name: Joi.string().pattern(new RegExp(patterns.namePattern.pattern)).min(3),
 });
