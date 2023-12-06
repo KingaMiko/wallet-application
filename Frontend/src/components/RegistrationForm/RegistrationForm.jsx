@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { signUp } from 'redux/session/operations';
 import { selectPatterns } from 'redux/global/selectors';
 
 import styles from './RegistrationForm.module.scss';
-import { Button } from 'components';
+import { Button, Input } from 'components';
 
 export const RegistrationForm = () => {
   const dispatch = useDispatch();
@@ -60,61 +60,37 @@ export const RegistrationForm = () => {
         onSubmit={handleSubmit}
       >
         {() => (
-          <Form className={styles['registration-form']}>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="text"
-                name="name"
-                placeholder="First name"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="name"
-                component="div"
-              />
-            </div>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="email"
-                name="email"
-                placeholder="E-mail"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="email"
-                component="div"
-              />
-            </div>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="password"
-                name="password"
-                placeholder="Password"
-                autoComplete="off"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="password"
-                component="div"
-              />
-            </div>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm password"
-                autoComplete="off"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="confirmPassword"
-                component="div"
-              />
-            </div>
+          <Form className={styles['registration-form']} autoComplete="off">
+            <Input
+              type="text"
+              name="name"
+              placeholder="First name"
+              iconID="icon-baseline-account_box"
+            />
+
+            <Input
+              type="email"
+              name="email"
+              placeholder="E-mail"
+              iconID="icon-baseline-email"
+            />
+
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              autoComplete="off"
+              iconID="icon-baseline-lock"
+            />
+
+            <Input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm password"
+              autoComplete="off"
+              iconID="icon-baseline-lock"
+            />
+
             <Button type="submit" theme="color">
               Register
             </Button>

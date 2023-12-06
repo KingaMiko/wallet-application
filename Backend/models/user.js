@@ -15,6 +15,12 @@ const userSchema = {
     type: String,
     required: [true, "First name is required"],
   },
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "category",
+    },
+  ],
   balance: {
     type: Number,
     default: 0,

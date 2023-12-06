@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { findTransactions } from "#helpers/findTransactions.js";
+import { findTransactions } from "#helpers/transactionHelper.js";
 import category from "#models/category.js";
-import { getExpense } from "#helpers/getExpense.js";
-import { getIncome } from "#helpers/getIncome.js";
+import { getExpense } from "#helpers/transactionHelper.js";
+import { getIncome } from "#helpers/transactionHelper.js";
 
 /**
  * A date

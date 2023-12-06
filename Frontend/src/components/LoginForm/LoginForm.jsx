@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { signIn } from 'redux/session/operations';
 import { selectPatterns } from 'redux/global/selectors';
 
 import styles from './LoginForm.module.scss';
-import { Button } from 'components';
+import { Button, Input } from 'components';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -60,34 +60,21 @@ export const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         {() => (
-          <Form className={styles['login-form']}>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="email"
-                name="email"
-                placeholder="E-mail"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="email"
-                component="div"
-              />
-            </div>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="password"
-                name="password"
-                placeholder="Password"
-                autoComplete="off"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="password"
-                component="div"
-              />
-            </div>
+          <Form className={styles['login-form']} autoComplete="off">
+            <Input
+              type="email"
+              name="email"
+              placeholder="E-mail"
+              iconID="icon-baseline-email"
+            />
+
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              autoComplete="off"
+              iconID="icon-baseline-lock"
+            />
 
             <Button type="submit" theme="color">
               Log in

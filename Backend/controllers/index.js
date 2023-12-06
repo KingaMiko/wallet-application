@@ -5,8 +5,12 @@ export * from "./auth/authRefresh.js";
 
 export * from "./transactions/addTransaction.js";
 export * from "./transactions/getTransactions.js";
+export * from "./transactions/updatetransaction.js";
+export * from "./transactions/deleteTransaction.js";
 
+export * from "./categories/getCategories.js";
 export * from "./categories/getCategory.js";
+export * from "./categories/createCategory.js";
 
 export * from "./statistics/getStatistics.js";
 

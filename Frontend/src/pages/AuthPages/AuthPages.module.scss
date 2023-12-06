@@ -37,18 +37,6 @@
       padding-right: 30px;
     }
 
-    & .box {
-      @include mixins.mq(tablet) {
-        @include mixins.flex(center, center);
-        gap: 40px;
-      }
-
-      @include mixins.mq(desktop) {
-        flex-direction: column;
-        gap: 28px;
-      }
-    }
-
     & .heading {
       color: get-color('black');
       text-align: center;
@@ -62,6 +50,10 @@
   }
 
   &-form {
+    @include mixins.flex(center, center);
+    width: 100vw;
+    height: 100vh;
+
     @include mixins.mq(desktop) {
       @include mixins.flex(center, flex-start);
       flex-direction: column;
