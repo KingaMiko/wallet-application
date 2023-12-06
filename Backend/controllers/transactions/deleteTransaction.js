@@ -1,6 +1,6 @@
 import transaction from "#models/transaction.js";
 import User from "#models/user.js";
-import { updateUser } from "../../helpers/transactionHelper.js";
+import { updateUser } from "#helpers/transactionHelper.js";
 
 /**
  * @typedef {string} Id
