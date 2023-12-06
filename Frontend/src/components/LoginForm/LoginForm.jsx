@@ -29,14 +29,25 @@ export const LoginForm = () => {
       .max(20, 'Password should be at most 20 characters'),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    dispatch(
-      signIn({
-        email: values.email,
-        password: values.password,
-      })
-    );
-    resetForm();
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const resultAction = await dispatch(
+        signIn({
+          email: values.email,
+          password: values.password,
+        })
+      ).unwrap();
+
+      const token = resultAction.token;
+      localStorage.setItem('authToken', token);
+
+      resetForm();
+      navigate('/home');
+    } catch (error) {
+      console.error('Błąd logowania:', error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

@@ -13,6 +13,13 @@ const clearAuthHeader = () => {
   axios.defaults.headers.common.Authorization = '';
 };
 
+const setAuthHeaderFromLocalStorage = () => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  }
+};
+
 /*
  * POST @ /signup
  * body: { name, email, password }
@@ -61,6 +68,8 @@ export const signIn = createAsyncThunk(
 export const logOut = createAsyncThunk(
   'session/logout',
   async (_, thunkAPI) => {
+    setAuthHeaderFromLocalStorage();
+
     try {
       await axios.get('/auth/logout');
       clearAuthHeader();
