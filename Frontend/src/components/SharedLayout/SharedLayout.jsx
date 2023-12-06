@@ -1,6 +1,7 @@
-import React from 'react';
-import Header from 'components/Header/Header';
 import { Outlet, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
+import Header from 'components/Header/Header';
 
 const SharedLayout = () => {
   const location = useLocation();
@@ -11,6 +12,8 @@ const SharedLayout = () => {
     <>
       {showHeader && <Header />}
       <Outlet />
+
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

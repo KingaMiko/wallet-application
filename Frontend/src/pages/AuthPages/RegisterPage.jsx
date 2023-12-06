@@ -1,7 +1,7 @@
 import { RegistrationForm } from 'components';
 import styles from './AuthPages.module.scss';
 import { ReactComponent as RegisterIcon } from 'images/icons/icon-register-page.svg';
-import { Background, Box } from 'components';
+import { Background, Box, Logo } from 'components';
 import { Helmet } from 'react-helmet';
 
 const RegisterPage = () => {
@@ -22,7 +22,7 @@ const RegisterPage = () => {
 
         <div className={styles['wrapper-form']}>
           <Box>
-            <p>Logo</p>
+            <Logo />
             <RegistrationForm />
           </Box>
         </div>

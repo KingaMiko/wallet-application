@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { findTransactions } from "#helpers/findTransactions.js";
+import { findTransactions } from "#helpers/transactionHelper.js";
 /**
  * GET /api/transactions
  *
@@ -17,7 +17,7 @@ export const getTransactions = async (req, res, next) => {
   try {
     const result = await findTransactions(ownerId, currentMonth, currentYear);
 
-   return res.status(200).json({
+    return res.status(200).json({
       statusCode: 200,
       description: "Users Transactions",
       data: result,

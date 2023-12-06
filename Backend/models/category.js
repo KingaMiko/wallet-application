@@ -1,14 +1,17 @@
 import { model, Schema } from "mongoose";
 
-const categorySchema = {
+const categorySchema = new Schema({
   name: {
     type: String,
     required: [true, "Category name is required"],
   },
   description: String,
   thumbUrl: String,
-};
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+});
 
-const category = new Schema(categorySchema);
-
-export default model("category", category);
+export default model("category", categorySchema);
