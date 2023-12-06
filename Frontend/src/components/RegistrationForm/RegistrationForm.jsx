@@ -1,16 +1,18 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { signUp } from 'redux/session/operations';
+import { selectPatterns } from 'redux/global/selectors';
 
 import styles from './RegistrationForm.module.scss';
 import { Button } from 'components';
-import { passwordPattern, namePattern } from 'utils/patterns';
 
 export const RegistrationForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const patterns = useSelector(selectPatterns);
 
   const initialValues = {
     name: '',
@@ -21,15 +23,15 @@ export const RegistrationForm = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .matches(namePattern, 'Name can only contains letters')
+      .matches(new RegExp(patterns.namePattern.pattern), patterns.namePattern.description)
       .required('Name is required')
       .min(3, 'Name should be at least 3 characters')
       .max(20, 'Name should be at most 20 characters'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
       .matches(
-        passwordPattern,
-        'The password should contain at least one uppercase letter, one special character, and one digit'
+        new RegExp(patterns.passwordPattern.pattern),
+        patterns.passwordPattern.description
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
