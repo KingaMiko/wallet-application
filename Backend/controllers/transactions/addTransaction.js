@@ -1,5 +1,6 @@
 import transaction from "#models/transaction.js";
-
+import User from "#models/user.js";
+import { updateUser } from "#helpers/transactionHelper.js";
 /**
  * @typedef {object} Transaction
  * @property {string} type.required - type of transaction
@@ -30,6 +31,18 @@ export const addTransaction = async (req, res, next) => {
       date,
       owner: ownerId,
     });
+    const user = await User.findOne({ _id: ownerId });
+
+    if (type === "Expense") {
+      const usersBalance = await updateUser(user.id, {
+        balance: user.balance - sum,
+      });
+    } else if (type === "Income") {
+      const usersBalance = await updateUser(user.id, {
+        balance: user.balance + sum,
+      });
+    }
+
     const result = await transaction.create(newTrasaction);
     return res.status(201).json({
       statusCode: 201,
