@@ -1,4 +1,4 @@
-import * as patterns from "#utils/patterns.js";
+import patterns from "#utils/regexPatterns.json" assert { type: "json" };
 
 /**
  * GET /api/patterns
