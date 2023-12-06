@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import css from './Transactions.module.scss';
 import sprite from 'images/icons.svg';
+import axios from 'axios';
 
 const initialTransactions = [
   ['2023-12-04', '-', 'Other', 'Christmas gift', '300.00'],
@@ -53,6 +54,7 @@ export const Transactions = () => {
     const updatedTransactions = [...transactions];
     updatedTransactions.splice(index, 1);
     setTransactions(updatedTransactions);
+    updateSums(updatedTransactions);
   };
 
   const updateSums = () => {
@@ -75,8 +77,40 @@ export const Transactions = () => {
   };
 
   useEffect(() => {
-    updateSums();
-  });
+    const fetchTransactions = async () => {
+      try {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          console.error('No auth token found');
+          return;
+        }
+
+        const response = await axios.get(
+          'http://localhost:3000/api/transactions',
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+
+        // Przetwarzanie danych transakcji
+        const fetchedTransactions = response.data.data.map(tr => ({
+          date: tr.date ? new Date(tr.date).toLocaleDateString() : '',
+          type: tr.type || '',
+          category: tr.category ? tr.category.toString() : '',
+          comment: tr.comment || '',
+          sum: tr.sum ? tr.sum.toString() : '',
+        }));
+
+        setTransactions(fetchedTransactions);
+        updateSums(fetchedTransactions);
+      } catch (error) {
+        console.error('Error fetching transactions', error);
+      }
+    };
+
+    fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // }, [transactions]);
 
   const getAmountClass = type => {
@@ -139,16 +173,13 @@ export const Transactions = () => {
           <tbody className={css.transactionsTableBody}>
             {transactions.map((transaction, index) => (
               <tr key={index}>
-                {transaction.map((data, dataIndex) => (
-                  <td
-                    key={dataIndex}
-                    className={
-                      dataIndex === 4 ? getAmountClass(transaction[1]) : ''
-                    }
-                  >
-                    {data}
-                  </td>
-                ))}
+                <td>{transaction.date}</td>
+                <td className={getAmountClass(transaction.type)}>
+                  {transaction.type}
+                </td>
+                <td>{transaction.category}</td>
+                <td>{transaction.comment}</td>
+                <td>{transaction.sum}</td>
                 <td>
                   <svg
                     className={css.iconTransactions}
@@ -157,7 +188,6 @@ export const Transactions = () => {
                   >
                     <use href={`${sprite}#icon-pencil2`}></use>
                   </svg>
-
                   <svg
                     className={css.iconTransactions}
                     width="20px"
@@ -175,9 +205,7 @@ export const Transactions = () => {
       <div className={css.sumSection}>
         <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p className={getBalanceClass()}>
-          <b>Balance: {balance.toFixed(2)}</b>
-        </p>
+        <p className={getBalanceClass()}>Balance: {balance.toFixed(2)}</p>
       </div>
     </div>
   );

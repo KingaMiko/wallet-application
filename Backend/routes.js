@@ -13,12 +13,16 @@ export const setupRoutes = (app) => {
   authRouter.post("/refresh", controllers.authRefresh);
   authRouter.get("/logout", auth, controllers.authLogout);
 
+  rootRouter.get("/categories", auth, controllers.getAllUserCategories);
+  rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
+  rootRouter.post("/categories", auth, controllers.createCategory);
+
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);
-  rootRouter.get("/categories/:id", auth, controllers.getCategory);
   rootRouter.get("/statistics", auth, controllers.getStatistics);
   rootRouter.get("/currencies", auth, controllers.getCurrencies);
   rootRouter.post("/currencies", controllers.updateCurrencies);
+  rootRouter.get("/patterns", controllers.getPatterns);
   rootRouter.patch("/transactions/:id", auth, controllers.updateTransaction);
   rootRouter.delete("/transactions", auth, controllers.deleteTransaction);
 
