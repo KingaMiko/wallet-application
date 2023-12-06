@@ -31,7 +31,7 @@ export const authRefresh = async (req, res, next) => {
         });
       }
 
-      const { id, name } = user;
+      const { id, name, email } = user;
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
         await createTokens({ id, name });
 
