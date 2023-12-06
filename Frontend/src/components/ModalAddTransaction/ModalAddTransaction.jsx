@@ -10,6 +10,7 @@ import css from './ModalAddTransaction.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
+import sprite from '../../images/icons.svg';
 
 export const AddTransactionModal = ({ isOpen, handleClose }) => {
   const initialValues = {
@@ -73,7 +74,9 @@ export const AddTransactionModal = ({ isOpen, handleClose }) => {
             className={css.modal__close}
             onClick={handleCloseAddTransactionModal}
           >
-            x
+            <svg width="16px" height="16px">
+              <use href={`${sprite}#icon-close`}></use>
+            </svg>
           </button>
         </div>
         <div>
@@ -88,7 +91,11 @@ export const AddTransactionModal = ({ isOpen, handleClose }) => {
                   <label className={css.form__checkbox_label}>
                     <span
                       htmlFor="transactionType"
-                      className={css.form__checkbox_label}
+                      className={`${css.form__checkbox_label} ${
+                        values.transactionType === true
+                          ? css.form__checkbox_label_income
+                          : null
+                      }`}
                     >
                       Income
                     </span>
@@ -100,73 +107,96 @@ export const AddTransactionModal = ({ isOpen, handleClose }) => {
                       className={css.form__checkbox_input}
                     />
                     <div className={css.form__checkbox_custom}>
-                      <div className={css.form__slider}></div>
+                      <div className={css.form__slider}>
+                        {values.transactionType === false ? '-' : '+'}
+                      </div>
                     </div>
 
                     <span
                       htmlFor="transactionType"
-                      className={css.form__checkbox_label}
+                      className={`${css.form__checkbox_label} ${
+                        values.transactionType === false
+                          ? css.form__checkbox_label_expense
+                          : null
+                      }`}
                     >
                       Expense
                     </span>
                   </label>
                 </div>
+                <div className={css.form__flex_container}>
+                  {values.transactionType === false && (
+                    <div className={css.form__input}>
+                      <label>
+                        <Field
+                          as="select"
+                          name="category"
+                          className={`${css.form__category} ${
+                            values.category !== ''
+                              ? css.form__category_active
+                              : null
+                          }`}
+                        >
+                          <option hidden value="">
+                            Select a category
+                          </option>
+                          <option value="category1">Main expenses</option>
+                          <option value="category2">Products</option>
+                          <option value="category3">Car</option>
+                          <option value="category4">Self care</option>
+                          <option value="category5">Child care</option>
+                          <option value="category6">Household products</option>
+                          <option value="category7">Education</option>
+                          <option value="category8">Leisure</option>
+                        </Field>
+                        <ErrorMessage name="category" component="div" />
+                      </label>
+                    </div>
+                  )}
 
-                {values.transactionType === false && (
-                  <div className={css.form__input}>
+                  <div className={css.form__input_flex}>
                     <label>
                       <Field
-                        as="select"
-                        name="category"
-                        className={css.form__category}
-                      >
-                        <option disabled value="">
-                          Select a category
-                        </option>
-                        <option value="category1">Main expenses</option>
-                        <option value="category2">Products</option>
-                        <option value="category3">Car</option>
-                        <option value="category4">Self care</option>
-                        <option value="category5">Child care</option>
-                        <option value="category6">Household products</option>
-                        <option value="category7">Education</option>
-                        <option value="category8">Leisure</option>
-                      </Field>
-                      <ErrorMessage name="category" component="div" />
-                    </label>
-                  </div>
-                )}
-
-                <div className={css.form__input_flex}>
-                  <div>
-                    <label>
-                      <Field type="number" name="amount" placeholder="0.00" />
+                        type="number"
+                        name="amount"
+                        placeholder="0.00"
+                        className={css.form__input}
+                      />
                       <ErrorMessage name="amount" component="div" />
                     </label>
-                  </div>
-
-                  <div>
                     <label>
                       <Datetime
                         value={values.date}
                         onChange={date => setFieldValue('date', date)}
+                        className={`${css.form__input} ${css.form__date}`}
+                        dateFormat="YYYY-MM-DD"
+                        timeFormat={false}
                       />
+                      <span className={css.form__date_icon}></span>
                       <ErrorMessage name="date" component="div" />
                     </label>
                   </div>
+                  <div className={css.form__input}>
+                    <label>
+                      <Field
+                        as="input"
+                        type="text"
+                        name="comment"
+                        placeholder="Comment"
+                        className={css.form__input}
+                      />
+                    </label>
+                  </div>
                 </div>
-                <div className={css.form__input}>
-                  <label>
-                    <Field as="textarea" name="comment" placeholder="Comment" />
-                  </label>
-                </div>
-                <Button type="submit" theme="color" disabled={isSubmitting}>
-                  Add
-                </Button>
+                <div className={css.form__btn_container}>
+                  <Button type="submit" theme="color" disabled={isSubmitting}>
+                    Add
+                  </Button>
 
-                <Button type="button" theme="white">
-                  Cancel
-                </Button>
+                  <Button type="button" theme="white">
+                    Cancel
+                  </Button>
+                </div>
               </Form>
             )}
           </Formik>
