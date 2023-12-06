@@ -1,6 +1,10 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { lazy } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { getPatterns } from 'redux/global/operations';
+
 import SharedLayout from 'components/SharedLayout/SharedLayout';
 import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute';
 
@@ -10,6 +14,12 @@ const HomePage = lazy(() => import('pages/Home/Home.jsx'));
 const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPatterns());
+  }, [dispatch]);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
