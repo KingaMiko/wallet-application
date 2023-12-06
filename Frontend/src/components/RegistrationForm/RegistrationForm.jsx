@@ -21,17 +21,28 @@ export const RegistrationForm = () => {
     confirmPassword: '',
   };
 
+  const namePattern = patterns?.namePattern?.pattern
+    ? new RegExp(patterns.namePattern.pattern)
+    : null;
+
+  const passwordPattern = patterns?.passwordPattern?.pattern
+    ? new RegExp(patterns.passwordPattern.pattern)
+    : null;
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .matches(new RegExp(patterns.namePattern.pattern), patterns.namePattern.description)
+      .matches(
+        namePattern,
+        patterns?.namePattern?.description || 'Invalid name format'
+      )
       .required('Name is required')
       .min(3, 'Name should be at least 3 characters')
       .max(20, 'Name should be at most 20 characters'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
       .matches(
-        new RegExp(patterns.passwordPattern.pattern),
-        patterns.passwordPattern.description
+        passwordPattern,
+        patterns?.passwordPattern?.description || 'Invalid password format'
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
