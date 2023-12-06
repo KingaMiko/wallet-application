@@ -1,7 +1,7 @@
 import { LoginForm } from 'components';
 import styles from './AuthPages.module.scss';
 import { ReactComponent as LoginIcon } from 'images/icons/icon-login-page.svg';
-import { Background, Box } from 'components';
+import { Background, Box, Logo } from 'components';
 import { Helmet } from 'react-helmet';
 
 const LoginPage = () => {
@@ -22,7 +22,7 @@ const LoginPage = () => {
 
         <div className={styles['wrapper-form']}>
           <Box>
-            <p>Logo</p>
+            <Logo />
             <LoginForm />
           </Box>
         </div>

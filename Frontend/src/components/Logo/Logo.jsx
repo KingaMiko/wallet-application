@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import css from './Logo.module.scss';
 import sprite from 'images/icons.svg';
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <div className={css.wrapper}>
       <Link to="/home" className={css.logo}>
@@ -15,5 +15,3 @@ const Logo = () => {
     </div>
   );
 };
-
-export default Logo;

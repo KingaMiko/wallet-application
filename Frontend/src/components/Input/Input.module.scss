@@ -1,0 +1,47 @@
+@use 'styles/utils/mixins';
+@import 'styles/utils/vars';
+
+.box {
+  position: relative;
+}
+
+.form-input {
+  width: 280px;
+  border-bottom: 1px solid get-color('gray2');
+  font-family: get-font('primary');
+  font-size: 18px;
+  margin-bottom: 40px;
+  padding-left: 55px;
+  color: get-color('gray5');
+
+  @include mixins.mq(tablet) {
+    width: 410px;
+  }
+
+  &::placeholder {
+    color: get-color('gray3');
+  }
+
+  &:not(:placeholder-shown) {
+    font-weight: 500;
+    color: get-color('black');
+  }
+
+  + svg {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 10px;
+    fill: get-color('gray2');
+    transition: fill 0.3s ease-out;
+  }
+}
+
+.error-message {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  color: get-color('pink4');
+  font-size: 14px;
+  line-height: 1rem;
+}
