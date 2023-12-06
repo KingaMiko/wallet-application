@@ -1,12 +1,20 @@
 @import '../../styles/utils/_vars.scss';
 
+.tableBg {
+  border-radius: 30px;
+  overflow: auto;
+  width: 755px;
+  background-color: rgba(115, 115, 115, 0.043);
+}
+
 .transactionsTable {
   width: 755px;
   border-collapse: collapse;
   line-height: 23.58px;
   color: get-color('black');
-  table-layout: fixed;
+  // table-layout: fixed;
   overflow: hidden;
+  border-radius: 30px;
 }
 
 .transactionsTableHead {
@@ -22,6 +30,18 @@
   text-align: center;
   font-size: get-font-size('primary');
   position: relative;
+}
+
+.thName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+
+  &:hover .iconSort {
+    fill: #172af1;
+    filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+  }
 }
 
 .transactionsTable td {
@@ -51,16 +71,6 @@
 
 .transactionsTable th:not(:last-child):hover {
   cursor: pointer;
-
-  &:hover::after {
-    content: url('../../images/sort.svg');
-    font-size: 10px;
-    color: #172af1;
-    position: absolute;
-    top: 87%;
-    transform: translateY(-50%);
-    right: 45%;
-  }
 }
 
 .sumSection {
@@ -83,4 +93,12 @@ svg {
     fill: #172af1;
     filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
   }
+}
+
+.amountPlus {
+  color: rgb(17, 192, 17);
+}
+
+.amountMinus {
+  color: rgb(255, 0, 0);
 }

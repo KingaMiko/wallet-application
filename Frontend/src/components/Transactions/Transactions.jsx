@@ -51,9 +51,7 @@ export const Transactions = () => {
 
   const handleDelete = index => {
     const updatedTransactions = [...transactions];
-
     updatedTransactions.splice(index, 1);
-
     setTransactions(updatedTransactions);
   };
 
@@ -78,7 +76,16 @@ export const Transactions = () => {
 
   useEffect(() => {
     updateSums();
-  }, [transactions]);
+  });
+  // }, [transactions]);
+
+  const getAmountClass = type => {
+    return type === '+' ? css.amountPlus : type === '-' ? css.amountMinus : '';
+  };
+
+  const getBalanceClass = () => {
+    return balance > 0 ? css.amountPlus : balance < 0 ? css.amountMinus : '';
+  };
 
   return (
     <div>
@@ -87,19 +94,44 @@ export const Transactions = () => {
           <thead className={css.transactionsTableHead}>
             <tr>
               <th onClick={() => handleSort(0)} title="Sort">
-                Date
+                <div className={css.thName}>
+                  <span>Date</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(1)} title="Sort">
-                Type
+                <div className={css.thName}>
+                  <span>Type</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(2)} title="Sort">
-                Category
+                <div className={css.thName}>
+                  <span>Category</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(3)} title="Sort">
-                Comment
+                <div className={css.thName}>
+                  <span>Comment</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(4)} title="Sort">
-                Sum
+                <div className={css.thName}>
+                  <span>Amount</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th>Options</th>
             </tr>
@@ -108,7 +140,14 @@ export const Transactions = () => {
             {transactions.map((transaction, index) => (
               <tr key={index}>
                 {transaction.map((data, dataIndex) => (
-                  <td key={dataIndex}>{data}</td>
+                  <td
+                    key={dataIndex}
+                    className={
+                      dataIndex === 4 ? getAmountClass(transaction[1]) : ''
+                    }
+                  >
+                    {data}
+                  </td>
                 ))}
                 <td>
                   <svg
@@ -136,7 +175,7 @@ export const Transactions = () => {
       <div className={css.sumSection}>
         <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p>
+        <p className={getBalanceClass()}>
           <b>Balance: {balance.toFixed(2)}</b>
         </p>
       </div>
