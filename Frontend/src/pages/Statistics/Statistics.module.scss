@@ -1,14 +1,59 @@
-@import '../../styles/utils/vars';
+@use 'styles/utils/mixins';
+@import 'styles/utils/vars';
 
 body {
-  background-color: #e7eaf2;
   font-family: get-font('secondary');
   font-size: get-font-size('primary');
   color: get-color('brand_color-second');
 }
 
+body::-webkit-scrollbar {
+  width: 0px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.background {
+  @include mixins.mq(tablet) {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: get-color('gray-body');
+
+    &::before {
+      content: url('../../images/bg/bg-pink.svg');
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      z-index: -1;
+      filter: blur(25px);
+    }
+
+    &::after {
+      content: url('../../images/bg/bg-violet.svg');
+      position: absolute;
+      bottom: -7px;
+      left: 0px;
+      z-index: -1;
+      filter: blur(25px);
+    }
+  }
+}
+
+.dashboard_container {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(25px);
+  height: 100vh;
+  width: 100vw;
+}
+
 .container {
-  margin: 120px 16px 40px 16px;
+  padding: 120px 16px 0 16px;
   display: flex;
 }
 
