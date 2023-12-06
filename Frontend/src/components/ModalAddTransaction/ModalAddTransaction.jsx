@@ -12,7 +12,7 @@ import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
 import sprite from '../../images/icons.svg';
 
-export const AddTransactionModal = ({ isOpen, handleClose }) => {
+export const AddTransactionModal = () => {
   const initialValues = {
     transactionType: false,
     amount: '',
