@@ -49,15 +49,23 @@ export const signIn = createAsyncThunk(
   }
 );
 
+const setAuthHeaderFromLocalStorage = () => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  }
+};
+
 /*
- * POST @ /logout
+ * GET @ /logout
  * headers: Authorization: Bearer token
  */
 export const logOut = createAsyncThunk(
   'session/logout',
   async (_, thunkAPI) => {
+    setAuthHeaderFromLocalStorage();
     try {
-      await axios.post('/auth/logout');
+      await axios.get('/auth/logout');
       clearAuthHeader();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
