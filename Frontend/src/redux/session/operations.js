@@ -20,11 +20,6 @@ const setAuthHeaderFromLocalStorage = () => {
   }
 };
 
-//////////// AUTORYZACJA ////////////
-// axios.defaults.withCredentials = true;
-
-//////////// AUTORYZACJA ////////////
-
 /*
  * POST @ /signup
  * body: { name, email, password }
