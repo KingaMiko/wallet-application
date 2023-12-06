@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { auth } from "#plugins/authPlugin.js";
-import * as controllers from "#controllers/index.js";
+import { auth } from "./plugins/authPlugin.js";
+import * as controllers from "./controllers/index.js";
 
 export const setupRoutes = (app) => {
   const rootRouter = Router();
@@ -13,13 +13,14 @@ export const setupRoutes = (app) => {
   authRouter.post("/refresh", controllers.authRefresh);
   authRouter.get("/logout", auth, controllers.authLogout);
 
-  rootRouter.post("/transactions", auth, controllers.addTransaction);
-  rootRouter.get("/transactions", auth, controllers.getTransactions);
-
+    
   rootRouter.get("/categories", auth, controllers.getAllUserCategories);
   rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
   rootRouter.post("/categories", auth, controllers.createCategory);
 
+  rootRouter.post("/transactions", auth, controllers.addTransaction);
+  rootRouter.get("/transactions", auth, controllers.getTransactions);
+  rootRouter.get("/categories/:id", auth, controllers.getCategory);
   rootRouter.get("/statistics", auth, controllers.getStatistics);
   rootRouter.get("/currencies", auth, controllers.getCurrencies);
   rootRouter.post("/currencies", controllers.updateCurrencies);
@@ -33,3 +34,5 @@ export const setupRoutes = (app) => {
   app.use("/api/auth", authRouter);
   app.use("/api/users", usersRouter);
 };
+
+
