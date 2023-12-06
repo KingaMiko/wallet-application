@@ -95,6 +95,7 @@ export const logOut = createAsyncThunk(
 export const refreshUser = createAsyncThunk(
   'session/refresh',
   async (_, thunkAPI) => {
+    // debugger;
     const state = thunkAPI.getState();
     const persistedToken = state.session.token;
 
