@@ -4,6 +4,12 @@ const sessionSchema = {
   refreshToken: {
     type: String,
   },
+  issuedAt: {
+    type: Number,
+  },
+  expireAt: {
+    type: Number,
+  },
 };
 
 const session = new Schema(sessionSchema);
