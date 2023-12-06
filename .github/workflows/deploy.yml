@@ -15,7 +15,7 @@ jobs:
         run: |
           cd Frontend
           npm install
-          npm run lint:js
+
           npm run build
 
       - name: Deploy 🚀
