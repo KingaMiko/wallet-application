@@ -19,6 +19,7 @@ export const setupRoutes = (app) => {
   rootRouter.get("/statistics", auth, controllers.getStatistics);
   rootRouter.get("/currencies", auth, controllers.getCurrencies);
   rootRouter.post("/currencies", controllers.updateCurrencies);
+  rootRouter.get("/patterns", controllers.getPatterns);
 
   usersRouter.get("/current", auth, controllers.getUser);
   usersRouter.get("/verify/:verificationToken", controllers.verifyUser);
