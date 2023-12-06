@@ -30,7 +30,7 @@ export const authRefresh = async (req, res, next) => {
       if (stealedSession) {
         return res.status(400).json({
           statusCode: 400,
-          description: "Attemption of use stealed session refresh token!",
+          description: "Attemption of use refresh token from stealed session!",
         });
       }
 
