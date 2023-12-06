@@ -1,7 +1,11 @@
 import JWT from "jsonwebtoken";
 import { configDotenv } from "dotenv";
 
-import { createTokens, sendRefreshToken } from "#plugins/authPlugin.js";
+import {
+  createTokens,
+  sendRefreshToken,
+  cleanNotValidSessions,
+} from "#plugins/authPlugin.js";
 import User from "#models/user.js";
 import Session from "#models/session.js";
 
@@ -21,6 +25,15 @@ export const authRefresh = async (req, res, next) => {
       const refSecret = process.env.REFRESH_SECRET_KEY;
       const refreshToken = req.cookies.jwt;
 
+      const stealedSession = await Session.findOne({ refreshToken }).lean();
+
+      if (stealedSession) {
+        return res.status(400).json({
+          statusCode: 400,
+          description: "Attemption of use stealed session refresh token!",
+        });
+      }
+
       const decodedRefreshToken = JWT.verify(refreshToken, refSecret);
       const user = await User.findOne({ _id: decodedRefreshToken.id });
 
@@ -39,7 +52,13 @@ export const authRefresh = async (req, res, next) => {
       user.refreshToken = newRefreshToken;
       await user.save();
 
-      sendRefreshToken(res, newRefreshToken);
+      await cleanNotValidSessions();
+
+      const durationMs = sendRefreshToken(res, newRefreshToken);
+      const blacklistedSession = await new Session({ refreshToken });
+      blacklistedSession.issuedAt = decodedRefreshToken.iat;
+      blacklistedSession.expireAt = decodedRefreshToken.iat + durationMs;
+      blacklistedSession.save();
 
       return res.status(200).json({
         statusCode: 200,
