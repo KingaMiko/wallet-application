@@ -5,6 +5,7 @@ import category from "#models/category.js";
  * Gets a specific category by ID, if it belongs to the logged-in user.
  *
  * @security BearerAuth
+
  * @param {string} id.path.required - ID of the category to retrieve
  * @return {ResponseWithDataSchema<Category>} 200 - Success, returns the category
  * @return {ResponseSchema} 400 - Error: Bad Request

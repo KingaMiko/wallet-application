@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'components';
 import css from './Transactions.module.scss';
+import sprite from 'images/icons.svg';
+import axios from 'axios';
 
 const initialTransactions = [
   ['2023-12-04', '-', 'Other', 'Christmas gift', '300.00'],
@@ -49,6 +50,12 @@ export const Transactions = () => {
     setSortOrder({ column, direction });
   };
 
+  const handleDelete = index => {
+    const updatedTransactions = [...transactions];
+    updatedTransactions.splice(index, 1);
+    setTransactions(updatedTransactions);
+  };
+
   const updateSums = () => {
     let totalPlus = 0;
     let totalMinus = 0;
@@ -69,8 +76,47 @@ export const Transactions = () => {
   };
 
   useEffect(() => {
-    updateSums();
-  }, [transactions]);
+    const fetchTransactions = async () => {
+      try {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          console.error('No auth token found');
+          return;
+        }
+
+        const response = await axios.get(
+          'http://localhost:3000/api/transactions',
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+
+        // Przetwarzanie danych transakcji
+        const fetchedTransactions = response.data.data.map(tr => ({
+          date: tr.date ? new Date(tr.date).toLocaleDateString() : '',
+          type: tr.type || '',
+          category: tr.category ? tr.category.toString() : '',
+          comment: tr.comment || '',
+          sum: tr.sum ? tr.sum.toString() : '',
+        }));
+
+        setTransactions(fetchedTransactions);
+      } catch (error) {
+        console.error('Error fetching transactions', error);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+  // }, [transactions]);
+
+  const getAmountClass = type => {
+    return type === '+' ? css.amountPlus : type === '-' ? css.amountMinus : '';
+  };
+
+  const getBalanceClass = () => {
+    return balance > 0 ? css.amountPlus : balance < 0 ? css.amountMinus : '';
+  };
 
   return (
     <div>
@@ -79,19 +125,44 @@ export const Transactions = () => {
           <thead className={css.transactionsTableHead}>
             <tr>
               <th onClick={() => handleSort(0)} title="Sort">
-                Date
+                <div className={css.thName}>
+                  <span>Date</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(1)} title="Sort">
-                Type
+                <div className={css.thName}>
+                  <span>Type</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(2)} title="Sort">
-                Category
+                <div className={css.thName}>
+                  <span>Category</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(3)} title="Sort">
-                Comment
+                <div className={css.thName}>
+                  <span>Comment</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th onClick={() => handleSort(4)} title="Sort">
-                Sum
+                <div className={css.thName}>
+                  <span>Amount</span>
+                  <svg className={css.iconSort} width="20px" height="20px">
+                    <use href={`${sprite}#icon-sort`}></use>
+                  </svg>
+                </div>
               </th>
               <th>Options</th>
             </tr>
@@ -99,26 +170,29 @@ export const Transactions = () => {
           <tbody className={css.transactionsTableBody}>
             {transactions.map((transaction, index) => (
               <tr key={index}>
-                {transaction.map((data, dataIndex) => (
-                  <td key={dataIndex}>{data}</td>
-                ))}
+                <td>{transaction.date}</td>
+                <td className={getAmountClass(transaction.type)}>
+                  {transaction.type}
+                </td>
+                <td>{transaction.category}</td>
+                <td>{transaction.comment}</td>
+                <td>{transaction.sum}</td>
                 <td>
-                  <Button
-                    type="button"
-                    theme="white"
-                    width="80px"
-                    height="40px"
+                  <svg
+                    className={css.iconTransactions}
+                    width="20px"
+                    height="20px"
                   >
-                    Edit
-                  </Button>
-                  <Button
-                    type="button"
-                    theme="color"
-                    width="80px"
-                    height="40px"
+                    <use href={`${sprite}#icon-pencil2`}></use>
+                  </svg>
+                  <svg
+                    className={css.iconTransactions}
+                    width="20px"
+                    height="20px"
+                    onClick={() => handleDelete(index)}
                   >
-                    Delete
-                  </Button>
+                    <use href={`${sprite}#icon-bin`}></use>
+                  </svg>
                 </td>
               </tr>
             ))}
@@ -128,9 +202,7 @@ export const Transactions = () => {
       <div className={css.sumSection}>
         <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p>
-          <b>Balance: {balance.toFixed(2)}</b>
-        </p>
+        <p className={getBalanceClass()}>Balance: {balance.toFixed(2)}</p>
       </div>
     </div>
   );

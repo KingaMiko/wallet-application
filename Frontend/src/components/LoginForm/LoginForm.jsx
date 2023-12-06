@@ -1,17 +1,20 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn } from 'redux/session/operations';
 
 import styles from './LoginForm.module.scss';
-import { Button } from 'components';
+import { Button, Input } from 'components';
 import { passwordPattern } from 'utils/patterns';
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const initialValues = {
-    name: '',
     email: '',
     password: '',
-    confirmPassword: '',
   };
 
   const validationSchema = Yup.object().shape({
@@ -23,11 +26,28 @@ export const LoginForm = () => {
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
-      .max(12, 'Password should be at most 12 characters'),
+      .max(20, 'Password should be at most 20 characters'),
   });
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    alert(JSON.stringify(values));
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const resultAction = await dispatch(
+        signIn({
+          email: values.email,
+          password: values.password,
+        })
+      ).unwrap();
+
+      const token = resultAction.token;
+      localStorage.setItem('authToken', token);
+
+      resetForm();
+      navigate('/home');
+    } catch (error) {
+      console.error('Błąd logowania:', error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -38,43 +58,33 @@ export const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         {() => (
-          <Form className={styles['login-form']}>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="email"
-                name="email"
-                placeholder="E-mail"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="email"
-                component="div"
-              />
-            </div>
-            <div className={styles['box']}>
-              <Field
-                className={styles['form-input']}
-                type="password"
-                name="password"
-                placeholder="Password"
-                autoComplete="off"
-              />
-              <ErrorMessage
-                className={styles['error-message']}
-                name="password"
-                component="div"
-              />
-            </div>
+          <Form className={styles['login-form']} autoComplete="off">
+            <Input
+              type="email"
+              name="email"
+              placeholder="E-mail"
+              iconID="icon-baseline-email"
+            />
 
-            <Button type="button" theme="color">
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              autoComplete="off"
+              iconID="icon-baseline-lock"
+            />
+
+            <Button type="submit" theme="color">
               Log in
             </Button>
-            <Link to="/register">
-              <Button type="submit" theme="white">
-                Register
-              </Button>
-            </Link>
+
+            <Button
+              type="button"
+              theme="white"
+              onClick={() => navigate('/register')}
+            >
+              Register
+            </Button>
           </Form>
         )}
       </Formik>

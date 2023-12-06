@@ -1,9 +1,12 @@
 export * from "./auth/authSignup.js";
 export * from "./auth/authSingin.js";
 export * from "./auth/authLogout.js";
+export * from "./auth/authRefresh.js";
 
 export * from "./transactions/addTransaction.js";
 export * from "./transactions/getTransactions.js";
+export * from "./transactions/updatetransaction.js";
+export * from "./transactions/deleteTransaction.js";
 
 export * from "./categories/getCategories.js";
 export * from "./categories/getCategory.js";
