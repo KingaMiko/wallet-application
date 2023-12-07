@@ -8,6 +8,7 @@ import {
   getAllUserCategories,
   getUserCategoryById,
   createCategory,
+  deleteUserCategory,
 } from './operations';
 
 const handlePending = state => {
@@ -93,6 +94,14 @@ const financeSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.userCategories.push(action.payload.data);
+      })
+      .addCase(deleteUserCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        const index = state.userCategories.findIndex(
+          category => category.id === action.payload.id
+        );
+        state.userCategories.splice(index, 1);
       })
       .addMatcher(isPendingAction, handlePending)
       .addMatcher(isRejectAction, handleRejected);
