@@ -7,7 +7,7 @@
   width: 393px;
   height: 331px;
   border-radius: 30px;
-
+  overflow: hidden;
   overflow-y: auto;
   position: absolute;
 
@@ -17,6 +17,16 @@
     bottom: -30px;
     right: 0px;
   }
+}
+
+.tableBg::-webkit-scrollbar {
+  width: 0px;
+}
+
+.tableBg::-webkit-scrollbar-thumb {
+  // background-color: #7a7a7a;
+  background-color: transparent;
+  // border-radius: 6px;
 }
 
 .currencyTable {
