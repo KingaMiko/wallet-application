@@ -8,19 +8,8 @@ export const CurrencyTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          console.error('No auth token found');
-          return;
-        }
-
         const response = await axios.get(
-          'http://localhost:3000/api/currencies',
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
+          'http://localhost:3000/api/currencies'
         );
 
         setCurrencies(response.data.data.currencies);
