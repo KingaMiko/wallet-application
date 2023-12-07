@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import css from './Transactions.module.scss';
 import sprite from 'images/icons.svg';
 import axios from 'axios';
 
 export const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [, setSums] = useState({ sumPlus: 0, sumMinus: 0, balance: 0 });
   const [sortOrder, setSortOrder] = useState({
     column: null,
     direction: 'asc',
   });
 
-  const calculateSums = () => {
+  const calculateSums = useCallback(() => {
     let sumPlus = 0;
     let sumMinus = 0;
 
@@ -24,7 +25,7 @@ export const Transactions = () => {
     });
 
     return { sumPlus, sumMinus, balance: sumPlus - sumMinus };
-  };
+  }, [transactions]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -51,16 +52,17 @@ export const Transactions = () => {
         ]);
 
         setTransactions(fetchedTransactions);
-        // updateSums(fetchedTransactions);
       } catch (error) {
         console.error('Error fetching transactions', error);
       }
     };
-
     fetchTransactions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // }, [transactions]);
+
+  useEffect(() => {
+    const { sumPlus, sumMinus, balance } = calculateSums();
+    setSums({ sumPlus, sumMinus, balance });
+  }, [transactions, calculateSums]);
 
   const getAmountClass = type => {
     return type === 'Income'
