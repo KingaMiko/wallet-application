@@ -5,7 +5,7 @@ import {
   bodyParserPlugin,
   loggerPlugin,
   authPlugin,
-  swaggerPlugin
+  swaggerPlugin,
 } from "./plugins/index.js";
 import { setupRoutes } from "./routes.js";
 import { notFoundError, internalError } from "./controllers/errors/index.js";
@@ -15,8 +15,8 @@ dotenv.config();
 
 const app = express();
 loggerPlugin(app);
-authPlugin(app);
 corsPlugin(app);
+authPlugin(app);
 bodyParserPlugin(app);
 setupRoutes(app);
 swaggerPlugin(app);

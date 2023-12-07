@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 
 // axios.defaults.baseURL = 'backend';
 axios.defaults.baseURL = 'http://localhost:3000/api';
+axios.defaults.withCredentials = true;
 
 const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -11,13 +12,6 @@ const setAuthHeader = token => {
 
 const clearAuthHeader = () => {
   axios.defaults.headers.common.Authorization = '';
-};
-
-const setAuthHeaderFromLocalStorage = () => {
-  const token = localStorage.getItem('authToken');
-  if (token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  }
 };
 
 /*
@@ -49,7 +43,7 @@ export const signIn = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const res = await axios.post('/auth/signin', credentials);
-      setAuthHeader(res.token);
+      setAuthHeader(res.data.token);
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
@@ -68,8 +62,6 @@ export const signIn = createAsyncThunk(
 export const logOut = createAsyncThunk(
   'session/logout',
   async (_, thunkAPI) => {
-    setAuthHeaderFromLocalStorage();
-
     try {
       await axios.get('/auth/logout');
       clearAuthHeader();
@@ -102,9 +94,21 @@ export const refreshUser = createAsyncThunk(
       const res = await axios.get('/users/current');
 
       res.data.token = persistedToken;
-      
+
       return res.data;
     } catch (error) {
+      const message = error.response.data.description;
+
+      if (message === 'Access expired') {
+        const checkThis = await axios.post('/auth/refresh');
+
+        if (checkThis.data.token) {
+          setAuthHeader(checkThis.data.token);
+
+          return checkThis.data;
+        }
+      }
+
       return thunkAPI.rejectWithValue(error.message);
     }
   }
