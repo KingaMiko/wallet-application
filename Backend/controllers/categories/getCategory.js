@@ -1,8 +1,7 @@
 import category from "#models/category.js";
 
 /**
- * GET /api/categories/{id}
- * Gets a specific category by ID, if it belongs to the logged-in user.
+ * GET /api/auth/categories/{id}
  *
  * @security BearerAuth
 
