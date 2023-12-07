@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectIsAuth } from 'redux/session/selectors';
 
-export const PrivateRoute = ({ children }) => {
-  const isAuth = useSelector(selectIsAuth);
+import { useAuth } from 'hooks/useAuth';
 
-  if (!isAuth) {
-    return <Navigate to="/login" />;
+export const PrivateRoute = ({ navigateTo, children }) => {
+  const { isAuth, isRefreshing } = useAuth();
+
+  if (!isAuth && !isRefreshing) {
+    return <Navigate to={navigateTo} />;
   }
 
   return children;
