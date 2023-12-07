@@ -102,3 +102,19 @@ export const getAllUserCategories = createAsyncThunk(
     }
   }
 );
+
+export const getUserCategoryById = createAsyncThunk(
+  'finance/getUserCategoryById',
+  async (categoryID, thunkAPI) => {
+    try {
+      const res = await axios.get(`/categories/${categoryID}`);
+      // toast do testów, wykasować później
+      toast.success('Success!');
+      return res.data;
+    } catch (error) {
+      const errorMessage = error.response.data.description;
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
