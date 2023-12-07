@@ -7,7 +7,7 @@ import { updateUser } from "#helpers/transactionHelper.js";
  * @property {string} category - category of transaction
  * @property {number} sum - sum of transaction
  * @property {string} comment - comment of transaction
- * @property {date} date.required - date of transaction
+ * @property {Date} date.required - date of transaction
  */
 
 /**
