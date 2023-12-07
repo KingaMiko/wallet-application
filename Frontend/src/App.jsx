@@ -1,15 +1,16 @@
+import { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Suspense, useEffect } from 'react';
-import { lazy } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getPatterns } from 'redux/global/operations';
 import { refreshUser } from 'redux/session/operations';
-// import { useAuth } from './hooks/useAuth';
-// import Loader from 'components/Loader/Loader';
 
+import { useAuth } from './hooks/useAuth';
+
+import Loader from 'components/Loader/Loader';
 import SharedLayout from 'components/SharedLayout/SharedLayout';
 import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute';
+import { RestrictedRoute } from 'components/RestrictedRoute/RestrictedRoute';
 
 const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
@@ -18,17 +19,17 @@ const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  // const { isRefreshing } = useAuth();
+
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
     dispatch(refreshUser());
     dispatch(getPatterns());
   }, [dispatch]);
 
-  // return isRefreshing ? (
-  //   <Loader />
-  // ) : (
-  return (
+  return isRefreshing ? (
+    <Loader />
+  ) : (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
@@ -36,7 +37,7 @@ export const App = () => {
           <Route
             path="home"
             element={
-              <PrivateRoute>
+              <PrivateRoute navigateTo="/login">
                 <HomePage />
               </PrivateRoute>
             }
@@ -44,13 +45,27 @@ export const App = () => {
           <Route
             path="statistics"
             element={
-              <PrivateRoute>
+              <PrivateRoute navigateTo="/login">
                 <StatisticsPage />
               </PrivateRoute>
             }
           />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
+          <Route
+            path="login"
+            element={
+              <RestrictedRoute navigateTo="/home">
+                <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <RestrictedRoute navigateTo="/home">
+                <RegisterPage />
+              </RestrictedRoute>
+            }
+          />
         </Route>
       </Routes>
     </Suspense>
