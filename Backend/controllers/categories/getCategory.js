@@ -12,7 +12,7 @@ import category from "#models/category.js";
  */
 export const getUserCategoryById = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id; // ID zalogowanego użytkownika
+  const userId = req.user.id;
   try {
     const result = await category.findOne({ _id: id, owner: userId });
 
