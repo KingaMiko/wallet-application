@@ -8,43 +8,51 @@ import { updateUser } from "#helpers/transactionHelper.js";
  */
 
 /**
- * DELETE /api/transactions
+ * DELETE /api/transactions/{id}
  *
  * @security BearerAuth
- * @param {Id} request.body.required
- * @return {ResponseWithDataSchema} 201 - Success
+ * @param {string} id.path.required - ID of the transaction to delete
+ * @return {ResponseSchema} 200 - Success, transaction deleted
  * @return {ResponseSchema} 403 - No authorization
  * @return {ResponseSchema} 400 - Error: Bad Request
+ * @return {ResponseSchema} 404 - Not Found, transaction not found
  */
 
 export const deleteTransaction = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const ownerId = req.user.id;
-  const ourTransaction = await transaction.findOne({ _id: id });
-  const ourUser = await User.findOne({ _id: ownerId });
 
   try {
-    if (ownerId === ourTransaction.owner.toString()) {
-      if (ourTransaction.type === "Income") {
-        const userBalance = await updateUser(ourUser.id, {
-          balance: ourUser.balance - ourTransaction.sum,
-        });
-      } else if (ourTransaction.type === "Expense") {
-        const userBalance = await updateUser(ourUser.id, {
-          balance: ourUser.balance + ourTransaction.sum,
-        });
-      }
-      const result = await transaction.findByIdAndDelete(id);
+    const ourTransaction = await transaction.findOne({
+      _id: id,
+      owner: ownerId,
+    });
+    if (!ourTransaction) {
+      return res.status(404).json({ description: "Transaction not found" });
+    }
 
-      return res.status(200).json({
-        statusCode: 200,
-        description: "Transaction deleted",
-        data: result,
+    const ourUser = await User.findById(ownerId);
+    if (!ourUser) {
+      return res.status(404).json({ description: "User not found" });
+    }
+
+    // Adjust user's balance
+    if (ourTransaction.type === "Income") {
+      await updateUser(ourUser.id, {
+        balance: ourUser.balance - ourTransaction.sum,
+      });
+    } else if (ourTransaction.type === "Expense") {
+      await updateUser(ourUser.id, {
+        balance: ourUser.balance + ourTransaction.sum,
       });
     }
-    return res
-      .status(403)
-      .json({ description: "You dont have permision to do that" });
+
+    // Delete the transaction
+    await transaction.findByIdAndDelete(id);
+    return res.status(200).json({
+      statusCode: 200,
+      description: "Transaction deleted",
+    });
   } catch (error) {
     return res.status(400).json({ description: error.message });
   }
