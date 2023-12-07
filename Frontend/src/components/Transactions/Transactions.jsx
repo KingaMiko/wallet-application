@@ -115,10 +115,9 @@ export const Transactions = () => {
       }
 
       const response = await axios.delete(
-        `http://localhost:3000/api/transactions`,
+        `http://localhost:3000/api/transactions/${transactionId}`,
         {
           headers: { Authorization: `Bearer ${authToken}` },
-          data: { id: transactionId },
         }
       );
 
