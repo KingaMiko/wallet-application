@@ -8,9 +8,7 @@ export const CurrencyTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/currencies'
-        );
+        const response = await axios.get('/currencies');
 
         setCurrencies(response.data.data.currencies);
       } catch (error) {
@@ -20,7 +18,6 @@ export const CurrencyTable = () => {
 
     fetchData();
   }, []);
-  // }, [authToken]); Obecnie fetchData jest wywoływana tylko raz. Jeśli token ulegnie zmianie, można ponownie załadować dane.
 
   return (
     <div className={css.tableBg}>
