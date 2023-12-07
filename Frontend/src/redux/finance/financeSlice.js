@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTransactions, addTransaction } from './operations';
+import {
+  getTransactions,
+  addTransaction,
+  deleteTransaction,
+} from './operations';
 
 const handlePending = state => {
   state.isLoading = true;
@@ -36,6 +40,14 @@ const financeSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.transactions.push(action.payload.data);
+      })
+      .addCase(deleteTransaction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        const index = state.items.findIndex(
+          transaction => transaction.id === action.payload.id
+        );
+        state.transactions.splice(index, 1);
       })
       .addMatcher(isPendingAction, handlePending)
       .addMatcher(isRejectAction, handleRejected);
