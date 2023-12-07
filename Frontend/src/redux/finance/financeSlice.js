@@ -4,6 +4,7 @@ import {
   addTransaction,
   deleteTransaction,
   updateTransaction,
+  getStatistics,
 } from './operations';
 
 const handlePending = state => {
@@ -27,6 +28,7 @@ const initialState = {
   isLoading: false,
   error: false,
   transactions: [],
+  statistics: null,
 };
 
 const financeSlice = createSlice({
@@ -62,6 +64,11 @@ const financeSlice = createSlice({
         if (index !== -1) {
           state.transactions[index] = editedTransaction;
         }
+      })
+      .addCase(getStatistics.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.statistics = action.payload.data;
       })
       .addMatcher(isPendingAction, handlePending)
       .addMatcher(isRejectAction, handleRejected);
