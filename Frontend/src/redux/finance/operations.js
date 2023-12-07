@@ -52,3 +52,21 @@ export const deleteTransaction = createAsyncThunk(
     }
   }
 );
+
+export const updateTransaction = createAsyncThunk(
+  'finance/updateTransaction',
+  async ({ transactionID, ...transactionDetails }, thunkAPI) => {
+    try {
+      const res = await axios.patch(`/transactions/${transactionID}`, {
+        ...transactionDetails,
+      });
+      // toast do testów, wykasować później
+      toast.success('Success!');
+      return res.data;
+    } catch (error) {
+      const errorMessage = error.response.data.description;
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);

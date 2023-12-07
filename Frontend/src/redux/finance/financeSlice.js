@@ -3,6 +3,7 @@ import {
   getTransactions,
   addTransaction,
   deleteTransaction,
+  updateTransaction,
 } from './operations';
 
 const handlePending = state => {
@@ -48,6 +49,17 @@ const financeSlice = createSlice({
           transaction => transaction.id === action.payload.id
         );
         state.transactions.splice(index, 1);
+      })
+      .addCase(updateTransaction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        const editedTransaction = action.payload;
+        const index = state.transactions.findIndex(
+          transaction => transaction.id === editedTransaction.id
+        );
+        if (index !== -1) {
+          state.transactions[index] = editedTransaction;
+        }
       })
       .addMatcher(isPendingAction, handlePending)
       .addMatcher(isRejectAction, handleRejected);
