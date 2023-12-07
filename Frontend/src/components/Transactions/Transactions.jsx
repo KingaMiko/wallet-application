@@ -26,14 +26,13 @@ export const Transactions = () => {
           }
         );
 
-        // Przetwarzanie danych transakcji
-        const fetchedTransactions = response.data.data.map(tr => ({
-          date: tr.date ? new Date(tr.date).toLocaleDateString() : '',
-          type: tr.type || '',
-          category: tr.category ? tr.category.toString() : '',
-          comment: tr.comment || '',
-          sum: tr.sum ? tr.sum.toString() : '',
-        }));
+        const fetchedTransactions = response.data.data.map(tr => [
+          tr.date ? new Date(tr.date).toLocaleDateString() : '',
+          tr.type || '',
+          tr.category ? tr.category.toString() : '',
+          tr.comment || '',
+          tr.sum ? tr.sum.toString() : '',
+        ]);
 
         setTransactions(fetchedTransactions);
         // updateSums(fetchedTransactions);
@@ -105,7 +104,7 @@ export const Transactions = () => {
 
       if (response.status === 200) {
         const updatedTransactions = transactions.filter(
-          transaction => transaction._id !== transactionId
+          transaction => transaction[5] !== transactionId
         );
         setTransactions(updatedTransactions);
       } else {
@@ -168,12 +167,12 @@ export const Transactions = () => {
           <tbody className={css.transactionsTableBody}>
             {transactions.map((transaction, index) => (
               <tr key={index}>
-                <td>{transaction.date}</td>
-                <td>{transaction.type}</td>
-                <td>{transaction.category}</td>
-                <td>{transaction.comment}</td>
-                <td className={getAmountClass(transaction.type)}>
-                  {transaction.sum}
+                <td>{transaction[0]}</td>
+                <td>{transaction[1]}</td>
+                <td>{transaction[2]}</td>
+                <td>{transaction[3]}</td>
+                <td className={getAmountClass(transaction[1])}>
+                  {transaction[4]}
                 </td>
                 <td>
                   <svg
