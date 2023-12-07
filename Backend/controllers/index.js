@@ -11,6 +11,7 @@ export * from "./transactions/deleteTransaction.js";
 export * from "./categories/getCategories.js";
 export * from "./categories/getCategory.js";
 export * from "./categories/createCategory.js";
+export * from "./categories/deleteCategory.js";
 
 export * from "./statistics/getStatistics.js";
 
