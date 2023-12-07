@@ -1,8 +1,17 @@
-import cors from "cors";
 import express from "express";
+import cors from "cors";
+import { configDotenv } from "dotenv";
 
 export const corsPlugin = (app) => {
-  app.use(cors());
+  configDotenv();
+
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+      optionsSuccessStatus: 200,
+    })
+  );
 };
 
 export const bodyParserPlugin = (app) => {

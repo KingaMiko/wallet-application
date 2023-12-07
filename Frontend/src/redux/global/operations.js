@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'http://localhost:3000/api';
-
 export const getPatterns = createAsyncThunk(
   'global/getPatterns',
   async (_, thunkAPI) => {

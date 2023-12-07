@@ -54,10 +54,10 @@ export const authRefresh = async (req, res, next) => {
 
       await cleanNotValidSessions();
 
-      const durationMs = sendRefreshToken(res, newRefreshToken);
+      sendRefreshToken(res, newRefreshToken);
       const blacklistedSession = await new Session({ refreshToken });
       blacklistedSession.issuedAt = decodedRefreshToken.iat;
-      blacklistedSession.expireAt = decodedRefreshToken.iat + durationMs;
+      blacklistedSession.expireAt = decodedRefreshToken.exp;
       blacklistedSession.save();
 
       return res.status(200).json({

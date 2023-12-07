@@ -30,18 +30,7 @@ export const Transactions = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          console.error('No auth token found');
-          return;
-        }
-
-        const response = await axios.get(
-          'http://localhost:3000/api/transactions',
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-          }
-        );
+        const response = await axios.get('/transactions');
 
         const fetchedTransactions = response.data.data.map(tr => {
           return {

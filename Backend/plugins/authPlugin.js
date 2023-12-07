@@ -1,6 +1,6 @@
 import JWT from "jsonwebtoken";
 import passport from "passport";
-import cookieparser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { config } from "dotenv";
 
@@ -36,7 +36,7 @@ export const authPlugin = (app) => {
       }
     })
   );
-  app.use(cookieparser());
+  app.use(cookieParser());
 };
 
 export const createTokens = async (
@@ -63,11 +63,10 @@ export const createTokens = async (
 export const sendRefreshToken = (res, refreshToken, numOfDays = 1) => {
   const durationMs = numOfDays * 24 * 60 * 60 * 1000;
 
-  res.cookie("jwt", refreshToken, {
+  res.status(200).cookie("jwt", refreshToken, {
     httpOnly: true,
-    sameSite: "None",
-    secure: true,
     maxAge: durationMs,
+    secure: true,
   });
 
   return durationMs;
