@@ -84,9 +84,8 @@ const financeSlice = createSlice({
       .addCase(getUserCategoryById.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        const categoryID = action.payload.data;
         const index = state.userCategories.findIndex(
-          category => category.id === categoryID.id
+          category => category.id === action.payload.data.id
         );
         state.categoryDetails = state.userCategories[index];
       })
