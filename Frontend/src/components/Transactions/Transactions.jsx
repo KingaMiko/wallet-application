@@ -3,30 +3,64 @@ import css from './Transactions.module.scss';
 import sprite from 'images/icons.svg';
 import axios from 'axios';
 
-const initialTransactions = [
-  ['2023-12-04', '-', 'Other', 'Christmas gift', '300.00'],
-  ['2023-12-05', '+', 'Income', 'Salary', '5000.00'],
-  ['2023-12-07', '+', 'Income', 'Painting walls', '1000.00'],
-  ['2023-12-10', '-', 'Products', 'Grocery', '400.00'],
-  ['2023-12-15', '-', 'Bills', 'Rent', '2500.00'],
-  ['2023-12-15', '-', 'Bills', 'Phone', '180.00'],
-];
-
 export const Transactions = () => {
-  const [transactions, setTransactions] = useState(initialTransactions);
+  const [transactions, setTransactions] = useState([]);
   const [sortOrder, setSortOrder] = useState({
     column: null,
     direction: 'asc',
   });
-  const [sumPlus, setSumPlus] = useState(0);
-  const [sumMinus, setSumMinus] = useState(0);
-  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          console.error('No auth token found');
+          return;
+        }
+
+        const response = await axios.get(
+          'http://localhost:3000/api/transactions',
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+
+        const fetchedTransactions = response.data.data.map(tr => [
+          tr.date ? new Date(tr.date).toLocaleDateString() : '',
+          tr.type || '',
+          tr.category ? tr.category.toString() : '',
+          tr.comment || '',
+          tr.sum ? tr.sum.toString() : '',
+        ]);
+
+        setTransactions(fetchedTransactions);
+        // updateSums(fetchedTransactions);
+      } catch (error) {
+        console.error('Error fetching transactions', error);
+      }
+    };
+
+    fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // }, [transactions]);
+
+  const getAmountClass = type => {
+    return type === 'Income'
+      ? css.amountPlus
+      : type === 'Expense'
+      ? css.amountMinus
+      : '';
+  };
 
   const handleSort = column => {
     const direction =
       column === sortOrder.column && sortOrder.direction === 'asc'
         ? 'desc'
         : 'asc';
+
+    console.log(transactions);
 
     const sortedTransactions = [...transactions].sort((a, b) => {
       let valueA = column === 4 ? parseFloat(a[column]) : a[column];
@@ -46,79 +80,39 @@ export const Transactions = () => {
         : -1;
     });
 
+    console.log(sortedTransactions);
+
     setTransactions(sortedTransactions);
     setSortOrder({ column, direction });
   };
 
-  const handleDelete = index => {
-    const updatedTransactions = [...transactions];
-    updatedTransactions.splice(index, 1);
-    setTransactions(updatedTransactions);
-    updateSums(updatedTransactions);
-  };
-
-  const updateSums = () => {
-    let totalPlus = 0;
-    let totalMinus = 0;
-
-    transactions.forEach(transaction => {
-      const amount = parseFloat(transaction[4]);
-      if (transaction[1] === '+') {
-        totalPlus += amount;
-      } else if (transaction[1] === '-') {
-        totalMinus += amount;
+  const handleDelete = async transactionId => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      if (!authToken) {
+        console.error('No auth token found');
+        return;
       }
-    });
 
-    setSumPlus(totalPlus);
-    setSumMinus(totalMinus);
-
-    setBalance(totalPlus - totalMinus);
-  };
-
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          console.error('No auth token found');
-          return;
+      const response = await axios.delete(
+        `http://localhost:3000/api/transactions`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+          data: { id: transactionId },
         }
+      );
 
-        const response = await axios.get(
-          'http://localhost:3000/api/transactions',
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-          }
+      if (response.status === 200) {
+        const updatedTransactions = transactions.filter(
+          transaction => transaction[5] !== transactionId
         );
-
-        // Przetwarzanie danych transakcji
-        const fetchedTransactions = response.data.data.map(tr => ({
-          date: tr.date ? new Date(tr.date).toLocaleDateString() : '',
-          type: tr.type || '',
-          category: tr.category ? tr.category.toString() : '',
-          comment: tr.comment || '',
-          sum: tr.sum ? tr.sum.toString() : '',
-        }));
-
-        setTransactions(fetchedTransactions);
-        updateSums(fetchedTransactions);
-      } catch (error) {
-        console.error('Error fetching transactions', error);
+        setTransactions(updatedTransactions);
+      } else {
+        console.error('Error deleting transaction');
       }
-    };
-
-    fetchTransactions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  // }, [transactions]);
-
-  const getAmountClass = type => {
-    return type === '+' ? css.amountPlus : type === '-' ? css.amountMinus : '';
-  };
-
-  const getBalanceClass = () => {
-    return balance > 0 ? css.amountPlus : balance < 0 ? css.amountMinus : '';
+    } catch (error) {
+      console.error('Error deleting transaction', error);
+    }
   };
 
   return (
@@ -173,13 +167,13 @@ export const Transactions = () => {
           <tbody className={css.transactionsTableBody}>
             {transactions.map((transaction, index) => (
               <tr key={index}>
-                <td>{transaction.date}</td>
-                <td className={getAmountClass(transaction.type)}>
-                  {transaction.type}
+                <td>{transaction[0]}</td>
+                <td>{transaction[1]}</td>
+                <td>{transaction[2]}</td>
+                <td>{transaction[3]}</td>
+                <td className={getAmountClass(transaction[1])}>
+                  {transaction[4]}
                 </td>
-                <td>{transaction.category}</td>
-                <td>{transaction.comment}</td>
-                <td>{transaction.sum}</td>
                 <td>
                   <svg
                     className={css.iconTransactions}
@@ -192,7 +186,7 @@ export const Transactions = () => {
                     className={css.iconTransactions}
                     width="20px"
                     height="20px"
-                    onClick={() => handleDelete(index)}
+                    onClick={() => handleDelete(transaction._id)}
                   >
                     <use href={`${sprite}#icon-bin`}></use>
                   </svg>
@@ -203,9 +197,9 @@ export const Transactions = () => {
         </table>
       </div>
       <div className={css.sumSection}>
-        <p>Incomes: {sumPlus.toFixed(2)}</p>
+        {/* <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p className={getBalanceClass()}>Balance: {balance.toFixed(2)}</p>
+        <p className={getBalanceClass()}>Balance: {balance.toFixed(2)}</p> */}
       </div>
     </div>
   );
