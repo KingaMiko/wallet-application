@@ -1,14 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import css from './Transactions.module.scss';
 import sprite from 'images/icons.svg';
 import axios from 'axios';
 
 export const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [, setSums] = useState({ sumPlus: 0, sumMinus: 0, balance: 0 });
   const [sortOrder, setSortOrder] = useState({
     column: null,
     direction: 'asc',
   });
+
+  const calculateSums = useCallback(() => {
+    let sumPlus = 0;
+    let sumMinus = 0;
+
+    transactions.forEach(transaction => {
+      const amount = parseFloat(transaction[4]);
+      if (transaction[1] === 'Income') {
+        sumPlus += amount;
+      } else if (transaction[1] === 'Expense') {
+        sumMinus += amount;
+      }
+    });
+
+    return { sumPlus, sumMinus, balance: sumPlus - sumMinus };
+  }, [transactions]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -35,16 +52,17 @@ export const Transactions = () => {
         ]);
 
         setTransactions(fetchedTransactions);
-        // updateSums(fetchedTransactions);
       } catch (error) {
         console.error('Error fetching transactions', error);
       }
     };
-
     fetchTransactions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // }, [transactions]);
+
+  useEffect(() => {
+    const { sumPlus, sumMinus, balance } = calculateSums();
+    setSums({ sumPlus, sumMinus, balance });
+  }, [transactions, calculateSums]);
 
   const getAmountClass = type => {
     return type === 'Income'
@@ -85,6 +103,8 @@ export const Transactions = () => {
     setTransactions(sortedTransactions);
     setSortOrder({ column, direction });
   };
+
+  const { sumPlus, sumMinus, balance } = calculateSums();
 
   const handleDelete = async transactionId => {
     try {
@@ -197,9 +217,9 @@ export const Transactions = () => {
         </table>
       </div>
       <div className={css.sumSection}>
-        {/* <p>Incomes: {sumPlus.toFixed(2)}</p>
+        <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p className={getBalanceClass()}>Balance: {balance.toFixed(2)}</p> */}
+        <p>Balance: {balance.toFixed(2)}</p>
       </div>
     </div>
   );
