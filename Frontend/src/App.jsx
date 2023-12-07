@@ -2,15 +2,15 @@ import { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
+import {
+  Loader,
+  SharedLayout,
+  PrivateRoute,
+  RestrictedRoute,
+} from 'components/';
 import { getPatterns } from 'redux/global/operations';
 import { refreshUser } from 'redux/session/operations';
-
 import { useAuth } from './hooks/useAuth';
-
-import Loader from 'components/Loader/Loader';
-import SharedLayout from 'components/SharedLayout/SharedLayout';
-import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute';
-import { RestrictedRoute } from 'components/RestrictedRoute/RestrictedRoute';
 
 const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
@@ -19,7 +19,6 @@ const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
   const dispatch = useDispatch();
-
   const { isRefreshing } = useAuth();
 
   useEffect(() => {

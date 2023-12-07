@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast';
 
 import Header from 'components/Header/Header';
 
-const SharedLayout = () => {
+export const SharedLayout = () => {
   const location = useLocation();
 
   const showHeader = !['/login', '/register'].includes(location.pathname);
@@ -17,5 +17,3 @@ const SharedLayout = () => {
     </>
   );
 };
-
-export default SharedLayout;
