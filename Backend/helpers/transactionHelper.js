@@ -25,9 +25,34 @@ export const findTransactions = (ownerId, month, year) => {
         },
       },
     },
+    {
+      $lookup: {
+        from: "categories", // Upewnij się, że nazwa kolekcji kategorii jest poprawna
+        localField: "category",
+        foreignField: "_id",
+        as: "categoryData",
+      },
+    },
+    {
+      $unwind: {
+        path: "$categoryData",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        type: 1,
+        category: "$categoryData.name", // Zamienia 'category' na 'name' z 'categoryData'
+        sum: 1,
+        comment: 1,
+        date: 1,
+        owner: 1,
+      },
+    },
     { $sort: { date: -1 } },
   ]);
 };
+
 export const getIncome = (ownerId, month, year) => {
   return transaction.aggregate([
     {

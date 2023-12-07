@@ -3,13 +3,16 @@ import { model, Schema } from "mongoose";
 const categorySchema = new Schema({
   name: {
     type: String,
-    required: [true, "Category name is required"],
+    required: [true, "Name is required"],
   },
-  description: String,
-  thumbUrl: String,
+
+  thumbUrl: {
+    type: String,
+    default: "default-thumbnail-url.jpg",
+  },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true,
   },
 });
