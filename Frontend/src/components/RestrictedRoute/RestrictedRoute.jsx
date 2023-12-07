@@ -3,10 +3,10 @@ import { Navigate } from 'react-router-dom';
 
 import { useAuth } from 'hooks/useAuth';
 
-export const PrivateRoute = ({ navigateTo, children }) => {
+export const RestrictedRoute = ({ navigateTo, children }) => {
   const { isAuth, isRefreshing } = useAuth();
 
-  if (!isAuth && !isRefreshing) {
+  if (isAuth && !isRefreshing) {
     return <Navigate to={navigateTo} />;
   }
 
