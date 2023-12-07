@@ -35,6 +35,8 @@ const financeSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getTransactions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
         state.transactions = action.payload.data;
       })
       .addCase(addTransaction.fulfilled, (state, action) => {
