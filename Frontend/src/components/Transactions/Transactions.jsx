@@ -10,6 +10,22 @@ export const Transactions = () => {
     direction: 'asc',
   });
 
+  const calculateSums = () => {
+    let sumPlus = 0;
+    let sumMinus = 0;
+
+    transactions.forEach(transaction => {
+      const amount = parseFloat(transaction[4]);
+      if (transaction[1] === 'Income') {
+        sumPlus += amount;
+      } else if (transaction[1] === 'Expense') {
+        sumMinus += amount;
+      }
+    });
+
+    return { sumPlus, sumMinus, balance: sumPlus - sumMinus };
+  };
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -85,6 +101,8 @@ export const Transactions = () => {
     setTransactions(sortedTransactions);
     setSortOrder({ column, direction });
   };
+
+  const { sumPlus, sumMinus, balance } = calculateSums();
 
   const handleDelete = async transactionId => {
     try {
@@ -197,9 +215,9 @@ export const Transactions = () => {
         </table>
       </div>
       <div className={css.sumSection}>
-        {/* <p>Incomes: {sumPlus.toFixed(2)}</p>
+        <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p className={getBalanceClass()}>Balance: {balance.toFixed(2)}</p> */}
+        <p>Balance: {balance.toFixed(2)}</p>
       </div>
     </div>
   );
