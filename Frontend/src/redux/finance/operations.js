@@ -70,3 +70,19 @@ export const updateTransaction = createAsyncThunk(
     }
   }
 );
+
+export const getStatistics = createAsyncThunk(
+  'finance/getStatistics',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get('/statistics');
+      // toast do testów, wykasować później
+      toast.success('Success!');
+      return res.data;
+    } catch (error) {
+      const errorMessage = error.response.data.description;
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
