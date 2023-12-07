@@ -30,9 +30,7 @@ export const Transactions = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/transactions'
-        );
+        const response = await axios.get('/transactions');
 
         const fetchedTransactions = response.data.data.map(tr => [
           tr.date ? new Date(tr.date).toLocaleDateString() : '',
