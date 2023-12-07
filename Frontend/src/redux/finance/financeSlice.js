@@ -1,6 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getTransactions, addTransaction } from './operations';
 
+const handlePending = state => {
+  state.isLoading = true;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
+
+const isPendingAction = action => {
+  return action.type.endsWith('/pending');
+};
+
+const isRejectAction = action => {
+  return action.type.endsWith('/rejected');
+};
+
 const initialState = {
   isLoading: false,
   error: false,
@@ -15,25 +32,13 @@ const financeSlice = createSlice({
       .addCase(getTransactions.fulfilled, (state, action) => {
         state.transactions = action.payload.data;
       })
-      .addCase(getTransactions.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(getTransactions.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
       .addCase(addTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
         state.transactions.push(action.payload.data);
       })
-      .addCase(addTransaction.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(addTransaction.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
+      .addMatcher(isPendingAction, handlePending)
+      .addMatcher(isRejectAction, handleRejected);
   },
 });
 
