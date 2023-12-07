@@ -1,5 +1,4 @@
 import category from "#models/category.js";
-import transaction from "#models/transaction.js";
 
 /**
  * DELETE /api/auth/categories/{id}
