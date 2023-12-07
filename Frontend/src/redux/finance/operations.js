@@ -20,3 +20,19 @@ export const getTransactions = createAsyncThunk(
     }
   }
 );
+
+export const addTransaction = createAsyncThunk(
+  'finance/addTransaction',
+  async (transaction, thunkAPI) => {
+    try {
+      const res = await axios.post('/transactions', transaction);
+      // toast do testów, wykasować później
+      toast.success('Success!');
+      return res.data;
+    } catch (error) {
+      const errorMessage = error.response.data.description;
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);

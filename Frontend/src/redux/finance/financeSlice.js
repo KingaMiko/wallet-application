@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTransactions } from './operations';
+import { getTransactions, addTransaction } from './operations';
 
 const initialState = {
   isLoading: false,
@@ -19,6 +19,18 @@ const financeSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getTransactions.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(addTransaction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.transactions.push(action.payload.data);
+      })
+      .addCase(addTransaction.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(addTransaction.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
