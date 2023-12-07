@@ -43,13 +43,16 @@ export const Transactions = () => {
           }
         );
 
-        const fetchedTransactions = response.data.data.map(tr => [
-          tr.date ? new Date(tr.date).toLocaleDateString() : '',
-          tr.type || '',
-          tr.category ? tr.category.toString() : '',
-          tr.comment || '',
-          tr.sum ? tr.sum.toString() : '',
-        ]);
+        const fetchedTransactions = response.data.data.map(tr => {
+          return {
+            id: tr._id,
+            date: tr.date ? new Date(tr.date).toLocaleDateString() : '',
+            type: tr.type || '',
+            category: tr.category ? tr.category.toString() : '',
+            comment: tr.comment || '',
+            sum: tr.sum ? tr.sum.toString() : '',
+          };
+        });
 
         setTransactions(fetchedTransactions);
       } catch (error) {
@@ -123,7 +126,7 @@ export const Transactions = () => {
 
       if (response.status === 200) {
         const updatedTransactions = transactions.filter(
-          transaction => transaction[5] !== transactionId
+          transaction => transaction.id !== transactionId
         );
         setTransactions(updatedTransactions);
       } else {
@@ -184,14 +187,14 @@ export const Transactions = () => {
             </tr>
           </thead>
           <tbody className={css.transactionsTableBody}>
-            {transactions.map((transaction, index) => (
-              <tr key={index}>
-                <td>{transaction[0]}</td>
-                <td>{transaction[1]}</td>
-                <td>{transaction[2]}</td>
-                <td>{transaction[3]}</td>
-                <td className={getAmountClass(transaction[1])}>
-                  {transaction[4]}
+            {transactions.map(transaction => (
+              <tr key={transaction.id}>
+                <td>{transaction.date}</td>
+                <td>{transaction.type}</td>
+                <td>{transaction.category}</td>
+                <td>{transaction.comment}</td>
+                <td className={getAmountClass(transaction.type)}>
+                  {transaction.sum}
                 </td>
                 <td>
                   <svg
@@ -205,7 +208,7 @@ export const Transactions = () => {
                     className={css.iconTransactions}
                     width="20px"
                     height="20px"
-                    onClick={() => handleDelete(transaction._id)}
+                    onClick={() => handleDelete(transaction.id)}
                   >
                     <use href={`${sprite}#icon-bin`}></use>
                   </svg>
