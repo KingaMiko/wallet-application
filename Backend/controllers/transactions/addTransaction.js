@@ -4,7 +4,7 @@ import { updateUser } from "#helpers/transactionHelper.js";
 /**
  * @typedef {object} Transaction
  * @property {string} type.required - type of transaction
- * @property {string} category - category of transaction
+ * @property {string} category - ObjectId of the transaction category from MongoDB
  * @property {number} sum - sum of transaction
  * @property {string} comment - comment of transaction
  * @property {date} date.required - date of transaction
