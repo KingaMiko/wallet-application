@@ -1,8 +1,7 @@
 import category from "#models/category.js";
 
 /**
- * GET /api/categories
- * Gets all categories associated with the logged-in user.
+ * GET /api/auth/categories
  *
  * @security BearerAuth
  * @return {ResponseWithDataSchema<Category[]>} 200 - Success, returns user's categories
