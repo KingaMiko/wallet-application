@@ -1,9 +1,9 @@
-import { Transactions } from 'components/Transactions/Transactions';
+import { Transactions } from 'components/TransactionsManager/Transactions/Transactions';
 import css from './Home.module.scss';
 import { CurrencyTable } from 'components/CurrencyTable/CurrencyTable';
 import { Balance } from 'components/Balance/Balance';
 import Navigation from 'components/Navigation/Navigation';
-import { AddTransactionModal } from 'components/ModalAddTransaction/ModalAddTransaction';
+import { AddTransactionModal } from 'components/TransactionsManager/ModalAddTransaction/ModalAddTransaction';
 //import React, { useState } from 'react';
 import React from 'react';
 import { ButtonAddTransactions } from 'components/ButtonAddTransactions/ButtonAddTransactions';

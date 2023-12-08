@@ -12,7 +12,7 @@ import css from './ModalAddTransaction.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
-import sprite from '../../images/icons.svg';
+import sprite from '../../../images/icons.svg';
 
 export const AddTransactionModal = () => {
   const initialValues = {
