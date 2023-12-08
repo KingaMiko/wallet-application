@@ -128,7 +128,7 @@ export const createCategory = createAsyncThunk(
       toast.success('Success!');
       return res.data;
     } catch (error) {
-      const errorMessage = error.response.data.message;
+      const errorMessage = error.response.data.description;
       toast.error(errorMessage);
       return thunkAPI.rejectWithValue(errorMessage);
     }
