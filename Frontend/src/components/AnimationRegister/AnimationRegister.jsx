@@ -17,11 +17,11 @@ export const AnimationRegister = () => {
       opacity: 1,
       transition: {
         duration: 0.3,
-        // ease: 'easeOut',
-        type: 'spring',
-        stiffness: 100,
-        damping: 10,
-        delay: 0.3,
+        ease: 'easeOut',
+        // type: 'spring',
+        // stiffness: 100,
+        // damping: 10,
+        // delay: 0.3,
       },
     },
   };
