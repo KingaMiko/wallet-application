@@ -35,7 +35,7 @@ export const LoginForm = () => {
     try {
       const { email, password } = values;
 
-      dispatch(signIn({ email, password })).unwrap();
+      await dispatch(signIn({ email, password })).unwrap();
       resetForm();
     } catch (error) {
       console.error('Login fail:', error);
