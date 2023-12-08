@@ -9,7 +9,7 @@ export const corsPlugin = (app) => {
 
   app.use(
     cors({
-      origin: "*",
+      origin: originsArray,
       credentials: true,
       optionsSuccessStatus: 200,
     })

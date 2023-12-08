@@ -101,17 +101,8 @@ export const Transactions = () => {
 
   const handleDelete = async transactionId => {
     try {
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        console.error('No auth token found');
-        return;
-      }
-
       const response = await walletInstance.delete(
-        `http://localhost:3000/api/transactions/${transactionId}`,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
+        `/transactions/${transactionId}`
       );
 
       if (response.status === 200) {

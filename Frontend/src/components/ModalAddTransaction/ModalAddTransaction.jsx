@@ -1,10 +1,11 @@
 import * as Yup from 'yup';
-import axios from 'axios';
+
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
 import 'react-datetime/css/react-datetime.css';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { walletInstance } from 'utils/api';
 
 import { Button } from 'components';
 import css from './ModalAddTransaction.module.scss';
@@ -49,18 +50,7 @@ export const AddTransactionModal = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          console.error('No auth token found');
-          return;
-        }
-
-        const response = await axios.get(
-          'http://localhost:3000/api/auth/categories',
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-          }
-        );
+        const response = await walletInstance.get('/categories');
 
         const fetchedCategories = response.data.data;
         setCategories(fetchedCategories);
@@ -91,13 +81,8 @@ export const AddTransactionModal = () => {
       };
 
       console.log(valuesToSend);
-      const response = await axios.post(
-        'http://localhost:3000/api/transactions',
-        valuesToSend,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
+
+      const response = await walletInstance.post('/transactions', valuesToSend);
 
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
