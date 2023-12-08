@@ -58,6 +58,7 @@ export const LoginForm = () => {
               name="email"
               placeholder="E-mail"
               iconID="icon-baseline-email"
+              title="Enter your name"
             />
 
             <Input
@@ -66,6 +67,7 @@ export const LoginForm = () => {
               placeholder="Password"
               autoComplete="off"
               iconID="icon-baseline-lock"
+              title="Enter your password"
             />
 
             <Button type="submit" theme="color">

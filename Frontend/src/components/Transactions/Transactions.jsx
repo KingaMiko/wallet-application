@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import css from './Transactions.module.scss';
 import sprite from 'images/icons.svg';
-import axios from 'axios';
+
+import { walletInstance } from 'utils/api';
 
 export const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
@@ -30,7 +31,7 @@ export const Transactions = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get('/transactions');
+        const response = await walletInstance.get('/transactions');
 
         const fetchedTransactions = response.data.data.map(tr => {
           return {
@@ -106,7 +107,7 @@ export const Transactions = () => {
         return;
       }
 
-      const response = await axios.delete(
+      const response = await walletInstance.delete(
         `http://localhost:3000/api/transactions/${transactionId}`,
         {
           headers: { Authorization: `Bearer ${authToken}` },

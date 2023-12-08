@@ -1,7 +1,7 @@
 import category from "#models/category.js";
 
 /**
- * DELETE /api/auth/categories/{id}
+ * DELETE /api/categories/{id}
  *
  * @security BearerAuth
  * @param {string} id.path.required - ID of the category to delete

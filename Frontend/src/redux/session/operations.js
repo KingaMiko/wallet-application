@@ -1,17 +1,14 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-hot-toast';
 
-// axios.defaults.baseURL = 'backend';
-axios.defaults.baseURL = 'http://localhost:3000/api';
-axios.defaults.withCredentials = true;
+import { walletInstance } from 'utils/api';
 
 const setAuthHeader = token => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  walletInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = '';
+  walletInstance.defaults.headers.common.Authorization = '';
 };
 
 /*
@@ -22,7 +19,7 @@ export const signUp = createAsyncThunk(
   'session/signup',
   async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/auth/signup', credentials);
+      const res = await walletInstance.post('/auth/signup', credentials);
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
@@ -42,7 +39,7 @@ export const signIn = createAsyncThunk(
   'session/signin',
   async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/auth/signin', credentials);
+      const res = await walletInstance.post('/auth/signin', credentials);
       setAuthHeader(res.data.token);
       // toast do testów, wykasować później
       toast.success('Success!');
@@ -63,7 +60,7 @@ export const logOut = createAsyncThunk(
   'session/logout',
   async (_, thunkAPI) => {
     try {
-      await axios.get('/auth/logout');
+      await walletInstance.get('/auth/logout');
       clearAuthHeader();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -87,7 +84,7 @@ export const refreshUser = createAsyncThunk(
 
     try {
       setAuthHeader(persistedToken);
-      const res = await axios.get('/users/current');
+      const res = await walletInstance.get('/users/current');
 
       res.data.token = persistedToken;
 
@@ -96,7 +93,7 @@ export const refreshUser = createAsyncThunk(
       const message = error.response.data.description;
 
       if (message === 'Access expired') {
-        const checkThis = await axios.post('/auth/refresh');
+        const checkThis = await walletInstance.post('/auth/refresh');
 
         if (checkThis.data.token) {
           setAuthHeader(checkThis.data.token);

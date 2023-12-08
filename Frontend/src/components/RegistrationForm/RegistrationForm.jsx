@@ -65,6 +65,7 @@ export const RegistrationForm = () => {
               name="name"
               placeholder="First name"
               iconID="icon-baseline-account_box"
+              title="Enter your name (3 to 20 characters)"
             />
 
             <Input
@@ -72,6 +73,7 @@ export const RegistrationForm = () => {
               name="email"
               placeholder="E-mail"
               iconID="icon-baseline-email"
+              title="Provide a valid email address"
             />
 
             <Input
@@ -80,6 +82,7 @@ export const RegistrationForm = () => {
               placeholder="Password"
               autoComplete="off"
               iconID="icon-baseline-lock"
+              title="Password (6 to 20 characters, must include one capital letter, a number and a special character)"
             />
 
             <Input
@@ -88,6 +91,7 @@ export const RegistrationForm = () => {
               placeholder="Confirm password"
               autoComplete="off"
               iconID="icon-baseline-lock"
+              title="Confirm your password (must match the above password)"
             />
 
             <Button type="submit" theme="color">
