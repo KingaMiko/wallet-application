@@ -36,7 +36,10 @@ const globalSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getPatterns.rejected, state => {
-        state.patterns = null;
+        state.patterns = {
+          passwordPattern: { pattern: '', description: '' },
+          namePattern: { pattern: '', description: '' },
+        };
         state.isLoading = false;
       });
   },
