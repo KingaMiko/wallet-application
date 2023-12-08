@@ -14,7 +14,7 @@ import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
 import sprite from '../../../images/icons.svg';
 
-export const AddTransactionModal = () => {
+export const AddTransactionModal = ({ addTransaction }) => {
   const initialValues = {
     type: false,
     sum: '',
@@ -43,10 +43,6 @@ export const AddTransactionModal = () => {
     selectIsModalAddTransactionOpen
   );
 
-  const handleCloseAddTransactionModal = () => {
-    dispatch(setIsModalAddTransactionOpen(false));
-  };
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -60,6 +56,10 @@ export const AddTransactionModal = () => {
     };
     fetchCategories();
   }, []);
+
+  const handleCloseAddTransactionModal = () => {
+    dispatch(setIsModalAddTransactionOpen(false));
+  };
 
   const handleSubmit = async (
     values,
@@ -78,10 +78,10 @@ export const AddTransactionModal = () => {
 
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
+        addTransaction(response.data);
         resetForm();
         toast.success('Transaction added successfully!');
       } else {
-        console.error('Error adding transaction:', response.statusText);
         toast.error('Error adding transaction. Please try again.');
       }
     } catch (error) {

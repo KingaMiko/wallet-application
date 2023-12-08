@@ -4,8 +4,7 @@ import sprite from 'images/icons.svg';
 
 import { walletInstance } from 'utils/api';
 
-export const Transactions = () => {
-  const [transactions, setTransactions] = useState([]);
+export const Transactions = ({ transactions, deleteTransaction }) => {
   const [, setSums] = useState({ sumPlus: 0, sumMinus: 0, balance: 0 });
   const [sortOrder, setSortOrder] = useState({
     column: null,
@@ -29,30 +28,6 @@ export const Transactions = () => {
   }, [transactions]);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await walletInstance.get('/transactions');
-
-        const fetchedTransactions = response.data.data.map(tr => {
-          return {
-            id: tr._id,
-            date: tr.date ? new Date(tr.date).toLocaleDateString() : '',
-            type: tr.type || '',
-            category: tr.category ? tr.category.toString() : '',
-            comment: tr.comment || '',
-            sum: tr.sum ? tr.sum.toString() : '',
-          };
-        });
-
-        setTransactions(fetchedTransactions);
-      } catch (error) {
-        console.error('Error fetching transactions', error);
-      }
-    };
-    fetchTransactions();
-  }, []);
-
-  useEffect(() => {
     const { sumPlus, sumMinus, balance } = calculateSums();
     setSums({ sumPlus, sumMinus, balance });
   }, [transactions, calculateSums]);
@@ -65,37 +40,37 @@ export const Transactions = () => {
       : '';
   };
 
-  const handleSort = column => {
+  const handleSort = sortColumn => {
     const direction =
-      column === sortOrder.column && sortOrder.direction === 'asc'
+      sortColumn === sortOrder.column && sortOrder.direction === 'asc'
         ? 'desc'
         : 'asc';
-
-    console.log(transactions);
-
-    const sortedTransactions = [...transactions].sort((a, b) => {
-      let valueA = column === 4 ? parseFloat(a[column]) : a[column];
-      let valueB = column === 4 ? parseFloat(b[column]) : b[column];
-
-      if (column === 0) {
-        valueA = new Date(valueA);
-        valueB = new Date(valueB);
-      }
-
-      return direction === 'asc'
-        ? valueA > valueB
-          ? 1
-          : -1
-        : valueA < valueB
-        ? 1
-        : -1;
-    });
-
-    console.log(sortedTransactions);
-
-    setTransactions(sortedTransactions);
-    setSortOrder({ column, direction });
+    setSortOrder({ column: sortColumn, direction });
   };
+
+  // Sortowanie transakcji
+  const sortedTransactions = [...transactions].sort((a, b) => {
+    let valueA, valueB;
+    if (sortOrder.column === 4) {
+      valueA = parseFloat(a.sum);
+      valueB = parseFloat(b.sum);
+    } else if (sortOrder.column === 0) {
+      valueA = new Date(a.date);
+      valueB = new Date(b.date);
+    } else {
+      // Użyj odpowiednich kluczy obiektu transakcji
+      valueA = a[sortOrder.column];
+      valueB = b[sortOrder.column];
+    }
+
+    return sortOrder.direction === 'asc'
+      ? valueA > valueB
+        ? 1
+        : -1
+      : valueA < valueB
+      ? 1
+      : -1;
+  });
 
   const { sumPlus, sumMinus, balance } = calculateSums();
 
@@ -104,12 +79,8 @@ export const Transactions = () => {
       const response = await walletInstance.delete(
         `/transactions/${transactionId}`
       );
-
       if (response.status === 200) {
-        const updatedTransactions = transactions.filter(
-          transaction => transaction.id !== transactionId
-        );
-        setTransactions(updatedTransactions);
+        deleteTransaction(transactionId);
       } else {
         console.error('Error deleting transaction');
       }
@@ -168,8 +139,8 @@ export const Transactions = () => {
             </tr>
           </thead>
           <tbody className={css.transactionsTableBody}>
-            {transactions.map(transaction => (
-              <tr key={transaction.id}>
+            {sortedTransactions.map((transaction, index) => (
+              <tr key={index}>
                 <td>{transaction.date}</td>
                 <td>{transaction.type}</td>
                 <td>{transaction.category}</td>
