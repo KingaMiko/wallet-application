@@ -27,9 +27,18 @@ const globalSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(getPatterns.fulfilled, (state, action) => {
-      state.patterns = action.payload;
-    });
+    builder
+      .addCase(getPatterns.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(getPatterns.fulfilled, (state, action) => {
+        state.patterns = action.payload.data.patterns;
+        state.isLoading = false;
+      })
+      .addCase(getPatterns.rejected, state => {
+        state.patterns = null;
+        state.isLoading = false;
+      });
   },
 });
 
