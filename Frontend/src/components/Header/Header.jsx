@@ -6,7 +6,8 @@ import css from './Header.module.css';
 import { selectIsAuth, selectUser } from 'redux/session/selectors';
 import { logOut } from 'redux/session/operations';
 import { Logo } from 'components/Logo/Logo';
-import axios from 'axios';
+
+import { walletInstance } from 'utils/api';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Header = () => {
   };
 
   const clearAuthHeader = () => {
-    axios.defaults.headers.common.Authorization = '';
+    walletInstance.defaults.headers.common.Authorization = '';
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import css from './CurrencyTable.module.scss';
+
+import { walletInstance } from 'utils/api';
 
 export const CurrencyTable = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -8,7 +9,7 @@ export const CurrencyTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/currencies');
+        const response = await walletInstance.get('/currencies');
 
         setCurrencies(response.data.data.currencies);
       } catch (error) {
