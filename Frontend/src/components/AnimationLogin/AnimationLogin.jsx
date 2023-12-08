@@ -71,7 +71,14 @@ export const AnimationLogin = () => {
       </div>
 
       <div className={styles['icon-card']}>
-        <IconCard />
+        <motion.div
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, delay: 0.1 }}
+        >
+          <IconCard />
+        </motion.div>
       </div>
     </div>
   );
