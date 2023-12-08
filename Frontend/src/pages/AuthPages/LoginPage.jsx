@@ -1,6 +1,5 @@
 import { LoginForm } from 'components';
 import styles from './AuthPages.module.scss';
-// import { ReactComponent as LoginIcon } from 'images/icons/icon-login-page.svg';
 import { Background, Box, Logo, AnimationLogin } from 'components';
 import { Helmet } from 'react-helmet';
 
