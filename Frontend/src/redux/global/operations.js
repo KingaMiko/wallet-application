@@ -1,4 +1,4 @@
-import axios from 'axios';
+//import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getPatterns = createAsyncThunk(
@@ -8,7 +8,7 @@ export const getPatterns = createAsyncThunk(
       //const res = await axios.get('/patterns');
       throw Error("error");
 
-      return res.data;
+      //return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
