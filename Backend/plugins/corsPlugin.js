@@ -5,7 +5,7 @@ import { configDotenv } from "dotenv";
 export const corsPlugin = (app) => {
   configDotenv();
 
-  const originsArray = process.env.CORS_ORIGIN.split(" ");
+  const originsArray = process.env.CORS_ORIGINS.split(" ");
 
   app.use(
     cors({
