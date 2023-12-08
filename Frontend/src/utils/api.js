@@ -1,6 +1,10 @@
 import axios from 'axios';
+import { BASE_URL } from '../config';
 
-import { BASE_URL } from '../../config';
-
-axios.defaults.baseURL = BASE_URL;
-axios.defaults.withCredentials = true;
+export const walletInstance = axios.create({
+  baseURL: BASE_URL || 'http://localhost:3000/api',
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
