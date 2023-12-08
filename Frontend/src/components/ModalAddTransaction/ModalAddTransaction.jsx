@@ -1,7 +1,8 @@
-import React from 'react';
 import * as Yup from 'yup';
+import axios from 'axios';
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
 import 'react-datetime/css/react-datetime.css';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 
@@ -14,20 +15,26 @@ import sprite from '../../images/icons.svg';
 
 export const AddTransactionModal = () => {
   const initialValues = {
-    transactionType: false,
-    amount: '',
+    type: false,
+    sum: '',
     category: '',
     date: new Date(),
     comment: '',
   };
 
+  const [categories, setCategories] = useState([]);
+
   const validationSchema = Yup.object().shape({
-    amount: Yup.number()
+    type: Yup.boolean(),
+    sum: Yup.number()
       .typeError('Amount must be a number')
       .required('Amount is required')
       .positive('Amount must be a positive number'),
     date: Yup.date().required('Date is required'),
-    category: Yup.string().required('Category is required'),
+    category: Yup.string().when('type', (type, schema) => {
+      return type === false ? schema.required('Category is required') : schema;
+    }),
+    comment: Yup.string(),
   });
 
   const dispatch = useDispatch();
@@ -36,20 +43,72 @@ export const AddTransactionModal = () => {
   );
 
   const handleCloseAddTransactionModal = () => {
-    console.log('Closing AddTransactionModal');
-
     dispatch(setIsModalAddTransactionOpen(false));
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          console.error('No auth token found');
+          return;
+        }
+
+        const response = await axios.get(
+          'http://localhost:3000/api/auth/categories',
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+
+        const fetchedCategories = response.data.data;
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error('Error fetching categories', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (
     values,
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      console.log('Form values:', values); // Trzeba zmienić na dodanie transakcji w API
-      resetForm();
-      toast.success('Transaction added successfully!');
+      const authToken = localStorage.getItem('authToken');
+      if (!authToken) {
+        console.error('No auth token found');
+        return;
+      }
+      console.log(values);
+      const valuesToSend = {
+        sum: values.sum,
+        date: values.date.toISOString().split('T')[0],
+        type: values.type ? 'Income' : 'Expense',
+        ...(values.type === false && { category: values.category }),
+        comment: values.comment,
+      };
+
+      console.log(valuesToSend);
+      const response = await axios.post(
+        'http://localhost:3000/api/transactions',
+        valuesToSend,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log('Transaction added successfully!', response.data);
+        resetForm();
+        toast.success('Transaction added successfully!');
+      } else {
+        console.error('Error adding transaction:', response.statusText);
+        toast.error('Error adding transaction. Please try again.');
+      }
     } catch (error) {
+      console.error('Validation error:', error);
       if (error instanceof Yup.ValidationError) {
         const errors = {};
         error.inner.forEach(e => {
@@ -85,14 +144,21 @@ export const AddTransactionModal = () => {
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
           >
-            {({ isSubmitting, handleSubmit, setFieldValue, values }) => (
+            {({
+              isSubmitting,
+              handleSubmit,
+              setFieldValue,
+              values,
+              setValues,
+              setErrors,
+            }) => (
               <Form onSubmit={handleSubmit}>
                 <div className={css.form__checkbox_container}>
                   <label className={css.form__checkbox_label}>
                     <span
-                      htmlFor="transactionType"
+                      htmlFor="type"
                       className={`${css.form__checkbox_label} ${
-                        values.transactionType === true
+                        values.type === true
                           ? css.form__checkbox_label_income
                           : null
                       }`}
@@ -102,20 +168,27 @@ export const AddTransactionModal = () => {
 
                     <Field
                       type="checkbox"
-                      name="transactionType"
-                      id="transactionType"
+                      name="type"
+                      id="type"
+                      onClick={() => {
+                        setValues({
+                          ...initialValues,
+                          type: values.type,
+                        });
+                        setErrors({});
+                      }}
                       className={css.form__checkbox_input}
                     />
                     <div className={css.form__checkbox_custom}>
                       <div className={css.form__slider}>
-                        {values.transactionType === false ? '-' : '+'}
+                        {values.type === false ? '-' : '+'}
                       </div>
                     </div>
 
                     <span
-                      htmlFor="transactionType"
+                      htmlFor="type"
                       className={`${css.form__checkbox_label} ${
-                        values.transactionType === false
+                        values.type === false
                           ? css.form__checkbox_label_expense
                           : null
                       }`}
@@ -125,7 +198,7 @@ export const AddTransactionModal = () => {
                   </label>
                 </div>
                 <div className={css.form__flex_container}>
-                  {values.transactionType === false && (
+                  {values.type === false && (
                     <div className={css.form__input}>
                       <label>
                         <Field
@@ -140,14 +213,11 @@ export const AddTransactionModal = () => {
                           <option hidden value="">
                             Select a category
                           </option>
-                          <option value="category1">Main expenses</option>
-                          <option value="category2">Products</option>
-                          <option value="category3">Car</option>
-                          <option value="category4">Self care</option>
-                          <option value="category5">Child care</option>
-                          <option value="category6">Household products</option>
-                          <option value="category7">Education</option>
-                          <option value="category8">Leisure</option>
+                          {categories.map(category => (
+                            <option key={category._id} value={category._id}>
+                              {category.name}
+                            </option>
+                          ))}
                         </Field>
                         <ErrorMessage name="category" component="div" />
                       </label>
@@ -158,11 +228,11 @@ export const AddTransactionModal = () => {
                     <label>
                       <Field
                         type="number"
-                        name="amount"
+                        name="sum"
                         placeholder="0.00"
                         className={css.form__input}
                       />
-                      <ErrorMessage name="amount" component="div" />
+                      <ErrorMessage name="sum" component="div" />
                     </label>
                     <label>
                       <Datetime
@@ -193,7 +263,11 @@ export const AddTransactionModal = () => {
                     Add
                   </Button>
 
-                  <Button type="button" theme="white">
+                  <Button
+                    type="button"
+                    theme="white"
+                    onClick={handleCloseAddTransactionModal}
+                  >
                     Cancel
                   </Button>
                 </div>

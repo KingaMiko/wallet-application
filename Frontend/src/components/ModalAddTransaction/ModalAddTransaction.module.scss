@@ -164,3 +164,11 @@
     margin-bottom: 40px;
   }
 }
+.error-message {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  color: get-color('pink4');
+  font-size: 14px;
+  line-height: 1rem;
+}
