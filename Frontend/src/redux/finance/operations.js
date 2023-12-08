@@ -2,9 +2,6 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-hot-toast';
 
-// axios.defaults.baseURL = 'backend';
-axios.defaults.baseURL = 'http://localhost:3000/api';
-
 export const getTransactions = createAsyncThunk(
   'finance/getTransactions',
   async (_, thunkAPI) => {
