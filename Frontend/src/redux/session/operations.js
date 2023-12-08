@@ -65,12 +65,8 @@ export const logOut = createAsyncThunk(
     try {
       await axios.get('/auth/logout');
       clearAuthHeader();
-      // toast do testów, wykasować później
-      toast.success('Success!');
     } catch (error) {
-      const errorMessage = error.response.data.description;
-      toast.error(errorMessage);
-      return thunkAPI.rejectWithValue(errorMessage);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
