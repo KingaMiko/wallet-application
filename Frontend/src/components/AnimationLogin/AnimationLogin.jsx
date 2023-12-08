@@ -53,23 +53,21 @@ export const AnimationLogin = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.2, delay: 0.4 }}
         >
           <IconCash />
         </motion.div>
       </div>
-
       <div className={styles['icon-basket']}>
         <motion.div
           initial={{ opacity: 0, scale: 1.2 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.2, delay: 0.2 }}
         >
           <IconBasket />
         </motion.div>
       </div>
-
       <div className={styles['icon-card']}>
         <motion.div
           initial={{ opacity: 0, scale: 1.1 }}
