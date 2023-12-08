@@ -1,10 +1,7 @@
 import { RegistrationForm } from 'components';
 import styles from './AuthPages.module.scss';
-import { ReactComponent as RegisterIcon } from 'images/icons/icon-register-page.svg';
-import { Background, Box, Logo } from 'components';
+import { Background, Box, Logo, AnimationRegister } from 'components';
 import { Helmet } from 'react-helmet';
-
-import { AnimationRegister } from '../../components/AnimationRegister/AnimationRegister';
 
 const RegisterPage = () => {
   return (
