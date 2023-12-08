@@ -1,7 +1,7 @@
 import category from "#models/category.js";
 
 /**
- * GET /api/auth/categories/{id}
+ * GET /api/categories/{id}
  *
  * @security BearerAuth
 

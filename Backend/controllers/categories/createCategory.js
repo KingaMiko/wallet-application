@@ -8,7 +8,7 @@ import User from "#models/user.js";
  */
 
 /**
- * POST /api/auth/categories
+ * POST /api/categories
  *
  * @security BearerAuth
  * @param {CategoryCreate} request.body.required - Category data
