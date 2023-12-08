@@ -66,12 +66,6 @@ export const AddTransactionModal = () => {
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        console.error('No auth token found');
-        return;
-      }
-      console.log(values);
       const valuesToSend = {
         sum: values.sum,
         date: values.date.toISOString().split('T')[0],
@@ -79,8 +73,6 @@ export const AddTransactionModal = () => {
         ...(values.type === false && { category: values.category }),
         comment: values.comment,
       };
-
-      console.log(valuesToSend);
 
       const response = await walletInstance.post('/transactions', valuesToSend);
 
