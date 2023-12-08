@@ -31,7 +31,11 @@ export const ModalLogout = () => {
               Yes
             </Button>
 
-            <Button type="button" theme="white">
+            <Button
+              type="button"
+              theme="white"
+              onClick={handleCloseModalLogout}
+            >
               No
             </Button>
           </div>

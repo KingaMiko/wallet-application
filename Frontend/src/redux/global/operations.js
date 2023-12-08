@@ -8,7 +8,7 @@ export const getPatterns = createAsyncThunk(
     try {
       const res = await walletInstance.get('/patterns');
 
-      return res.data.data.patterns;
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

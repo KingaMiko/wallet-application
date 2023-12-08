@@ -21,19 +21,11 @@ export const RegistrationForm = () => {
     confirmPassword: '',
   };
 
-  const namePattern = patterns?.namePattern?.pattern
-    ? new RegExp(patterns.namePattern.pattern)
-    : null;
-
-  const passwordPattern = patterns?.passwordPattern?.pattern
-    ? new RegExp(patterns.passwordPattern.pattern)
-    : null;
-
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(
-        namePattern,
-        patterns?.namePattern?.description || 'Invalid name format'
+        new RegExp(patterns.namePattern.pattern),
+        patterns.namePattern.description
       )
       .required('Name is required')
       .min(3, 'Name should be at least 3 characters')
@@ -41,8 +33,8 @@ export const RegistrationForm = () => {
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
       .matches(
-        passwordPattern,
-        patterns?.passwordPattern?.description || 'Invalid password format'
+        new RegExp(patterns.passwordPattern.pattern),
+        patterns.passwordPattern.description
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
@@ -52,14 +44,10 @@ export const RegistrationForm = () => {
       .required('Confirm password is required'),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    dispatch(
-      signUp({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      })
-    );
+  const handleSubmit = (values, { resetForm }) => {
+    const { name, email, password } = values;
+
+    dispatch(signUp({ name, email, password }));
     resetForm();
   };
 

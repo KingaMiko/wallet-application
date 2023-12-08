@@ -1,5 +1,23 @@
 import { configDotenv } from "dotenv";
 import { createTransport } from "nodemailer";
+import fs from "fs";
+import path from "path";
+import handlebars from "handlebars";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const loadTemplate = (templateName, data) => {
+  const filePath = path.join(
+    __dirname,
+    "..",
+    "templates",
+    `${templateName}.hbs`
+  );
+  const source = fs.readFileSync(filePath, "utf-8");
+  const template = handlebars.compile(source);
+  return template(data);
+};
 
 configDotenv();
 
@@ -20,15 +38,16 @@ export const sendVerificationMail = async (
 ) => {
   const verificationLink = `${process.env.BASE_URL}/users/verify/${token}`;
 
+  const emailContent = loadTemplate("verificationEmail", {
+    verificationUrl: verificationLink,
+    username: username,
+  });
+
   const message = {
     from: "welcome.to.your.wallet@gmail.com",
     to,
     subject: "Wallet App: New User Verification",
-    text:
-      "Hello " +
-      username +
-      "!\n\nClick to verification link to verify your new account:\n\n" +
-      verificationLink,
+    html: emailContent,
   };
 
   await createTransport(server).sendMail(message);

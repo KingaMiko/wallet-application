@@ -18,18 +18,14 @@ export const LoginForm = () => {
     email: '',
     password: '',
   };
-  const passwordPattern = patterns?.passwordPattern?.pattern
-    ? new RegExp(patterns.passwordPattern.pattern)
-    : null;
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
       .matches(
-        passwordPattern,
-        patterns?.passwordPattern?.description || 'Invalid password format'
+        new RegExp(patterns.passwordPattern.pattern),
+        patterns.passwordPattern.description
       )
-
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
       .max(20, 'Password should be at most 20 characters'),
@@ -37,20 +33,12 @@ export const LoginForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const resultAction = await dispatch(
-        signIn({
-          email: values.email,
-          password: values.password,
-        })
-      ).unwrap();
+      const { email, password } = values;
 
-      const token = resultAction.token;
-      localStorage.setItem('authToken', token);
-
+      dispatch(signIn({ email, password })).unwrap();
       resetForm();
-      navigate('/home');
     } catch (error) {
-      console.error('Błąd logowania:', error);
+      console.error('Login fail:', error);
     } finally {
       setSubmitting(false);
     }

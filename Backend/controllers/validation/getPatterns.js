@@ -7,7 +7,7 @@ import patterns from "#utils/regexPatterns.json" assert { type: "json" };
  * @return {ResponseSchema} 400 - Error
  */
 
-export const getPatterns = async (req, res, next) => {
+export const getPatterns = (req, res, next) => {
   try {
     return res.status(200).json({
       statusCode: 200,
