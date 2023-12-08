@@ -121,14 +121,14 @@ export const getUserCategoryById = createAsyncThunk(
 
 export const createCategory = createAsyncThunk(
   'finance/createCategory',
-  async (category, thunkAPI) => {
+  async ({ name, userId }, thunkAPI) => {
     try {
-      const res = await axios.post('/categories', category);
+      const res = await axios.post('/categories', { name, userId });
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
     } catch (error) {
-      const errorMessage = error.response.data.description;
+      const errorMessage = error.response.data.message;
       toast.error(errorMessage);
       return thunkAPI.rejectWithValue(errorMessage);
     }
