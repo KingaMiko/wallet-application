@@ -3,17 +3,27 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 
 export const corsPlugin = (app) => {
-  configDotenv();
+  const corsOptionsDelegate = (req, callback) => {
+    configDotenv();
 
-  const originsArray = process.env.CORS_ORIGINS.split(" ");
-
-  app.use(
-    cors({
-      origin: originsArray,
+    const allowedArray = process.env.ALLOWED_DOMAINS.split(" ");
+    const currOrigin = req.header("Origin");
+    const currOriginIndex = allowedArray.indexOf(currOrigin);
+    const corsOptions = {
       credentials: true,
       optionsSuccessStatus: 200,
-    })
-  );
+    };
+
+    if (currOriginIndex !== -1) {
+      corsOptions.origin = true;
+    } else {
+      corsOptions.origin = false;
+    }
+
+    callback(null, corsOptions);
+  };
+
+  app.use(cors(corsOptionsDelegate));
 };
 
 export const bodyParserPlugin = (app) => {
