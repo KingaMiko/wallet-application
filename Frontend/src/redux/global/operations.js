@@ -5,7 +5,8 @@ export const getPatterns = createAsyncThunk(
   'global/getPatterns',
   async (_, thunkAPI) => {
     try {
-      const res = await axios.get('/patterns');
+      //const res = await axios.get('/patterns');
+      throw Error("error");
 
       return res.data;
     } catch (error) {
