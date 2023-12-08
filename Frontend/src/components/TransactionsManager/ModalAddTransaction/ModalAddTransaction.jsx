@@ -1,19 +1,20 @@
 import * as Yup from 'yup';
-import axios from 'axios';
+
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
 import 'react-datetime/css/react-datetime.css';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { walletInstance } from 'utils/api';
 
 import { Button } from 'components';
 import css from './ModalAddTransaction.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
-import sprite from '../../images/icons.svg';
+import sprite from '../../../images/icons.svg';
 
-export const AddTransactionModal = () => {
+export const AddTransactionModal = ({ addTransaction }) => {
   const initialValues = {
     type: false,
     sum: '',
@@ -42,25 +43,10 @@ export const AddTransactionModal = () => {
     selectIsModalAddTransactionOpen
   );
 
-  const handleCloseAddTransactionModal = () => {
-    dispatch(setIsModalAddTransactionOpen(false));
-  };
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          console.error('No auth token found');
-          return;
-        }
-
-        const response = await axios.get(
-          'http://localhost:3000/api/auth/categories',
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-          }
-        );
+        const response = await walletInstance.get('/categories');
 
         const fetchedCategories = response.data.data;
         setCategories(fetchedCategories);
@@ -71,17 +57,15 @@ export const AddTransactionModal = () => {
     fetchCategories();
   }, []);
 
+  const handleCloseAddTransactionModal = () => {
+    dispatch(setIsModalAddTransactionOpen(false));
+  };
+
   const handleSubmit = async (
     values,
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        console.error('No auth token found');
-        return;
-      }
-      console.log(values);
       const valuesToSend = {
         sum: values.sum,
         date: values.date.toISOString().split('T')[0],
@@ -90,21 +74,14 @@ export const AddTransactionModal = () => {
         comment: values.comment,
       };
 
-      console.log(valuesToSend);
-      const response = await axios.post(
-        'http://localhost:3000/api/transactions',
-        valuesToSend,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
+      const response = await walletInstance.post('/transactions', valuesToSend);
 
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
+        addTransaction(response.data);
         resetForm();
         toast.success('Transaction added successfully!');
       } else {
-        console.error('Error adding transaction:', response.statusText);
         toast.error('Error adding transaction. Please try again.');
       }
     } catch (error) {

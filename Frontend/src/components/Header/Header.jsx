@@ -18,17 +18,11 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logOut())
       .then(() => {
-        localStorage.removeItem('authToken');
-        clearAuthHeader();
         navigate('/login');
       })
       .catch(error => {
         console.error('Błąd wylogowania:', error);
       });
-  };
-
-  const clearAuthHeader = () => {
-    walletInstance.defaults.headers.common.Authorization = '';
   };
 
   return (
