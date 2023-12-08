@@ -4,6 +4,8 @@ import { ReactComponent as RegisterIcon } from 'images/icons/icon-register-page.
 import { Background, Box, Logo } from 'components';
 import { Helmet } from 'react-helmet';
 
+import { AnimationRegister } from '../../components/AnimationRegister/AnimationRegister';
+
 const RegisterPage = () => {
   return (
     <>
@@ -15,7 +17,7 @@ const RegisterPage = () => {
       <div className={styles['wrapper-page']}>
         <div className={styles['wrapper-img']}>
           <div>
-            <RegisterIcon />
+            <AnimationRegister />
             <h1 className={styles['heading']}>Finance App</h1>
           </div>
         </div>
