@@ -1,29 +1,18 @@
 import React from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import css from './Header.module.css';
 import { selectIsAuth, selectUser } from 'redux/session/selectors';
 import { logOut } from 'redux/session/operations';
 import { Logo } from 'components/Logo/Logo';
 
-import { walletInstance } from 'utils/api';
-
 const Header = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const user = useSelector(selectUser);
 
-  const handleLogout = () => {
-    dispatch(logOut())
-      .then(() => {
-        navigate('/login');
-      })
-      .catch(error => {
-        console.error('Błąd wylogowania:', error);
-      });
-  };
+  const handleLogout = () => dispatch(logOut());
 
   return (
     <header className={css.headerContainer}>
