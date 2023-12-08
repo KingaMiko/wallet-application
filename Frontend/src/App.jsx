@@ -1,8 +1,9 @@
 import { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getPatterns } from 'redux/global/operations';
+import { selectIsLoading } from 'redux/global/selectors';
 import { refreshUser } from 'redux/session/operations';
 
 import { useAuth } from './hooks/useAuth';
@@ -19,7 +20,7 @@ const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
 
 export const App = () => {
   const dispatch = useDispatch();
-
+  const isLoading = useSelector(selectIsLoading);
   const { isRefreshing } = useAuth();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export const App = () => {
     dispatch(getPatterns());
   }, [dispatch]);
 
-  return isRefreshing ? (
+  return isRefreshing || isLoading ? (
     <Loader />
   ) : (
     <Suspense fallback={<div>Loading...</div>}>
