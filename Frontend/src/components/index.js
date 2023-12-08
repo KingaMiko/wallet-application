@@ -7,3 +7,4 @@ export * from './Input/Input';
 export * from './Icon/Icon';
 export * from './Logo/Logo';
 export * from './AnimationLogin/AnimationLogin';
+export * from './AnimationRegister/AnimationRegister';
