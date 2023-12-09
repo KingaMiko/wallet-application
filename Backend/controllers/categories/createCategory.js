@@ -4,11 +4,11 @@ import User from "#models/user.js";
 /**
  * @typedef {object} CategoryCreate
  * @property {string} name.required - Name of the category
- * @property {string} thumbUrl - Thumbnail URL of the category
+ * @property {string} type.required - Type of the category. Should be one of the following: "income" or "expense".
  */
 
 /**
- * POST /api/auth/categories
+ * POST /api/categories
  *
  * @security BearerAuth
  * @param {CategoryCreate} request.body.required - Category data
@@ -18,11 +18,12 @@ import User from "#models/user.js";
 
 export const createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, type } = req.body;
     const userId = req.user.id;
 
     const newCategory = new category({
       name,
+      type,
       owner: userId,
     });
 
@@ -33,6 +34,6 @@ export const createCategory = async (req, res) => {
 
     res.status(201).json({ data: savedCategory });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ description: error.message });
   }
 };

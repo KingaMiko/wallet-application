@@ -1,25 +1,27 @@
 import { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import {
+  Loader,
+  SharedLayout,
+  PrivateRoute,
+  RestrictedRoute,
+} from 'components/';
 import { getPatterns } from 'redux/global/operations';
+import { selectIsLoading } from 'redux/global/selectors';
 import { refreshUser } from 'redux/session/operations';
-
 import { useAuth } from './hooks/useAuth';
-
-import Loader from 'components/Loader/Loader';
-import SharedLayout from 'components/SharedLayout/SharedLayout';
-import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute';
-import { RestrictedRoute } from 'components/RestrictedRoute/RestrictedRoute';
 
 const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
 const HomePage = lazy(() => import('pages/Home/Home.jsx'));
 const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
+const RedirectPage = lazy(() => import('pages/RedirectPage/RedirectPage.jsx'));
 
 export const App = () => {
   const dispatch = useDispatch();
-
+  const isLoading = useSelector(selectIsLoading);
   const { isRefreshing } = useAuth();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export const App = () => {
     dispatch(getPatterns());
   }, [dispatch]);
 
-  return isRefreshing ? (
+  return isRefreshing || isLoading ? (
     <Loader />
   ) : (
     <Suspense fallback={<div>Loading...</div>}>
@@ -63,6 +65,15 @@ export const App = () => {
             element={
               <RestrictedRoute navigateTo="/home">
                 <RegisterPage />
+              </RestrictedRoute>
+            }
+          />
+
+          <Route
+            path="verify/:verificationToken"
+            element={
+              <RestrictedRoute navigateTo="/home">
+                <RedirectPage />
               </RestrictedRoute>
             }
           />

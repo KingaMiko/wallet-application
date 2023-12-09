@@ -1,12 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signUp, signIn, logOut, refreshUser } from './operations';
+import {
+  signUp,
+  signIn,
+  logOut,
+  refreshUser,
+  getUserDetails,
+} from './operations';
+
+const setAuthStatus = (state, action) => {
+  state.isAuth = true;
+  state.user = action.payload.data;
+  state.isRefreshing = false;
+  state.token = action.payload.token;
+};
+
+const unsetAuthState = state => {
+  state.isAuth = false;
+  state.user = null;
+  state.isRefreshing = false;
+  state.token = null;
+};
 
 const initialState = {
-  user: null,
-  token: null,
   isAuth: false,
-  error: false,
+  user: { name: null, email: null },
   isRefreshing: false,
+  token: null,
+  error: false,
+  userDetails: null,
 };
 
 const sessionSlice = createSlice({
@@ -20,37 +41,20 @@ const sessionSlice = createSlice({
       .addCase(signIn.pending, state => {
         state.isRefreshing = true;
       })
-      .addCase(signIn.fulfilled, (state, action) => {
-        state.isRefreshing = false;
-        state.user = action.payload.data;
-        state.token = action.payload.token;
-        state.isAuth = true;
-      })
-      .addCase(signIn.rejected, state => {
-        state.isRefreshing = false;
-        state.user = null;
-        state.token = null;
-        state.isAuth = false;
-      })
-      .addCase(logOut.fulfilled, state => {
-        state.user = null;
-        state.token = null;
-        state.isAuth = false;
-      })
+      .addCase(signIn.fulfilled, setAuthStatus)
+      .addCase(signIn.rejected, unsetAuthState)
+      .addCase(logOut.fulfilled, unsetAuthState)
+      .addCase(logOut.rejected, unsetAuthState)
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
       })
-      .addCase(refreshUser.fulfilled, (state, action) => {
-        state.isRefreshing = false;
-        state.user = action.payload.data;
-        state.token = action.payload.token;
-        state.isAuth = true;
+      .addCase(refreshUser.fulfilled, setAuthStatus)
+      .addCase(refreshUser.rejected, unsetAuthState)
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        state.userDetails = action.payload.data;
       })
-      .addCase(refreshUser.rejected, state => {
-        state.isRefreshing = false;
-        state.user = null;
-        state.token = null;
-        state.isAuth = false;
+      .addCase(getUserDetails.rejected, (state, action) => {
+        state.userDetails = null;
       });
   },
 });

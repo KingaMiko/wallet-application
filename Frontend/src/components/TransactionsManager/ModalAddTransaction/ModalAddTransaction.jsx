@@ -1,33 +1,39 @@
-import React from 'react';
 import * as Yup from 'yup';
+
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
 import 'react-datetime/css/react-datetime.css';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { walletInstance } from 'utils/api';
 
 import { Button } from 'components';
 import css from './ModalAddTransaction.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
-import sprite from '../../images/icons.svg';
+import sprite from '../../../images/icons.svg';
 
-export const AddTransactionModal = () => {
+export const AddTransactionModal = ({ addTransaction }) => {
   const initialValues = {
-    transactionType: false,
-    amount: '',
+    type: false,
+    sum: '',
     category: '',
     date: new Date(),
     comment: '',
   };
 
+  const [categories, setCategories] = useState([]);
+
   const validationSchema = Yup.object().shape({
-    amount: Yup.number()
+    type: Yup.string(),
+    sum: Yup.number()
       .typeError('Amount must be a number')
       .required('Amount is required')
       .positive('Amount must be a positive number'),
     date: Yup.date().required('Date is required'),
     category: Yup.string().required('Category is required'),
+    comment: Yup.string(),
   });
 
   const dispatch = useDispatch();
@@ -35,9 +41,21 @@ export const AddTransactionModal = () => {
     selectIsModalAddTransactionOpen
   );
 
-  const handleCloseAddTransactionModal = () => {
-    console.log('Closing AddTransactionModal');
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await walletInstance.get('/categories');
 
+        const fetchedCategories = response.data.data;
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error('Error fetching categories', error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleCloseAddTransactionModal = () => {
     dispatch(setIsModalAddTransactionOpen(false));
   };
 
@@ -46,10 +64,28 @@ export const AddTransactionModal = () => {
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      console.log('Form values:', values); // Trzeba zmienić na dodanie transakcji w API
-      resetForm();
-      toast.success('Transaction added successfully!');
+      console.log(values);
+      const valuesToSend = {
+        sum: values.sum,
+        date: values.date.toISOString().split('T')[0],
+        type: values.type ? 'Income' : 'Expense',
+        category: values.category,
+        comment: values.comment,
+      };
+
+      const response = await walletInstance.post('/transactions', valuesToSend);
+
+      if (response.status === 201) {
+        console.log('Transaction added successfully!', response.data);
+        addTransaction(response.data);
+        handleCloseAddTransactionModal();
+        resetForm();
+        toast.success('Transaction added successfully!');
+      } else {
+        toast.error('Error adding transaction. Please try again.');
+      }
     } catch (error) {
+      console.error('Validation error:', error);
       if (error instanceof Yup.ValidationError) {
         const errors = {};
         error.inner.forEach(e => {
@@ -85,14 +121,21 @@ export const AddTransactionModal = () => {
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
           >
-            {({ isSubmitting, handleSubmit, setFieldValue, values }) => (
+            {({
+              isSubmitting,
+              handleSubmit,
+              setFieldValue,
+              values,
+              setValues,
+              setErrors,
+            }) => (
               <Form onSubmit={handleSubmit}>
                 <div className={css.form__checkbox_container}>
                   <label className={css.form__checkbox_label}>
                     <span
-                      htmlFor="transactionType"
+                      htmlFor="type"
                       className={`${css.form__checkbox_label} ${
-                        values.transactionType === true
+                        values.type === true
                           ? css.form__checkbox_label_income
                           : null
                       }`}
@@ -102,20 +145,27 @@ export const AddTransactionModal = () => {
 
                     <Field
                       type="checkbox"
-                      name="transactionType"
-                      id="transactionType"
+                      name="type"
+                      id="type"
+                      onClick={() => {
+                        setValues({
+                          ...initialValues,
+                          type: values.type,
+                        });
+                        setErrors({});
+                      }}
                       className={css.form__checkbox_input}
                     />
                     <div className={css.form__checkbox_custom}>
                       <div className={css.form__slider}>
-                        {values.transactionType === false ? '-' : '+'}
+                        {values.type === false ? '-' : '+'}
                       </div>
                     </div>
 
                     <span
-                      htmlFor="transactionType"
+                      htmlFor="type"
                       className={`${css.form__checkbox_label} ${
-                        values.transactionType === false
+                        values.type === false
                           ? css.form__checkbox_label_expense
                           : null
                       }`}
@@ -125,44 +175,44 @@ export const AddTransactionModal = () => {
                   </label>
                 </div>
                 <div className={css.form__flex_container}>
-                  {values.transactionType === false && (
-                    <div className={css.form__input}>
-                      <label>
-                        <Field
-                          as="select"
-                          name="category"
-                          className={`${css.form__category} ${
-                            values.category !== ''
-                              ? css.form__category_active
-                              : null
-                          }`}
-                        >
-                          <option hidden value="">
-                            Select a category
-                          </option>
-                          <option value="category1">Main expenses</option>
-                          <option value="category2">Products</option>
-                          <option value="category3">Car</option>
-                          <option value="category4">Self care</option>
-                          <option value="category5">Child care</option>
-                          <option value="category6">Household products</option>
-                          <option value="category7">Education</option>
-                          <option value="category8">Leisure</option>
-                        </Field>
-                        <ErrorMessage name="category" component="div" />
-                      </label>
-                    </div>
-                  )}
-
+                  <div className={css.form__input}>
+                    <label>
+                      <Field
+                        as="select"
+                        name="category"
+                        className={`${css.form__category} ${
+                          values.category !== ''
+                            ? css.form__category_active
+                            : null
+                        }`}
+                      >
+                        <option hidden value="">
+                          Select a category
+                        </option>
+                        {categories
+                          .filter(category =>
+                            values.type === true
+                              ? category.type === 'income'
+                              : category.type === 'expense'
+                          )
+                          .map(category => (
+                            <option key={category._id} value={category._id}>
+                              {category.name}
+                            </option>
+                          ))}
+                      </Field>
+                      <ErrorMessage name="category" component="div" />
+                    </label>
+                  </div>
                   <div className={css.form__input_flex}>
                     <label>
                       <Field
                         type="number"
-                        name="amount"
+                        name="sum"
                         placeholder="0.00"
                         className={css.form__input}
                       />
-                      <ErrorMessage name="amount" component="div" />
+                      <ErrorMessage name="sum" component="div" />
                     </label>
                     <label>
                       <Datetime
@@ -193,7 +243,11 @@ export const AddTransactionModal = () => {
                     Add
                   </Button>
 
-                  <Button type="button" theme="white">
+                  <Button
+                    type="button"
+                    theme="white"
+                    onClick={handleCloseAddTransactionModal}
+                  >
                     Cancel
                   </Button>
                 </div>

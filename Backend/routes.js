@@ -13,10 +13,10 @@ export const setupRoutes = (app) => {
   authRouter.post("/refresh", controllers.authRefresh);
   authRouter.get("/logout", auth, controllers.authLogout);
 
-  authRouter.get("/categories", auth, controllers.getAllUserCategories);
-  authRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
-  authRouter.post("/categories", auth, controllers.createCategory);
-  authRouter.delete("/categories/:id", auth, controllers.deleteUserCategory);
+  rootRouter.get("/categories", auth, controllers.getAllUserCategories);
+  rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
+  rootRouter.post("/categories", auth, controllers.createCategory);
+  rootRouter.delete("/categories/:id", auth, controllers.deleteUserCategory);
 
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);

@@ -2,6 +2,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import { signUp } from 'redux/session/operations';
 import { selectPatterns } from 'redux/global/selectors';
@@ -14,6 +15,8 @@ export const RegistrationForm = () => {
   const navigate = useNavigate();
   const patterns = useSelector(selectPatterns);
 
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
+
   const initialValues = {
     name: '',
     email: '',
@@ -21,19 +24,11 @@ export const RegistrationForm = () => {
     confirmPassword: '',
   };
 
-  const namePattern = patterns?.namePattern?.pattern
-    ? new RegExp(patterns.namePattern.pattern)
-    : null;
-
-  const passwordPattern = patterns?.passwordPattern?.pattern
-    ? new RegExp(patterns.passwordPattern.pattern)
-    : null;
-
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(
-        namePattern,
-        patterns?.namePattern?.description || 'Invalid name format'
+        new RegExp(patterns.namePattern.pattern),
+        patterns.namePattern.description
       )
       .required('Name is required')
       .min(3, 'Name should be at least 3 characters')
@@ -41,8 +36,8 @@ export const RegistrationForm = () => {
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
       .matches(
-        passwordPattern,
-        patterns?.passwordPattern?.description || 'Invalid password format'
+        new RegExp(patterns.passwordPattern.pattern),
+        patterns.passwordPattern.description
       )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
@@ -52,15 +47,12 @@ export const RegistrationForm = () => {
       .required('Confirm password is required'),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    dispatch(
-      signUp({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      })
-    );
+  const handleSubmit = (values, { resetForm }) => {
+    const { name, email, password } = values;
+
+    dispatch(signUp({ name, email, password }));
     resetForm();
+    setShowVerificationMessage(true);
   };
 
   return (
@@ -77,6 +69,7 @@ export const RegistrationForm = () => {
               name="name"
               placeholder="First name"
               iconID="icon-baseline-account_box"
+              title="Enter your name (3 to 20 characters)"
             />
 
             <Input
@@ -84,6 +77,7 @@ export const RegistrationForm = () => {
               name="email"
               placeholder="E-mail"
               iconID="icon-baseline-email"
+              title="Provide a valid email address"
             />
 
             <Input
@@ -92,6 +86,7 @@ export const RegistrationForm = () => {
               placeholder="Password"
               autoComplete="off"
               iconID="icon-baseline-lock"
+              title="Password (6 to 20 characters, must include one capital letter, a number and a special character)"
             />
 
             <Input
@@ -100,6 +95,7 @@ export const RegistrationForm = () => {
               placeholder="Confirm password"
               autoComplete="off"
               iconID="icon-baseline-lock"
+              title="Confirm your password (must match the above password)"
             />
 
             <Button type="submit" theme="color">
@@ -113,6 +109,12 @@ export const RegistrationForm = () => {
             >
               Log in
             </Button>
+
+            {showVerificationMessage && (
+              <div className={styles['verification-message']}>
+                Please check your email to verify your account.
+              </div>
+            )}
           </Form>
         )}
       </Formik>

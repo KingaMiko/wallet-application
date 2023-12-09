@@ -6,6 +6,7 @@ const initialState = {
   isModalLogoutOpen: false,
   isModalAddTransactionOpen: false,
   isModalEditTransactionOpen: false,
+  isModalSettingsOpen: false,
   patterns: null,
 };
 
@@ -25,11 +26,26 @@ const globalSlice = createSlice({
     setIsModalEditTransactionOpen: (state, action) => {
       state.isModalEditTransactionOpen = action.payload;
     },
+    setIsModalSettingsOpen: (state, action) => {
+      state.isModalEditTransactionOpen = action.payload;
+    },
   },
   extraReducers: builder => {
-    builder.addCase(getPatterns.fulfilled, (state, action) => {
-      state.patterns = action.payload;
-    });
+    builder
+      .addCase(getPatterns.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(getPatterns.fulfilled, (state, action) => {
+        state.patterns = action.payload.data.patterns;
+        state.isLoading = false;
+      })
+      .addCase(getPatterns.rejected, state => {
+        state.patterns = {
+          passwordPattern: { pattern: '', description: '' },
+          namePattern: { pattern: '', description: '' },
+        };
+        state.isLoading = false;
+      });
   },
 });
 
@@ -38,5 +54,6 @@ export const {
   setIsModalLogoutOpen,
   setIsModalAddTransactionOpen,
   setIsModalEditTransactionOpen,
+  setIsModalSettingsOpen,
 } = globalSlice.actions;
 export const globalReducer = globalSlice.reducer;

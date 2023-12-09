@@ -28,4 +28,5 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   autoComplete: PropTypes.string,
   iconID: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };

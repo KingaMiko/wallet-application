@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Hourglass } from 'react-loader-spinner';
 import css from './Loader.module.css';
 
-const Loader = ({ isVisible = true }) => {
+export const Loader = ({ isVisible = true }) => {
   return (
     <Hourglass
       height="180"
@@ -18,5 +18,3 @@ const Loader = ({ isVisible = true }) => {
 Loader.propTypes = {
   isVisible: PropTypes.bool,
 };
-
-export default Loader;
