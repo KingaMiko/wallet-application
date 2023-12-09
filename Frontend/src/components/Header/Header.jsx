@@ -6,118 +6,47 @@ import css from './Header.module.css';
 import { selectIsAuth, selectUser } from 'redux/session/selectors';
 import { logOut } from 'redux/session/operations';
 import { Logo } from 'components/Logo/Logo';
+import { OpenSettingsModal } from './Categories';
 
 const Header = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const user = useSelector(selectUser);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogout = () => dispatch(logOut());
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
-  // const [isSettingsModalOpen, setSettingsModalOpen] = useState(false);
-  // const [newCategory, setNewCategory] = useState('');
-  // const [selectedType, setSelectedType] = useState('income'); 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-  // const [categories, setCategories] = useState([]);
-
-  // const openSettingsModal = () => {
-  //   setSettingsModalOpen(true);
-  // };
-
-  // const closeSettingsModal = () => {
-  //   setSettingsModalOpen(false);
-  //   setNewCategory('');
-  //   setSelectedType('income');
-  // };
-
-  // const handleAddCategory = () => {
-  //   if (newCategory.trim() !== '') {
-  //     setCategories(prevCategories => [
-  //       ...prevCategories,
-  //       { id: Date.now(), name: newCategory, type: selectedType }
-  //     ]);
-
-  //     setNewCategory('');
-  //     setSelectedType('income'); 
-  //   }
-  // };
-
-return (
+  return (
     <header className={css.headerContainer}>
       <div className={css.headerWrapper}>
         <Logo />
-        {/* <button onClick={openSettingsModal}>Settings</button> */}
-
-        {/* {isSettingsModalOpen && (
-          <div className={css.modalOverlay}>
-            <div className={css.modalContent}>
-              <span className={css.closeModal} onClick={closeSettingsModal}>&times;</span>
-              <h2>Settings</h2>
-
-              {}
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    value="income"
-                    checked={selectedType === 'income'}
-                    onChange={() => setSelectedType('income')}
-                  />
-                  Income
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    value="expense"
-                    checked={selectedType === 'expense'}
-                    onChange={() => setSelectedType('expense')}
-                  />
-                  Expense
-                </label>
-              </div>
-
-              {}
-              <input
-                className={css.inputCategory}
-                type="text"
-                placeholder="Enter category"
-                value={newCategory}
-                onChange={(e) => setNewCategory(e.target.value)}
-              />
-              <button className={css.buttonAdd} onClick={handleAddCategory}>Add Category</button>
-
-              {}
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {categories.map(category => (
-                    <tr key={category.id}>
-                      <td>{category.id}</td>
-                      <td>{category.name}</td>
-                      <td>{category.type}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )} */}
 
         <div className={css.headerSide}>
           {isAuth && (
             <p className={css.headerSideText}>{user.name ?? 'Hello'}</p>
           )}
           {isAuth ? (
-            <button className={css.headerLogout} onClick={handleLogout}>
-              <p className={css.headerSideText}>Exit</p>
-            </button>
+            <>
+              <button className={css.headerLogout} onClick={handleLogout}>
+                <p className={css.headerSideText}>Exit</p>
+              </button>
+              <button className={css.headerSettings} onClick={handleOpenModal}>
+                <p className={css.headerSideText}>Settings</p>
+              </button>
+              <OpenSettingsModal
+                isOpen={isModalOpen}
+                handleClose={handleCloseModal}
+                openSettings={data => console.log(data)}
+              />
+            </>
           ) : (
             <Link to="/login">Login</Link>
           )}
@@ -126,4 +55,27 @@ return (
     </header>
   );
 };
+
 export default Header;
+
+// export const ButtonSettingsModal = () => {
+//   const dispatch = useDispatch();
+//   const handleOpenSettingsModal = () => {
+//     dispatch(setIsModalSettingsOpen(true));
+//   };
+//   return (
+//     <button
+//       onClick={handleOpenSettingsModal}
+//       // className={css.add_transaction_btn}
+//     >
+//       settings
+//     </button>
+//   );
+// };
+
+
+
+
+
+
+
