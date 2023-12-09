@@ -34,9 +34,13 @@ export const authSignup = async (req, res, next) => {
     await newUser.setPassword(password);
 
     const defaultCategories = [
-      { name: "Food", type: "expense", owner: newUser._id },
+      { name: "Products", type: "expense", owner: newUser._id },
       { name: "Car", type: "expense", owner: newUser._id },
-      { name: "House", type: "expense", owner: newUser._id },
+      { name: "Self care", type: "expense", owner: newUser._id },
+      { name: "Child care", type: "expense", owner: newUser._id },
+      { name: "Household products", type: "expense", owner: newUser._id },
+      { name: "Education", type: "expense", owner: newUser._id },
+      { name: "Leisure", type: "expense", owner: newUser._id },
       { name: "Job", type: "income", owner: newUser._id },
       { name: "Extra", type: "income", owner: newUser._id },
     ];
