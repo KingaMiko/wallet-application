@@ -5,3 +5,5 @@ export const selectIsModalAddTransactionOpen = state =>
 export const selectIsModalEditTransactionOpen = state =>
   state.global.isModalEditTransactionOpen;
 export const selectPatterns = state => state.global.patterns;
+export const selectIsModalSettingsOpen = state =>
+  state.global.isModalSettingsOpen;
