@@ -1,78 +1,51 @@
-import * as Yup from 'yup';
-import Datetime from 'react-datetime';
-import { toast } from 'react-toastify';
-import React, { useState, useEffect } from 'react';
-import 'react-datetime/css/react-datetime.css';
-import { Formik, Field, ErrorMessage, Form } from 'formik';
-import { walletInstance } from 'utils/api';
-import { Button } from 'components';
-import css from './Categories.module.scss';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { Formik, Field, ErrorMessage, Form } from 'formik';
+import * as Yup from 'yup';
+
 import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
 import { selectIsModalSettingsOpen } from 'redux/global/selectors';
+
+import { walletInstance } from 'utils/api';
+
+import { Button } from 'components';
+
+import css from './Categories.module.scss';
 import sprite from '../../images/icons.svg';
 
-export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
+export const OpenSettingsModal = () => {
+  const dispatch = useDispatch();
+  const [categories, setCategories] = useState([]);
+  const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
+
   const initialValues = {
     type: false,
     category: '',
   };
 
-  const [categories, setCategories] = useState([]);
-  const [newCategories, setNewCategories] = useState([]);
-
   const validationSchema = Yup.object().shape({
-    type: Yup.string(),
-    sum: Yup.number()
-      .typeError('Amount must be a number')
-      .required('Amount is required')
-      .positive('Amount must be a positive number'),
-    date: Yup.date().required('Date is required'),
-    comment: Yup.string(),
+    type: Yup.boolean(),
+    category: Yup.string(),
   });
 
-  const dispatch = useDispatch();
-  const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await walletInstance.get('/categories');
-        const fetchedCategories = response.data.data;
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error('Error fetching categories', error);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  const handleCloseSettingsModal = () => {
-    dispatch(setIsModalSettingsOpen(false));
-    handleClose();
-  };
+  const close = () => dispatch(setIsModalSettingsOpen(false));
 
   const handleSubmit = async (
     values,
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      console.log(values);
       const valuesToSend = {
-        sum: values.sum,
         type: values.type ? 'Income' : 'Expense',
-        category: values.category,
+        name: values.category,
       };
 
-      const response = await walletInstance.post(
-        '/categories',
-        valuesToSend
-      );
+      const response = await walletInstance.post('/categories', valuesToSend);
 
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
-        openSettings(response.data);
-        handleCloseSettingsModal();
+        close();
         resetForm();
         toast.success('Transaction added successfully!');
       } else {
@@ -82,7 +55,7 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
       console.error('Validation error:', error);
       if (error instanceof Yup.ValidationError) {
         const errors = {};
-        error.inner.forEach((e) => {
+        error.inner.forEach(e => {
           errors[e.path] = e.message;
         });
         setErrors(errors);
@@ -94,16 +67,25 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
     }
   };
 
-  return isOpen ? (
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await walletInstance.get('/categories');
+
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error('Error fetching categories', error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  return isSettingsModalOpen ? (
     <div className={css.modal__overlay}>
       <div className={css.modal}>
         <div>
           <h5 className={css.modal__title}>Add Category</h5>
-          <button
-            type="button"
-            className={css.modal__close}
-            onClick={handleCloseSettingsModal}
-          >
+          <button type="button" className={css.modal__close} onClick={close}>
             <svg width="16px" height="16px">
               <use href={`${sprite}#icon-close`}></use>
             </svg>
@@ -169,30 +151,33 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
                       name="category"
                       placeholder="Add category"
                       className={css.form__category}
-                      
-                      onChange={(e) => {
+                      onChange={e => {
                         setFieldValue('category', e.target.value);
                         setErrors({});
                       }}
-                      onKeyDown={(e) => {
+                      /* onKeyDown={e => {
                         if (e.key === 'Enter' && e.target.value.trim() !== '') {
-                          setNewCategories([...newCategories, e.target.value.trim()]);
+                          setNewCategories([
+                            ...newCategories,
+                            e.target.value.trim(),
+                          ]);
                           setFieldValue('category', '');
                         }
-                      }}
+                      }} */
                     />
                     <ErrorMessage name="category" component="div" />
                   </label>
                 </div>
                 <div className={css.form__btn_container}>
-                  <Button type="submit" theme="color" disabled={isSubmitting} onClick={handleSubmit}>
+                  <Button
+                    type="submit"
+                    theme="color"
+                    disabled={isSubmitting}
+                    onClick={handleSubmit}
+                  >
                     Add
                   </Button>
-                  <Button
-                    type="button"
-                    theme="white"
-                    onClick={handleCloseSettingsModal}
-                  >
+                  <Button type="button" theme="white" onClick={close}>
                     Cancel
                   </Button>
                 </div>
@@ -201,7 +186,6 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
           </Formik>
         </div>
 
-        
         <div>
           <h5 className={css.modal__title}>Your Categories</h5>
           <table>
@@ -211,9 +195,9 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
               </tr>
             </thead>
             <tbody>
-              {newCategories.map((category, index) => (
-                <tr key={index}>
-                  <td>{category}</td>
+              {categories.map(category => (
+                <tr key={category.id}>
+                  <td>{category.name}</td>
                 </tr>
               ))}
             </tbody>
