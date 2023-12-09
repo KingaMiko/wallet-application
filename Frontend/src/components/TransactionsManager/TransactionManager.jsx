@@ -35,8 +35,8 @@ export const TransactionsManager = () => {
         id: newTransaction._id,
       },
     ]);
+    fetchTransactions();
   };
-  fetchTransactions();
 
   const deleteTransaction = transactionId => {
     setTransactions(prevTransactions =>
