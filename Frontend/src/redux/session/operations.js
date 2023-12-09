@@ -106,3 +106,22 @@ export const refreshUser = createAsyncThunk(
     }
   }
 );
+
+/*
+ * GET @ /users/current
+ * headers: Authorization: Bearer token
+ */
+export const getUserDetails = createAsyncThunk(
+  'session/getUserDetails',
+  async (_, thunkAPI) => {
+    try {
+      console.log('try');
+      const res = await walletInstance.get('/users/current');
+      return res.data;
+    } catch (error) {
+      const errorMessage = error.response.data.description;
+      toast.error(errorMessage);
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
