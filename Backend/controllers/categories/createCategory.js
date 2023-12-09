@@ -4,7 +4,7 @@ import User from "#models/user.js";
 /**
  * @typedef {object} CategoryCreate
  * @property {string} name.required - Name of the category
- * @property {string} thumbUrl - Thumbnail URL of the category
+ * @property {string} type.required - Type of the category. Should be one of the following: "income" or "expense".
  */
 
 /**
@@ -18,11 +18,12 @@ import User from "#models/user.js";
 
 export const createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, type } = req.body;
     const userId = req.user.id;
 
     const newCategory = new category({
       name,
+      type,
       owner: userId,
     });
 
