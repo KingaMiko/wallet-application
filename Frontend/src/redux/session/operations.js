@@ -115,7 +115,6 @@ export const getUserDetails = createAsyncThunk(
   'session/getUserDetails',
   async (_, thunkAPI) => {
     try {
-      console.log('try');
       const res = await walletInstance.get('/users/current');
       return res.data;
     } catch (error) {
