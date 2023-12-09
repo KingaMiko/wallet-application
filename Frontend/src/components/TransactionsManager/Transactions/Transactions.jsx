@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import css from './Transactions.module.scss';
 import sprite from 'images/icons.svg';
+import { getUserDetails } from 'redux/session/operations';
+import { selectUserDetails } from 'redux/session/selectors';
 
 import { walletInstance } from 'utils/api';
 
@@ -10,6 +13,13 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
     column: null,
     direction: 'asc',
   });
+  const dispatch = useDispatch();
+  const userDetails = useSelector(selectUserDetails);
+  const userBalance = userDetails ? userDetails.balance : 0;
+
+  useEffect(() => {
+    dispatch(getUserDetails());
+  }, [dispatch, transactions, deleteTransaction]);
 
   const calculateSums = useCallback(() => {
     let sumPlus = 0;
@@ -70,7 +80,7 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
       : -1;
   });
 
-  const { sumPlus, sumMinus, balance } = calculateSums();
+  const { sumPlus, sumMinus } = calculateSums();
 
   const handleDelete = async transactionId => {
     try {
@@ -171,7 +181,7 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
       <div className={css.sumSection}>
         <p>Incomes: {sumPlus.toFixed(2)}</p>
         <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p>Balance: {balance.toFixed(2)}</p>
+        <p>Balance: {userBalance}</p>
       </div>
     </div>
   );
