@@ -26,7 +26,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
   const [categories, setCategories] = useState([]);
 
   const validationSchema = Yup.object().shape({
-    type: Yup.boolean(),
+    type: Yup.string(),
     sum: Yup.number()
       .typeError('Amount must be a number')
       .required('Amount is required')
@@ -79,6 +79,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
         addTransaction(response.data);
+        handleCloseAddTransactionModal();
         resetForm();
         toast.success('Transaction added successfully!');
       } else {

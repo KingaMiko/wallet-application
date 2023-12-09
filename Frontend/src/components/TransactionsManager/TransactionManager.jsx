@@ -32,11 +32,11 @@ export const TransactionsManager = () => {
       ...prevTransactions,
       {
         ...newTransaction,
-        id: newTransaction._id, // Przykład, jak przekształcić strukturę nowej transakcji
-        // reszta pól...
+        id: newTransaction._id,
       },
     ]);
   };
+  fetchTransactions();
 
   const deleteTransaction = transactionId => {
     setTransactions(prevTransactions =>

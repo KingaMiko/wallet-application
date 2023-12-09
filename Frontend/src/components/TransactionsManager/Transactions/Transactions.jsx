@@ -48,7 +48,6 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
     setSortOrder({ column: sortColumn, direction });
   };
 
-  // Sortowanie transakcji
   const sortedTransactions = [...transactions].sort((a, b) => {
     let valueA, valueB;
     if (sortOrder.column === 4) {
@@ -58,7 +57,6 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
       valueA = new Date(a.date);
       valueB = new Date(b.date);
     } else {
-      // Użyj odpowiednich kluczy obiektu transakcji
       valueA = a[sortOrder.column];
       valueB = b[sortOrder.column];
     }
