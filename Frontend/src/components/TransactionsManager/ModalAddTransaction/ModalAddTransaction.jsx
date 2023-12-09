@@ -32,9 +32,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
       .required('Amount is required')
       .positive('Amount must be a positive number'),
     date: Yup.date().required('Date is required'),
-    category: Yup.string().when('type', (type, schema) => {
-      return type === false ? schema.required('Category is required') : schema;
-    }),
+    category: Yup.string().required('Category is required'),
     comment: Yup.string(),
   });
 
@@ -66,11 +64,12 @@ export const AddTransactionModal = ({ addTransaction }) => {
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
+      console.log(values);
       const valuesToSend = {
         sum: values.sum,
         date: values.date.toISOString().split('T')[0],
         type: values.type ? 'Income' : 'Expense',
-        ...(values.type === false && { category: values.category }),
+        category: values.category,
         comment: values.comment,
       };
 
@@ -176,32 +175,35 @@ export const AddTransactionModal = ({ addTransaction }) => {
                   </label>
                 </div>
                 <div className={css.form__flex_container}>
-                  {values.type === false && (
-                    <div className={css.form__input}>
-                      <label>
-                        <Field
-                          as="select"
-                          name="category"
-                          className={`${css.form__category} ${
-                            values.category !== ''
-                              ? css.form__category_active
-                              : null
-                          }`}
-                        >
-                          <option hidden value="">
-                            Select a category
-                          </option>
-                          {categories.map(category => (
+                  <div className={css.form__input}>
+                    <label>
+                      <Field
+                        as="select"
+                        name="category"
+                        className={`${css.form__category} ${
+                          values.category !== ''
+                            ? css.form__category_active
+                            : null
+                        }`}
+                      >
+                        <option hidden value="">
+                          Select a category
+                        </option>
+                        {categories
+                          .filter(category =>
+                            values.type === true
+                              ? category.type === 'income'
+                              : category.type === 'expense'
+                          )
+                          .map(category => (
                             <option key={category._id} value={category._id}>
                               {category.name}
                             </option>
                           ))}
-                        </Field>
-                        <ErrorMessage name="category" component="div" />
-                      </label>
-                    </div>
-                  )}
-
+                      </Field>
+                      <ErrorMessage name="category" component="div" />
+                    </label>
+                  </div>
                   <div className={css.form__input_flex}>
                     <label>
                       <Field
