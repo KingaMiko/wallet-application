@@ -6,7 +6,9 @@ import Header from 'components/Header/Header';
 export const SharedLayout = () => {
   const location = useLocation();
 
-  const showHeader = !['/login', '/register'].includes(location.pathname);
+  const showHeader = !['/login', '/register', '/verify/*'].includes(
+    location.pathname
+  );
 
   return (
     <>
