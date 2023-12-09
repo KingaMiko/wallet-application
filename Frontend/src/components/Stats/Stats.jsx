@@ -1,38 +1,75 @@
 import css from './Stats.module.scss';
 import React, { useState } from 'react';
-import { DoughnutChart } from './Doughnut';
-import { BarChart } from './Bar';
 import Select from 'react-select';
+import { Yearly } from './Yearly/Yearly';
+import { Monthly } from './Monthly/Monthly';
 
 export const Stats = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedYear, setSelectedYear] = useState({
+    value: 2023,
+    label: 2023,
+  });
+  const [selectedMonth, setSelectedMonth] = useState(null);
 
-  const categoryOptions = [
-    { value: 'expenses', label: 'Expenses' },
-    { value: 'incomes', label: 'Incomes' },
+  const yearOptions = [
+    { value: 2020, label: 2020 },
+    { value: 2021, label: 2021 },
+    { value: 2022, label: 2022 },
+    { value: 2023, label: 2023 },
   ];
 
-  const handleCategoryChange = selectedOption => {
-    setSelectedCategory(selectedOption);
+  const monthOptions = [
+    { value: 'January', label: 'January' },
+    { value: 'February', label: 'February' },
+    { value: 'March', label: 'March' },
+    { value: 'April', label: 'April' },
+    { value: 'May', label: 'May' },
+    { value: 'June', label: 'June' },
+    { value: 'July', label: 'July' },
+    { value: 'August', label: 'August' },
+    { value: 'September', label: 'September' },
+    { value: 'October', label: 'October' },
+    { value: 'November', label: 'November' },
+    { value: 'December', label: 'December' },
+  ];
+
+  const handleYearChange = selectedOption => {
+    setSelectedYear(selectedOption);
+  };
+
+  const handleMonthChange = selectedOption => {
+    setSelectedMonth(selectedOption);
   };
 
   return (
     <div className={css.statsContainer}>
-      Statistics
-      <div className={css.charts}>
-        <DoughnutChart />
-        <BarChart />
-      </div>
       <div className={css.selections}>
-        Select values
         <div className={css.selectors}>
-          <Select
-            options={categoryOptions}
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-          />
+          Year
+          <div>
+            <Select
+              options={yearOptions}
+              value={selectedYear}
+              onChange={handleYearChange}
+            />
+          </div>
+        </div>
+        <div className={css.selectors}>
+          Month
+          <div>
+            <Select
+              options={monthOptions}
+              value={selectedMonth}
+              onChange={handleMonthChange}
+            />
+          </div>
         </div>
       </div>
+      {selectedMonth ? (
+        <Monthly selectedYear={selectedYear} selectedMonth={selectedMonth} />
+      ) : (
+        <Yearly selectedYear={selectedYear} />
+      )}
     </div>
   );
 };
