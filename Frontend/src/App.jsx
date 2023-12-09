@@ -17,6 +17,7 @@ const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
 const HomePage = lazy(() => import('pages/Home/Home.jsx'));
 const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
+const RedirectPage = lazy(() => import('pages/RedirectPage/RedirectPage.jsx'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,15 @@ export const App = () => {
             element={
               <RestrictedRoute navigateTo="/home">
                 <RegisterPage />
+              </RestrictedRoute>
+            }
+          />
+
+          <Route
+            path="verify/:verificationToken"
+            element={
+              <RestrictedRoute navigateTo="/home">
+                <RedirectPage />
               </RestrictedRoute>
             }
           />
