@@ -6,9 +6,10 @@ const categorySchema = new Schema({
     required: [true, "Name is required"],
   },
 
-  thumbUrl: {
+  type: {
     type: String,
-    default: "default-thumbnail-url.jpg",
+    required: true,
+    num: ["income", "expense"],
   },
   owner: {
     type: Schema.Types.ObjectId,
