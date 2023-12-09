@@ -161,6 +161,7 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
                     className={css.iconTransactions}
                     width="20px"
                     height="20px"
+                    // onClick={() => }
                   >
                     <use href={`${sprite}#icon-pencil2`}></use>
                   </svg>
