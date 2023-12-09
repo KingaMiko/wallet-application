@@ -1,4 +1,5 @@
 import React from 'react';
+import css from '../Stats.module.scss';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -10,10 +11,10 @@ export const DoughnutChart = () => {
     datasets: [
       {
         label: 'Amount',
-        data: [5000, 4300],
-        backgroundColor: ['rgba(255, 99, 132)', 'rgba(75, 192, 192)'],
-        hoverBackgroundColor: ['rgba(255, 99, 162)', 'rgba(75, 192, 202)'],
-        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+        data: [3500, 5000],
+        backgroundColor: ['#FF6384', '#2E8B57'],
+        hoverBackgroundColor: ['#FF425B', '#227547'],
+        borderColor: ['#FF6384', '#2E8B57'],
         borderWidth: 1,
       },
     ],
@@ -22,7 +23,7 @@ export const DoughnutChart = () => {
   const options = {
     plugins: {
       legend: {
-        position: 'top',
+        position: 'bottom',
       },
       title: {
         display: true,
@@ -32,7 +33,7 @@ export const DoughnutChart = () => {
   };
 
   return (
-    <div style={{ width: '350px', height: '350px' }}>
+    <div className={css.insideChartDoughnut}>
       <Doughnut options={options} data={data} />
     </div>
   );
