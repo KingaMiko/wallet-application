@@ -2,6 +2,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import { signUp } from 'redux/session/operations';
 import { selectPatterns } from 'redux/global/selectors';
@@ -13,6 +14,8 @@ export const RegistrationForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const patterns = useSelector(selectPatterns);
+
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
 
   const initialValues = {
     name: '',
@@ -49,6 +52,7 @@ export const RegistrationForm = () => {
 
     dispatch(signUp({ name, email, password }));
     resetForm();
+    setShowVerificationMessage(true);
   };
 
   return (
@@ -105,6 +109,12 @@ export const RegistrationForm = () => {
             >
               Log in
             </Button>
+
+            {showVerificationMessage && (
+              <div className={styles['verification-message']}>
+                Please check your email to verify your account.
+              </div>
+            )}
           </Form>
         )}
       </Formik>

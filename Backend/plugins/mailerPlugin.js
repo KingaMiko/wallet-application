@@ -36,7 +36,7 @@ export const sendVerificationMail = async (
   token,
   username = "new user"
 ) => {
-  const verificationLink = `${process.env.BASE_URL}/users/verify/${token}`;
+  const verificationLink = `${process.env.FRONT_BASE_URL}/verify/${token}`;
 
   const emailContent = loadTemplate("verificationEmail", {
     verificationUrl: verificationLink,
