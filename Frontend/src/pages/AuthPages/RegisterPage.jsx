@@ -1,7 +1,6 @@
 import { RegistrationForm } from 'components';
 import styles from './AuthPages.module.scss';
-import { ReactComponent as RegisterIcon } from 'images/icons/icon-register-page.svg';
-import { Background, Box, Logo } from 'components';
+import { Background, Box, Logo, AnimationRegister } from 'components';
 import { Helmet } from 'react-helmet';
 
 const RegisterPage = () => {
@@ -15,7 +14,7 @@ const RegisterPage = () => {
       <div className={styles['wrapper-page']}>
         <div className={styles['wrapper-img']}>
           <div>
-            <RegisterIcon />
+            <AnimationRegister />
             <h1 className={styles['heading']}>Finance App</h1>
           </div>
         </div>
