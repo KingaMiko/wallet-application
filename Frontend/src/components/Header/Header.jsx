@@ -1,28 +1,26 @@
-import React, {useState} from 'react';
-
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import css from './Header.module.css';
+
 import { selectIsAuth, selectUser } from 'redux/session/selectors';
+import { selectIsModalSettingsOpen } from 'redux/global/selectors';
 import { logOut } from 'redux/session/operations';
+import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
+
 import { Logo } from 'components/Logo/Logo';
 import { OpenSettingsModal } from './Categories';
 
+import css from './Header.module.css';
+
 const Header = () => {
   const dispatch = useDispatch();
+
   const isAuth = useSelector(selectIsAuth);
   const user = useSelector(selectUser);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
 
   const handleLogout = () => dispatch(logOut());
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const toggleModal = () =>
+    dispatch(setIsModalSettingsOpen(!isSettingsModalOpen));
 
   return (
     <header className={css.headerContainer}>
@@ -38,14 +36,10 @@ const Header = () => {
               <button className={css.headerLogout} onClick={handleLogout}>
                 <p className={css.headerSideText}>Exit</p>
               </button>
-              <button className={css.headerSettings} onClick={handleOpenModal}>
+              <button className={css.headerSettings} onClick={toggleModal}>
                 <p className={css.headerSideText}>Settings</p>
               </button>
-              <OpenSettingsModal
-                isOpen={isModalOpen}
-                handleClose={handleCloseModal}
-                openSettings={data => console.log(data)}
-              />
+              <OpenSettingsModal openSettings={data => console.log(data)} />
             </>
           ) : (
             <Link to="/login">Login</Link>
@@ -57,25 +51,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// export const ButtonSettingsModal = () => {
-//   const dispatch = useDispatch();
-//   const handleOpenSettingsModal = () => {
-//     dispatch(setIsModalSettingsOpen(true));
-//   };
-//   return (
-//     <button
-//       onClick={handleOpenSettingsModal}
-//       // className={css.add_transaction_btn}
-//     >
-//       settings
-//     </button>
-//   );
-// };
-
-
-
-
-
-
-
