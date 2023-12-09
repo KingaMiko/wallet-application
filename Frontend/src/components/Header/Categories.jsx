@@ -1,12 +1,10 @@
 import * as Yup from 'yup';
-
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
 import 'react-datetime/css/react-datetime.css';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { walletInstance } from 'utils/api';
-
 import { Button } from 'components';
 import css from './Categories.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +17,9 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
     type: false,
     category: '',
   };
+
   const [categories, setCategories] = useState([]);
+  const [newCategories, setNewCategories] = useState([]);
 
   const validationSchema = Yup.object().shape({
     type: Yup.string(),
@@ -28,20 +28,16 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
       .required('Amount is required')
       .positive('Amount must be a positive number'),
     date: Yup.date().required('Date is required'),
-    category: Yup.string().required('Category is required'),
     comment: Yup.string(),
   });
 
   const dispatch = useDispatch();
-  const isSettingsModalOpen = useSelector(
-    selectIsModalSettingsOpen
-  );
+  const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await walletInstance.get('/categories');
-
         const fetchedCategories = response.data.data;
         setCategories(fetchedCategories);
       } catch (error) {
@@ -52,8 +48,8 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
   }, []);
 
   const handleCloseSettingsModal = () => {
-      dispatch(setIsModalSettingsOpen(false));
-      handleClose();
+    dispatch(setIsModalSettingsOpen(false));
+    handleClose();
   };
 
   const handleSubmit = async (
@@ -64,13 +60,14 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
       console.log(values);
       const valuesToSend = {
         sum: values.sum,
-        date: values.date.toISOString().split('T')[0],
         type: values.type ? 'Income' : 'Expense',
         category: values.category,
-        comment: values.comment,
       };
 
-      const response = await walletInstance.post('/transactions', valuesToSend);
+      const response = await walletInstance.post(
+        '/categories',
+        valuesToSend
+      );
 
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
@@ -85,7 +82,7 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
       console.error('Validation error:', error);
       if (error instanceof Yup.ValidationError) {
         const errors = {};
-        error.inner.forEach(e => {
+        error.inner.forEach((e) => {
           errors[e.path] = e.message;
         });
         setErrors(errors);
@@ -123,7 +120,6 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
               handleSubmit,
               setFieldValue,
               values,
-              setValues,
               setErrors,
             }) => (
               <Form onSubmit={handleSubmit}>
@@ -144,10 +140,7 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
                       name="type"
                       id="type"
                       onClick={() => {
-                        setValues({
-                          ...initialValues,
-                          type: values.type,
-                        });
+                        setFieldValue('type', !values.type);
                         setErrors({});
                       }}
                       className={css.form__checkbox_input}
@@ -172,39 +165,27 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
                 <div className={css.form__input}>
                   <label>
                     <Field
-                      as="select"
+                      type="text"
                       name="category"
-                      className={`${css.form__category} ${
-                        values.category !== ''
-                          ? css.form__category_active
-                          : null
-                      }`}
-                    >
-                      <option hidden value="">
-                        Add category
-                      </option>
-                      {categories
-                        .filter(
-                          (category) =>
-                            values.type === true
-                              ? category.type === 'income'
-                              : category.type === 'expense'
-                        )
-                        .map((category) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
-                          </option>
-                        ))}
-                    </Field>
+                      placeholder="Add category"
+                      className={css.form__category}
+                      
+                      onChange={(e) => {
+                        setFieldValue('category', e.target.value);
+                        setErrors({});
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && e.target.value.trim() !== '') {
+                          setNewCategories([...newCategories, e.target.value.trim()]);
+                          setFieldValue('category', '');
+                        }
+                      }}
+                    />
                     <ErrorMessage name="category" component="div" />
                   </label>
                 </div>
                 <div className={css.form__btn_container}>
-                  <Button
-                    type="submit"
-                    theme="color"
-                    disabled={isSubmitting}
-                  >
+                  <Button type="submit" theme="color" disabled={isSubmitting} onClick={handleSubmit}>
                     Add
                   </Button>
                   <Button
@@ -218,6 +199,25 @@ export const OpenSettingsModal = ({ isOpen, handleClose, openSettings }) => {
               </Form>
             )}
           </Formik>
+        </div>
+
+        
+        <div>
+          <h5 className={css.modal__title}>Your Categories</h5>
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              {newCategories.map((category, index) => (
+                <tr key={index}>
+                  <td>{category}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
