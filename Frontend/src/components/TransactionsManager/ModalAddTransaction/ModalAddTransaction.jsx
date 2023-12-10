@@ -16,7 +16,7 @@ import sprite from '../../../images/icons.svg';
 
 export const AddTransactionModal = ({ addTransaction }) => {
   const initialValues = {
-    type: 'Expense',
+    type: 'false',
     sum: '',
     category: '',
     date: new Date(),
