@@ -12,21 +12,23 @@ export const updateTransactionById = (id, fields) => {
   );
 };
 
-export const findTransactions = (ownerId, year, month, type) => {
+export const findTransactions = (ownerId, year, month) => {
+  const gottenYear = Number(year);
+  const gottenMonth = month ? Number(month) : month;
   return transaction.aggregate([
     {
       $match: {
         owner: ownerId,
         $expr: {
           $cond: {
-            if: month,
+            if: gottenMonth,
             then: {
               $and: [
-                { $eq: [{ $month: "$date" }, month] },
-                { $eq: [{ $year: "$date" }, year] },
+                { $eq: [{ $month: "$date" }, gottenMonth] },
+                { $eq: [{ $year: "$date" }, gottenYear] },
               ],
             },
-            else: { $and: [{ $eq: [{ $year: "$date" }, year] }] },
+            else: { $and: [{ $eq: [{ $year: "$date" }, gottenYear] }] },
           },
         },
       },
@@ -59,69 +61,25 @@ export const findTransactions = (ownerId, year, month, type) => {
   ]);
 };
 
-export const getIncome = (ownerId, month, year) => {
+export const getTransactionByType = (ownerId, type, year, month) => {
+  const gottenYear = Number(year);
+  const gottenMonth = month ? Number(month) : month;
+
   return transaction.aggregate([
     {
       $match: {
         owner: ownerId,
-        type: "Income",
+        type: type,
         $expr: {
           $cond: {
-            if: month,
+            if: gottenMonth,
             then: {
               $and: [
-                { $eq: [{ $month: "$date" }, month] },
-                { $eq: [{ $year: "$date" }, year] },
+                { $eq: [{ $month: "$date" }, gottenMonth] },
+                { $eq: [{ $year: "$date" }, gottenYear] },
               ],
             },
-            else: { $and: [{ $eq: [{ $year: "$date" }, year] }] },
-          },
-        },
-      },
-    },
-    {
-      $lookup: {
-        from: "categories", // Upewnij się, że nazwa kolekcji kategorii jest poprawna
-        localField: "category",
-        foreignField: "_id",
-        as: "categoryData",
-      },
-    },
-    {
-      $unwind: {
-        path: "$categoryData",
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-    {
-      $project: {
-        type: 1,
-        category: "$categoryData.name", // Zamienia 'category' na 'name' z 'categoryData'
-        sum: 1,
-        comment: 1,
-        date: 1,
-        owner: 1,
-      },
-    },
-    { $sort: { date: -1 } },
-  ]);
-};
-export const getExpense = (ownerId, month, year) => {
-  return transaction.aggregate([
-    {
-      $match: {
-        owner: ownerId,
-        type: "Expense",
-        $expr: {
-          $cond: {
-            if: month,
-            then: {
-              $and: [
-                { $eq: [{ $month: "$date" }, month] },
-                { $eq: [{ $year: "$date" }, year] },
-              ],
-            },
-            else: { $and: [{ $eq: [{ $year: "$date" }, year] }] },
+            else: { $and: [{ $eq: [{ $year: "$date" }, gottenYear] }] },
           },
         },
       },
