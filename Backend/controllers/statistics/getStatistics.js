@@ -61,7 +61,7 @@ export const getStatistics = async (req, res, next) => {
       0
     );
 
-    const eachMonthStats = await eachMonthTransactions(ourTransactions);
+    const eachMonthStats = eachMonthTransactions(ourTransactions);
 
     return res.status(200).json({
       statusCode: 200,
