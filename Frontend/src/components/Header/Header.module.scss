@@ -4,7 +4,6 @@
   position: fixed;
   top: 0px;
   z-index: 999;
- 
 }
 .headerWrapper {
   max-width: 1280px;
@@ -59,9 +58,10 @@
 }
 .headerLogout Svg {
   margin-right: 8px;
+  margin-left: 20px;
+  margin-top: 5px;
   fill: #e9cfcf;
 }
-
 
 .modalOverlay {
   position: fixed;
@@ -81,7 +81,6 @@
   border-radius: 20px;
   position: relative;
   overflow-y: auto;
-
 }
 
 .closeModal {
@@ -109,5 +108,4 @@
 .inputCategory {
   border-bottom: 1px solid #e0e0e0;
   width: 100%;
-
 }
