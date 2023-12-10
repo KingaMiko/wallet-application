@@ -11,17 +11,16 @@ import { eachMonthTransactions } from "#helpers/transactionHelper.js";
 /**
  * A date
  * @typedef {object} Date
- * @property {integer} month.required - The title
- * @property {integer} year.required - The year - double
+ * @property {integer} month.required
+ * @property {integer} year.required
+ * @property {string} type
  */
-/**
- 
 
 /**
- * GET /api/statistics
+ * POST /api/statistics
  *
  * @security BearerAuth
- * @param {Date} req.body.required
+ * @param {Date} request.body.required
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
