@@ -7,7 +7,11 @@ import { selectUserDetails } from 'redux/session/selectors';
 
 import { walletInstance } from 'utils/api';
 
-export const Transactions = ({ transactions, deleteTransaction }) => {
+export const Transactions = ({
+  transactions,
+  deleteTransaction,
+  editTransaction,
+}) => {
   const [, setSums] = useState({ sumPlus: 0, sumMinus: 0, balance: 0 });
   const [sortOrder, setSortOrder] = useState({
     column: null,
@@ -81,6 +85,12 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
   });
 
   const { sumPlus, sumMinus } = calculateSums();
+  const handleEdit = transactionId => {
+    const transactionToEdit = transactions.find(t => t.id === transactionId);
+    if (transactionToEdit) {
+      editTransaction(transactionToEdit);
+    }
+  };
 
   const handleDelete = async transactionId => {
     try {
@@ -161,7 +171,7 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
                     className={css.iconTransactions}
                     width="20px"
                     height="20px"
-                    // onClick={() => }
+                    onClick={() => handleEdit(transaction.id)}
                   >
                     <use href={`${sprite}#icon-pencil2`}></use>
                   </svg>
