@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 
 import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
 import { selectIsModalSettingsOpen } from 'redux/global/selectors';
+//import { createCategory } from './../../redux/finance/operations';
+//import { deleteUserCategory } from './../../redux/finance/operations';
 
 import { walletInstance } from 'utils/api';
 
@@ -79,11 +81,31 @@ export const OpenSettingsModal = () => {
     };
     fetchCategories();
   }, []);
+    
+    
+    const handleDeleteCategory = async (categoryId) => {
+  try {
+    const response = await walletInstance.delete(`/categories/${categoryId}`);
+    
+    if (response.status === 200) {
+      
+      const updatedCategories = categories.filter(category => category.id !== categoryId);
+      setCategories(updatedCategories);
+      toast.success('Category deleted successfully!');
+    } else {
+      toast.error('Error deleting category. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    toast.error('Error deleting category. Please try again.');
+  }
+};
 
   return isSettingsModalOpen ? (
     <div className={css.modal__overlay}>
-      <div className={css.modal}>
-        <div>
+          <div className={css.modal}>
+              <div className={css.rightColumn}>
+        <div >
           <h5 className={css.modal__title}>Add Category</h5>
           <button type="button" className={css.modal__close} onClick={close}>
             <svg width="16px" height="16px">
@@ -155,15 +177,7 @@ export const OpenSettingsModal = () => {
                         setFieldValue('category', e.target.value);
                         setErrors({});
                       }}
-                      /* onKeyDown={e => {
-                        if (e.key === 'Enter' && e.target.value.trim() !== '') {
-                          setNewCategories([
-                            ...newCategories,
-                            e.target.value.trim(),
-                          ]);
-                          setFieldValue('category', '');
-                        }
-                      }} */
+                   
                     />
                     <ErrorMessage name="category" component="div" />
                   </label>
@@ -185,23 +199,36 @@ export const OpenSettingsModal = () => {
             )}
           </Formik>
         </div>
-
+</div>
+              <div className={css.leftColumn}>
         <div>
-          <h5 className={css.modal__title}>Your Categories</h5>
+                  <h5 className={css.modal__title}>Your Categories</h5>
+                   <div className={css.tableContainer}>
           <table>
-            <thead>
-              <tr>
+            <thead className={css.tableHeader}>
+              <tr className={css.trBackground}>
                 <th>Category</th>
               </tr>
             </thead>
             <tbody>
-              {categories.map(category => (
-                <tr key={category.id}>
-                  <td>{category.name}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+  {categories.map(category => (
+    <tr key={category.id}>
+      <td>{category.name}</td>
+      <td>
+        <button
+          type="button"
+          className={css.deleteButton}
+          onClick={() => handleDeleteCategory(category.id)}
+        >
+          X
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+                      </table>
+                      </div>
+                      </div>
         </div>
       </div>
     </div>
