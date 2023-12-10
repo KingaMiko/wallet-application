@@ -1,199 +1,262 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import css from './Transactions.module.scss';
-import sprite from 'images/icons.svg';
-import { getUserDetails } from 'redux/session/operations';
-import { selectUserDetails } from 'redux/session/selectors';
+import { useEffect } from 'react';
 
-import { walletInstance } from 'utils/api';
-
-export const Transactions = ({
-  transactions,
-  deleteTransaction,
-  editTransaction,
-}) => {
-  const [, setSums] = useState({ sumPlus: 0, sumMinus: 0, balance: 0 });
-  const [sortOrder, setSortOrder] = useState({
-    column: null,
-    direction: 'asc',
-  });
-  const dispatch = useDispatch();
-  const userDetails = useSelector(selectUserDetails);
-  const userBalance = userDetails ? userDetails.balance : 0;
-
+export const Transactions = ({ transactions, onDelete, onUpdate }) => {
+  console.log(transactions);
+  const handleDelete = transactionId => {
+    onDelete(transactionId);
+  };
   useEffect(() => {
-    dispatch(getUserDetails());
-  }, [dispatch, transactions, deleteTransaction]);
-
-  const calculateSums = useCallback(() => {
-    let sumPlus = 0;
-    let sumMinus = 0;
-
-    transactions.forEach(transaction => {
-      const amount = parseFloat(transaction[4]);
-      if (transaction[1] === 'Income') {
-        sumPlus += amount;
-      } else if (transaction[1] === 'Expense') {
-        sumMinus += amount;
-      }
-    });
-
-    return { sumPlus, sumMinus, balance: sumPlus - sumMinus };
+    console.log(transactions); // Sprawdź, czy dane są dostępne
   }, [transactions]);
+  const handleUpdate = transaction => {
+    onUpdate(transaction);
+  };
+  const formatDate = dateString => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
-  useEffect(() => {
-    const { sumPlus, sumMinus, balance } = calculateSums();
-    setSums({ sumPlus, sumMinus, balance });
-  }, [transactions, calculateSums]);
-
+  // Funkcja do wyświetlania klasy CSS w zależności od typu transakcji
   const getAmountClass = type => {
-    return type === 'Income'
-      ? css.amountPlus
-      : type === 'Expense'
-      ? css.amountMinus
-      : '';
-  };
-
-  const handleSort = sortColumn => {
-    const direction =
-      sortColumn === sortOrder.column && sortOrder.direction === 'asc'
-        ? 'desc'
-        : 'asc';
-    setSortOrder({ column: sortColumn, direction });
-  };
-
-  const sortedTransactions = [...transactions].sort((a, b) => {
-    let valueA, valueB;
-    if (sortOrder.column === 4) {
-      valueA = parseFloat(a.sum);
-      valueB = parseFloat(b.sum);
-    } else if (sortOrder.column === 0) {
-      valueA = new Date(a.date);
-      valueB = new Date(b.date);
-    } else {
-      valueA = a[sortOrder.column];
-      valueB = b[sortOrder.column];
-    }
-
-    return sortOrder.direction === 'asc'
-      ? valueA > valueB
-        ? 1
-        : -1
-      : valueA < valueB
-      ? 1
-      : -1;
-  });
-
-  const { sumPlus, sumMinus } = calculateSums();
-  const handleEdit = transactionId => {
-    const transactionToEdit = transactions.find(t => t.id === transactionId);
-    if (transactionToEdit) {
-      editTransaction(transactionToEdit);
-    }
-  };
-
-  const handleDelete = async transactionId => {
-    try {
-      const response = await walletInstance.delete(
-        `/transactions/${transactionId}`
-      );
-      if (response.status === 200) {
-        deleteTransaction(transactionId);
-      } else {
-        console.error('Error deleting transaction');
-      }
-    } catch (error) {
-      console.error('Error deleting transaction', error);
-    }
+    return type === 'Income' ? css.amountPlus : css.amountMinus;
   };
 
   return (
-    <div>
-      <div className={css.tableBg}>
-        <table className={css.transactionsTable}>
-          <thead className={css.transactionsTableHead}>
-            <tr>
-              <th onClick={() => handleSort(0)} title="Sort">
-                <div className={css.thName}>
-                  <span>Date</span>
-                  <svg className={css.iconSort} width="20px" height="20px">
-                    <use href={`${sprite}#icon-sort`}></use>
-                  </svg>
-                </div>
-              </th>
-              <th onClick={() => handleSort(1)} title="Sort">
-                <div className={css.thName}>
-                  <span>Type</span>
-                  <svg className={css.iconSort} width="20px" height="20px">
-                    <use href={`${sprite}#icon-sort`}></use>
-                  </svg>
-                </div>
-              </th>
-              <th onClick={() => handleSort(2)} title="Sort">
-                <div className={css.thName}>
-                  <span>Category</span>
-                  <svg className={css.iconSort} width="20px" height="20px">
-                    <use href={`${sprite}#icon-sort`}></use>
-                  </svg>
-                </div>
-              </th>
-              <th onClick={() => handleSort(3)} title="Sort">
-                <div className={css.thName}>
-                  <span>Comment</span>
-                  <svg className={css.iconSort} width="20px" height="20px">
-                    <use href={`${sprite}#icon-sort`}></use>
-                  </svg>
-                </div>
-              </th>
-              <th onClick={() => handleSort(4)} title="Sort">
-                <div className={css.thName}>
-                  <span>Amount</span>
-                  <svg className={css.iconSort} width="20px" height="20px">
-                    <use href={`${sprite}#icon-sort`}></use>
-                  </svg>
-                </div>
-              </th>
-              <th>Options</th>
+    <div className={css.tableBg}>
+      <table className={css.transactionsTable}>
+        <thead className={css.transactionsTableHead}>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Comment</th>
+            <th>Amount</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map(transaction => (
+            <tr key={transaction._id}>
+              <td>{formatDate(transaction.date)}</td>
+              <td>{transaction.type}</td>
+              <td>{transaction.category}</td>
+              <td>{transaction.comment}</td>
+              <td className={getAmountClass(transaction.type)}>
+                {transaction.sum}
+              </td>
+              <td>
+                <button onClick={() => handleUpdate(transaction)}>Edit</button>
+                <button onClick={() => handleDelete(transaction._id)}>
+                  Delete
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody className={css.transactionsTableBody}>
-            {sortedTransactions.map(transaction => (
-              <tr key={transaction._id}>
-                <td>{transaction.date}</td>
-                <td>{transaction.type}</td>
-                <td>{transaction.category}</td>
-                <td>{transaction.comment}</td>
-                <td className={getAmountClass(transaction.type)}>
-                  {transaction.sum}
-                </td>
-                <td>
-                  <svg
-                    className={css.iconTransactions}
-                    width="20px"
-                    height="20px"
-                    onClick={() => handleEdit(transaction.id)}
-                  >
-                    <use href={`${sprite}#icon-pencil2`}></use>
-                  </svg>
-                  <svg
-                    className={css.iconTransactions}
-                    width="20px"
-                    height="20px"
-                    onClick={() => handleDelete(transaction.id)}
-                  >
-                    <use href={`${sprite}#icon-bin`}></use>
-                  </svg>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className={css.sumSection}>
-        <p>Incomes: {sumPlus.toFixed(2)}</p>
-        <p>Expenses: {sumMinus.toFixed(2)}</p>
-        <p>Balance: {userBalance}</p>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
+
+// import React, { useState, useEffect, useCallback } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import css from './Transactions.module.scss';
+// import sprite from 'images/icons.svg';
+// import { getUserDetails } from 'redux/session/operations';
+// import { selectUserDetails } from 'redux/session/selectors';
+
+// import { walletInstance } from 'utils/api';
+
+// export const Transactions = ({
+//   transactions,
+//   deleteTransaction,
+//   editTransaction,
+// }) => {
+//   const [, setSums] = useState({ sumPlus: 0, sumMinus: 0, balance: 0 });
+//   const [sortOrder, setSortOrder] = useState({
+//     column: null,
+//     direction: 'asc',
+//   });
+//   const dispatch = useDispatch();
+//   const userDetails = useSelector(selectUserDetails);
+//   const userBalance = userDetails ? userDetails.balance : 0;
+
+//   useEffect(() => {
+//     dispatch(getUserDetails());
+//   }, [dispatch, transactions, deleteTransaction]);
+
+//   const calculateSums = useCallback(() => {
+//     let sumPlus = 0;
+//     let sumMinus = 0;
+
+//     transactions.forEach(transaction => {
+//       const amount = parseFloat(transaction.sum);
+//       if (transaction.type === 'Income') {
+//         sumPlus += amount;
+//       } else if (transaction.type === 'Expense') {
+//         sumMinus += amount;
+//       }
+//     });
+
+//     return { sumPlus, sumMinus, balance: sumPlus - sumMinus };
+//   }, [transactions]);
+
+//   useEffect(() => {
+//     const { sumPlus, sumMinus, balance } = calculateSums();
+//     setSums({ sumPlus, sumMinus, balance });
+//   }, [transactions, calculateSums]);
+
+//   const getAmountClass = type => {
+//     return type === 'Income'
+//       ? css.amountPlus
+//       : type === 'Expense'
+//       ? css.amountMinus
+//       : '';
+//   };
+
+//   const handleSort = sortColumn => {
+//     const direction =
+//       sortColumn === sortOrder.column && sortOrder.direction === 'asc'
+//         ? 'desc'
+//         : 'asc';
+//     setSortOrder({ column: sortColumn, direction });
+//   };
+
+//   const sortedTransactions = [...transactions].sort((a, b) => {
+//     let valueA, valueB;
+//     if (sortOrder.column === 4) {
+//       valueA = parseFloat(a.sum);
+//       valueB = parseFloat(b.sum);
+//     } else if (sortOrder.column === 0) {
+//       valueA = new Date(a.date);
+//       valueB = new Date(b.date);
+//     } else {
+//       valueA = a[sortOrder.column];
+//       valueB = b[sortOrder.column];
+//     }
+
+//     return sortOrder.direction === 'asc'
+//       ? valueA > valueB
+//         ? 1
+//         : -1
+//       : valueA < valueB
+//       ? 1
+//       : -1;
+//   });
+
+//   const { sumPlus, sumMinus } = calculateSums();
+
+//   const handleEdit = transactionId => {
+//     const transactionToEdit = transactions.find(t => t._id === transactionId);
+//     if (transactionToEdit) {
+//       editTransaction(transactionToEdit);
+//     }
+//   };
+
+//   const handleDelete = async transactionId => {
+//     try {
+//       const response = await walletInstance.delete(
+//         `/transactions/${transactionId}`
+//       );
+//       if (response.status === 200) {
+//         deleteTransaction(transactionId);
+//       } else {
+//         console.error('Error deleting transaction');
+//       }
+//     } catch (error) {
+//       console.error('Error deleting transaction', error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <div className={css.tableBg}>
+//         <table className={css.transactionsTable}>
+//           <thead className={css.transactionsTableHead}>
+//             <tr>
+//               <th onClick={() => handleSort(0)} title="Sort">
+//                 <div className={css.thName}>
+//                   <span>Date</span>
+//                   <svg className={css.iconSort} width="20px" height="20px">
+//                     <use href={`${sprite}#icon-sort`}></use>
+//                   </svg>
+//                 </div>
+//               </th>
+//               <th onClick={() => handleSort(1)} title="Sort">
+//                 <div className={css.thName}>
+//                   <span>Type</span>
+//                   <svg className={css.iconSort} width="20px" height="20px">
+//                     <use href={`${sprite}#icon-sort`}></use>
+//                   </svg>
+//                 </div>
+//               </th>
+//               <th onClick={() => handleSort(2)} title="Sort">
+//                 <div className={css.thName}>
+//                   <span>Category</span>
+//                   <svg className={css.iconSort} width="20px" height="20px">
+//                     <use href={`${sprite}#icon-sort`}></use>
+//                   </svg>
+//                 </div>
+//               </th>
+//               <th onClick={() => handleSort(3)} title="Sort">
+//                 <div className={css.thName}>
+//                   <span>Comment</span>
+//                   <svg className={css.iconSort} width="20px" height="20px">
+//                     <use href={`${sprite}#icon-sort`}></use>
+//                   </svg>
+//                 </div>
+//               </th>
+//               <th onClick={() => handleSort(4)} title="Sort">
+//                 <div className={css.thName}>
+//                   <span>Amount</span>
+//                   <svg className={css.iconSort} width="20px" height="20px">
+//                     <use href={`${sprite}#icon-sort`}></use>
+//                   </svg>
+//                 </div>
+//               </th>
+//               <th>Options</th>
+//             </tr>
+//           </thead>
+//           <tbody className={css.transactionsTableBody}>
+//             {sortedTransactions.map(transaction => (
+//               <tr key={transaction._id}>
+//                 <td>{transaction.date}</td>
+//                 <td>{transaction.type}</td>
+//                 <td>{transaction.category}</td>
+//                 <td>{transaction.comment}</td>
+//                 <td className={getAmountClass(transaction.type)}>
+//                   {transaction.sum}
+//                 </td>
+//                 <td>
+//                   <svg
+//                     className={css.iconTransactions}
+//                     width="20px"
+//                     height="20px"
+//                     onClick={() => handleEdit(transaction._id)}
+//                   >
+//                     <use href={`${sprite}#icon-pencil2`}></use>
+//                   </svg>
+//                   <svg
+//                     className={css.iconTransactions}
+//                     width="20px"
+//                     height="20px"
+//                     onClick={() => handleDelete(transaction.id)}
+//                   >
+//                     <use href={`${sprite}#icon-bin`}></use>
+//                   </svg>
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//       <div className={css.sumSection}>
+//         <p>Incomes: {sumPlus.toFixed(2)}</p>
+//         <p>Expenses: {sumMinus.toFixed(2)}</p>
+//         <p>Balance: {userBalance}</p>
+//       </div>
+//     </div>
+//   );
+// };

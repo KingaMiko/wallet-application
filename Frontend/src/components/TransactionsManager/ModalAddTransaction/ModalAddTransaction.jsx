@@ -25,17 +25,6 @@ export const AddTransactionModal = ({ addTransaction }) => {
 
   const [categories, setCategories] = useState([]);
 
-  const validationSchema = Yup.object().shape({
-    type: Yup.string(),
-    sum: Yup.number()
-      .typeError('Amount must be a number')
-      .required('Amount is required')
-      .positive('Amount must be a positive number'),
-    date: Yup.date().required('Date is required'),
-    category: Yup.string().required('Category is required'),
-    comment: Yup.string(),
-  });
-
   const dispatch = useDispatch();
   const isAddTransactionModalOpen = useSelector(
     selectIsModalAddTransactionOpen
@@ -64,7 +53,6 @@ export const AddTransactionModal = ({ addTransaction }) => {
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      console.log(values);
       const valuesToSend = {
         sum: values.sum,
         date: values.date.toISOString().split('T')[0],
@@ -82,6 +70,11 @@ export const AddTransactionModal = ({ addTransaction }) => {
         resetForm();
         toast.success('Transaction added successfully!');
       } else {
+        // Obsługa błędu, np. wyświetlenie komunikatu
+        console.log(
+          'Error adding transaction. Server returned:',
+          response.status
+        );
         toast.error('Error adding transaction. Please try again.');
       }
     } catch (error) {
@@ -93,6 +86,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
         });
         setErrors(errors);
       } else {
+        console.error('Error adding transaction:', error);
         toast.error('Error adding transaction. Please try again.');
       }
     } finally {
@@ -116,11 +110,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
           </button>
         </div>
         <div>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}
-          >
+          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {({
               isSubmitting,
               handleSubmit,

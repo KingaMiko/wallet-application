@@ -20,6 +20,10 @@ export const EditTransactionModal = ({
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    console.log('Edytowana transakcja w modalu:', editedTransaction);
+  }, [editedTransaction]);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await walletInstance.get('/categories');
@@ -64,6 +68,7 @@ export const EditTransactionModal = ({
     values,
     { setSubmitting, resetForm, setErrors }
   ) => {
+    console.log('Aktualnie edytowana transakcja:', editedTransaction);
     try {
       const valuesToSend = {
         sum: values.sum,
@@ -72,15 +77,18 @@ export const EditTransactionModal = ({
         category: values.category,
         comment: values.comment,
       };
-
-      const response = await walletInstance.patch(
-        `/transactions/${editedTransaction.id}`,
+      console.log(
+        'Wysyłanie danych do API:',
+        `/transactions/${editedTransaction._id}`,
         valuesToSend
       );
-      console.log(response);
-
+      const response = await walletInstance.patch(
+        `/transactions/${editedTransaction._id}`,
+        valuesToSend
+      );
+      console.log('Odpowiedź z serwera:', response.data);
       if (response.status === 200) {
-        updateTransactionList(response.data.data);
+        updateTransactionList(response.data);
         handleCloseEditTransactionModal();
         resetForm();
         toast.success('Transaction updated successfully!');

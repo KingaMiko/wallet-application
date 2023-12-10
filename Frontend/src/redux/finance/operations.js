@@ -26,7 +26,8 @@ export const addTransaction = createAsyncThunk(
       const res = await walletInstance.post('/transactions', transaction);
       // toast do testów, wykasować później
       toast.success('Success!');
-      return res.data;
+
+      return res.data.data;
     } catch (error) {
       const errorMessage = error.response.data.description;
       toast.error(errorMessage);
