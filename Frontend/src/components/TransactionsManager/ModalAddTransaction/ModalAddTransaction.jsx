@@ -16,7 +16,7 @@ import sprite from '../../../images/icons.svg';
 
 export const AddTransactionModal = ({ addTransaction }) => {
   const initialValues = {
-    type: 'Expense',
+    type: false,
     sum: '',
     category: '',
     date: new Date(),
@@ -64,7 +64,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
       const valuesToSend = {
         sum: values.sum,
         date: values.date.toISOString(),
-        type: values.type,
+        type: values.type ? 'Income' : 'Expense',
         category: values.category,
         comment: values.comment,
       };
