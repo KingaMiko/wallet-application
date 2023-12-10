@@ -1,50 +1,32 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
-
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
-import React, { useState, useEffect } from 'react';
 import 'react-datetime/css/react-datetime.css';
-import { Formik, Field, ErrorMessage, Form } from 'formik';
-import { walletInstance } from 'utils/api';
 
 import { Button } from 'components';
-import css from './ModalAddTransaction.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
-import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
+import { walletInstance } from 'utils/api';
+import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
+import { selectIsModalEditTransactionOpen } from 'redux/global/selectors';
 import sprite from '../../../images/icons.svg';
+import css from './ModalEditTransaction.module.scss';
 
-export const AddTransactionModal = ({ addTransaction }) => {
-  const initialValues = {
-    type: 'Expense',
-    sum: '',
-    category: '',
-    date: new Date(),
-    comment: '',
-  };
-
-  const validationSchema = Yup.object().shape({
-    type: Yup.string(),
-    sum: Yup.number()
-      .positive('Sum must be a positive number')
-      .required('Sum is required'),
-    category: Yup.string().required('Category is required'),
-    date: Yup.date().required('Date is required'),
-    comment: Yup.string(),
-  });
-
+export const EditTransactionModal = ({
+  editedTransaction,
+  updateTransactionList,
+}) => {
   const [categories, setCategories] = useState([]);
 
-  const dispatch = useDispatch();
-  const isAddTransactionModalOpen = useSelector(
-    selectIsModalAddTransactionOpen
-  );
+  useEffect(() => {
+    console.log('Edytowana transakcja w modalu:', editedTransaction);
+  }, [editedTransaction]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await walletInstance.get('/categories');
-
         const fetchedCategories = response.data.data;
         setCategories(fetchedCategories);
       } catch (error) {
@@ -54,48 +36,83 @@ export const AddTransactionModal = ({ addTransaction }) => {
     fetchCategories();
   }, []);
 
-  const handleCloseAddTransactionModal = () => {
-    dispatch(setIsModalAddTransactionOpen(false));
+  const initialValues = {
+    type: editedTransaction ? editedTransaction.type === 'Income' : false,
+    sum: editedTransaction ? editedTransaction.sum : '',
+    category: editedTransaction ? editedTransaction.category : '',
+    date: editedTransaction ? new Date(editedTransaction.date) : new Date(),
+    comment: editedTransaction ? editedTransaction.comment : '',
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    setSubmitting(true);
+  const validationSchema = Yup.object().shape({
+    type: Yup.string(),
+    sum: Yup.number()
+      .typeError('Amount must be a number')
+      .required('Amount is required')
+      .positive('Amount must be a positive number'),
+    date: Yup.date().required('Date is required'),
+    category: Yup.string().required('Category is required'),
+    comment: Yup.string(),
+  });
+
+  const dispatch = useDispatch();
+  const isEditTransactionModalOpen = useSelector(
+    selectIsModalEditTransactionOpen
+  );
+
+  const handleCloseEditTransactionModal = () => {
+    dispatch(setIsModalEditTransactionOpen(false));
+  };
+
+  const handleSubmit = async (
+    values,
+    { setSubmitting, resetForm, setErrors }
+  ) => {
+    console.log('Aktualnie edytowana transakcja:', editedTransaction);
     try {
       const valuesToSend = {
         sum: values.sum,
-        date: values.date.toISOString(),
-        type: values.type,
+        date: values.date.toISOString().split('T')[0],
+        type: values.type ? 'Income' : 'Expense',
         category: values.category,
         comment: values.comment,
       };
-      console.log(valuesToSend.date);
-      const response = await walletInstance.post('/transactions', valuesToSend);
-      if (response.status === 201) {
-        console.log('Transaction added successfully!', response.data);
-        addTransaction(response.data);
-        toast.success('Transaction added successfully!');
+      console.log(
+        'Wysyłanie danych do API:',
+        `/transactions/${editedTransaction._id}`,
+        valuesToSend
+      );
+      const response = await walletInstance.patch(
+        `/transactions/${editedTransaction._id}`,
+        valuesToSend
+      );
+      console.log('Odpowiedź z serwera:', response.data);
+      if (response.status === 200) {
+        updateTransactionList(response.data);
+        handleCloseEditTransactionModal();
+        resetForm();
+        toast.success('Transaction updated successfully!');
       } else {
-        toast.error('Error adding transaction. Please try again.');
+        toast.error('Error updating transaction. Please try again.');
       }
     } catch (error) {
-      console.error('Error adding transaction:', error);
-      toast.error('Error adding transaction. Please try again.');
+      console.error('Error:', error);
+      setErrors({ submit: error.message });
+      toast.error('Error processing transaction. Please try again.');
     } finally {
       setSubmitting(false);
-      resetForm();
-      handleCloseAddTransactionModal();
     }
   };
 
-  return isAddTransactionModalOpen ? (
+  return isEditTransactionModalOpen ? (
     <div className={css.modal__overlay}>
       <div className={css.modal}>
         <div>
-          <h5 className={css.modal__title}>Add Transaction</h5>
+          <h5 className={css.modal__title}>Edit Transaction</h5>
           <button
             type="button"
             className={css.modal__close}
-            onClick={handleCloseAddTransactionModal}
+            onClick={handleCloseEditTransactionModal}
           >
             <svg width="16px" height="16px">
               <use href={`${sprite}#icon-close`}></use>
@@ -227,13 +244,13 @@ export const AddTransactionModal = ({ addTransaction }) => {
                 </div>
                 <div className={css.form__btn_container}>
                   <Button type="submit" theme="color" disabled={isSubmitting}>
-                    Add
+                    Edit
                   </Button>
 
                   <Button
                     type="button"
                     theme="white"
-                    onClick={handleCloseAddTransactionModal}
+                    onClick={handleCloseEditTransactionModal}
                   >
                     Cancel
                   </Button>

@@ -1,80 +1,68 @@
 import transaction from "#models/transaction.js";
 import User from "#models/user.js";
 import { updateUser } from "#helpers/transactionHelper.js";
-import { updateTransactionById } from "#helpers/transactionHelper.js";
-import mongoose from "mongoose";
 
 /**
- * @typedef {object} Id
- * @property {string} id.required - type of transaction
- */
-/**
- * @typedef {object} Transaction
- * @property {string} type.required - type of transaction
- * @property {string} category - category of transaction
- * @property {number} sum - sum of transaction
- * @property {string} comment - comment of transaction
- * @property {date} date.required - date of transaction
+ * @typedef {object} TransactionUpdate
+ * @property {string} type.required - Type of transaction (Income/Expense)
+ * @property {string} category - ObjectId of the transaction category from MongoDB
+ * @property {number} sum - Sum of transaction
+ * @property {string} comment - Comment of transaction
+ * @property {date} date.required - Date of transaction
  */
 
 /**
- * PATCH /api/transactions
+ * PATCH /api/transactions/{id}
  *
  * @security BearerAuth
- * @param {Id} request.params.required
- * @param {Transaction} request.body.required
- * @return {ResponseWithDataSchema} 201 - Success
- * @return {ResponseSchema} 403 - No authorization
+ * @param {string} id.path.required - ID of the transaction to update
+ * @param {TransactionUpdate} request.body.required - Data to update the transaction
+ * @return {ResponseWithDataSchema} 200 - Success
+ * @return {ResponseSchema} 403 - Forbidden (No authorization or not owner of the transaction)
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
-
 export const updateTransaction = async (req, res) => {
   const ownerId = req.user.id;
   const { id } = req.params;
   const { type, category, sum, comment, date } = req.body;
-  const ourUser = await User.findOne({ _id: ownerId });
+
   try {
-    const ourTransaction = await transaction.findOne({ _id: id });
-    if (ownerId === ourTransaction.owner.toString()) {
-      const newTransaction = new transaction({
-        _id: id,
-        type,
-        category,
-        sum,
-        comment,
-        date,
-      });
-
-      if (sum !== ourTransaction.sum || type !== ourTransaction.type) {
-        if (ourTransaction.type === "Income" && type === "Income") {
-          const usersBalance = await updateUser(ourUser.id, {
-            balance: ourUser.balance - ourTransaction.sum + sum,
-          });
-        } else if (ourTransaction.type === "Income" && type === "Expense") {
-          const usersBalance = await updateUser(ourUser.id, {
-            balance: ourUser.balance - ourTransaction.sum - sum,
-          });
-        } else if (ourTransaction.type === "Expense" && type === "Expense") {
-          const usersBalance = await updateUser(ourUser.id, {
-            balance: ourUser.balance + ourTransaction.sum - sum,
-          });
-        } else if (ourTransaction.type === "Expense" && type === "Income") {
-          const usersBalance = await updateUser(ourUser.id, {
-            balance: ourUser.balance + ourTransaction.sum + sum,
-          });
-        }
-      }
-
-      const result = await updateTransactionById(id, newTransaction);
-      return res.status(201).json({
-        statusCode: 201,
-        description: "Transaction updated",
-        data: result,
-      });
+    const ourTransaction = await transaction.findOne({
+      _id: id,
+      owner: ownerId,
+    });
+    if (!ourTransaction) {
+      return res
+        .status(403)
+        .json({ description: "You don't have permission to do this" });
     }
-    return res
-      .status(403)
-      .json({ description: "You dont have permision to do that" });
+
+    ourTransaction.type = type;
+    ourTransaction.category = category;
+    ourTransaction.sum = sum;
+    ourTransaction.comment = comment;
+    ourTransaction.date = date;
+
+    const user = await User.findOne({ _id: ownerId });
+    if (type !== ourTransaction.type || sum !== ourTransaction.sum) {
+      if (type === "Income") {
+        await updateUser(user.id, {
+          balance: user.balance - ourTransaction.sum + sum,
+        });
+      } else if (type === "Expense") {
+        await updateUser(user.id, {
+          balance: user.balance + ourTransaction.sum - sum,
+        });
+      }
+    }
+
+    await ourTransaction.save();
+
+    return res.status(200).json({
+      statusCode: 200,
+      description: "Transaction updated successfully",
+      data: ourTransaction,
+    });
   } catch (error) {
     return res.status(400).json({ description: error.message });
   }
