@@ -10,7 +10,7 @@ const RedirectPage = () => {
   const navigate = useNavigate();
   const { verificationToken } = useParams();
 
-  const verifyUrl = `${process.env.REACT_APP_API_URL}/users/verify/${verificationToken}`;
+  const verifyUrl = `/users/verify/${verificationToken}`;
 
   useEffect(() => {
     const verifyUser = async () => {
