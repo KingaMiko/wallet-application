@@ -34,10 +34,10 @@ const Header = () => {
           {isAuth ? (
             <>
               <button className={css.headerLogout} onClick={handleLogout}>
+                <p className={css.headerSideText}>Exit</p>
                 <svg icon="logout" width="18px" height="18px">
                   <use href={`${sprite}#icon-exit`}></use>
                 </svg>
-                <p className={css.headerSideText}>Exit</p>
               </button>
               <button className={css.headerLogout} onClick={toggleModal}>
                 <p className={css.headerSideText}>Settings</p>
