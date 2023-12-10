@@ -229,5 +229,15 @@
 .tableContainer {
     max-height: 300px;
     overflow: auto;
+    scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
 }
 
+.tableContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+    background-color: get-color('green1')
+   
+}
