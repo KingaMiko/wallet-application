@@ -2,7 +2,7 @@ import User from "#models/user.js";
 
 /**
  * GET /api/users/verify/{verificationToken}
- * 
+ *
  * @param {string} verificationToken.path - Verification token
  * @return {ResponseSchema} 200 - Success
  * @return {ResponseSchema} 404 - User not found
@@ -24,6 +24,10 @@ export const verifyUser = async (req, res, next) => {
     user.verificationToken = " ";
     user.verified = true;
     await user.save();
+
+    // redirect po pomyślnej weryfikacji użytkownika
+    // const redirectUrl = process.env.FRONT_BASE_URL;
+    // res.redirect(302, redirectUrl);
 
     return res.status(200).json({
       statusCode: 200,

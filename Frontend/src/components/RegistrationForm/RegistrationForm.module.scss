@@ -1,3 +1,5 @@
+@import 'styles/utils/vars';
+
 .registration-form {
   display: flex;
   flex-direction: column;
@@ -11,4 +13,9 @@
   button:not(:last-of-type) {
     margin-bottom: 20px;
   }
+}
+
+.verification-message {
+  margin-top: 20px;
+  color: get-color('gray6');
 }

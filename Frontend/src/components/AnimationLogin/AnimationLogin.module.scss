@@ -1,0 +1,37 @@
+.icon-box {
+  width: 435px;
+  height: 420px;
+
+  position: relative;
+
+  & div {
+    position: absolute;
+  }
+}
+
+.icon-tel {
+  top: 20px;
+  left: 0;
+  z-index: 50;
+}
+
+.icon-man {
+  top: 54px;
+  left: 148px;
+  z-index: 100;
+}
+
+.icon-card {
+  top: 0;
+  left: 268px;
+}
+
+.icon-cash {
+  top: 171px;
+  left: 361px;
+}
+
+.icon-basket {
+  top: 109px;
+  left: 20px;
+}
