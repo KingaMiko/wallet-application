@@ -9,7 +9,7 @@ import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
 import { Logo } from 'components/Logo/Logo';
 import { OpenSettingsModal } from './Categories';
 
-import css from './Header.module.css';
+import css from './Header.module.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Header = () => {
               <button className={css.headerLogout} onClick={handleLogout}>
                 <p className={css.headerSideText}>Exit</p>
               </button>
-              <button className={css.headerSettings} onClick={toggleModal}>
+              <button className={css.headerLogout} onClick={toggleModal}>
                 <p className={css.headerSideText}>Settings</p>
               </button>
               <OpenSettingsModal openSettings={data => console.log(data)} />
