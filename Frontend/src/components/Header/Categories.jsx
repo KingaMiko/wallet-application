@@ -6,8 +6,8 @@ import * as Yup from 'yup';
 
 import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
 import { selectIsModalSettingsOpen } from 'redux/global/selectors';
-import { createCategory } from './../../redux/finance/operations';
-import { deleteUserCategory } from './../../redux/finance/operations';
+//import { createCategory } from './../../redux/finance/operations';
+//import { deleteUserCategory } from './../../redux/finance/operations';
 
 import { walletInstance } from 'utils/api';
 
