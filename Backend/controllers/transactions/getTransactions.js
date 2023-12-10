@@ -15,7 +15,7 @@ export const getTransactions = async (req, res, next) => {
   const ObjectId = mongoose.Types.ObjectId;
   const ownerId = new ObjectId(req.user.id);
   try {
-    const result = await findTransactions(ownerId, currentMonth, currentYear);
+    const result = await findTransactions(ownerId, currentYear, currentMonth);
 
     return res.status(200).json({
       statusCode: 200,

@@ -16,6 +16,9 @@
   @include mixins.mq(tablet) {
     width: 300px;
   }
+  @include mixins.mq(desktop) {
+    width: 300px;
+  }
 }
 
 .button-color {

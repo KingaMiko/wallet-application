@@ -27,7 +27,7 @@ const globalSlice = createSlice({
       state.isModalEditTransactionOpen = action.payload;
     },
     setIsModalSettingsOpen: (state, action) => {
-      state.isModalEditTransactionOpen = action.payload;
+      state.isModalSettingsOpen = action.payload;
     },
   },
   extraReducers: builder => {
