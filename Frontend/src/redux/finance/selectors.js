@@ -17,12 +17,12 @@ export const selectYear = state => state.finance.year;
 
 export const selectType = state => state.finance.type;
 
-export const selectExpenseStats = state => state.finance.expenseStats;
+// export const selectExpenseStats = state => state.finance.expenseStats;
 
-export const selectIncomeStats = state => state.finance.incomeStats;
+// export const selectIncomeStats = state => state.finance.incomeStats;
 
-export const selectExpenses = state => state.finance.expenses;
+// export const selectExpenses = state => state.finance.expenses;
 
-export const selectIncome = state => state.finance.income;
+// export const selectIncome = state => state.finance.income;
 
-export const selectEachMonthStats = state => state.finance.eachMonthStats;
+// export const selectEachMonthStats = state => state.finance.eachMonthStats;
