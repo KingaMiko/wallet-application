@@ -147,8 +147,8 @@ export const Transactions = ({ transactions, deleteTransaction }) => {
             </tr>
           </thead>
           <tbody className={css.transactionsTableBody}>
-            {sortedTransactions.map((transaction, index) => (
-              <tr key={index}>
+            {sortedTransactions.map(transaction => (
+              <tr key={transaction._id}>
                 <td>{transaction.date}</td>
                 <td>{transaction.type}</td>
                 <td>{transaction.category}</td>
