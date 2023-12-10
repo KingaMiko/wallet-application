@@ -3,11 +3,11 @@ import User from "#models/user.js";
 import { updateUser } from "#helpers/transactionHelper.js";
 /**
  * @typedef {object} Transaction
- * @property {string} type.required - type of transaction
+ * @property {string} type - type of transaction
  * @property {string} category - ObjectId of the transaction category from MongoDB
  * @property {number} sum - sum of transaction
  * @property {string} comment - comment of transaction
- * @property {date} date.required - date of transaction
+ * @property {date} date - date of transaction
  */
 
 /**
@@ -22,6 +22,7 @@ import { updateUser } from "#helpers/transactionHelper.js";
 export const addTransaction = async (req, res, next) => {
   const { type, category, sum, comment, date } = req.body;
   const ownerId = req.user.id;
+
   try {
     const newTrasaction = new transaction({
       type,

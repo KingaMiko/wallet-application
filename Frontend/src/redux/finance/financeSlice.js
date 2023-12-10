@@ -64,15 +64,17 @@ const financeSlice = createSlice({
       .addCase(addTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.transactions.push(action.payload.data);
+        state.transactions.push(action.payload);
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        const index = state.items.findIndex(
+        const index = state.transactions.findIndex(
           transaction => transaction.id === action.payload.id
         );
-        state.transactions.splice(index, 1);
+        if (index !== -1) {
+          state.transactions.splice(index, 1);
+        }
       })
       .addCase(updateTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
