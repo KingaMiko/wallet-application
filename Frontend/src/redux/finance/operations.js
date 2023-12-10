@@ -119,9 +119,9 @@ export const getUserCategoryById = createAsyncThunk(
 
 export const createCategory = createAsyncThunk(
   'finance/createCategory',
-  async ({ name, userId }, thunkAPI) => {
+  async ({ name, type }, thunkAPI) => {
     try {
-      const res = await walletInstance.post('/categories', { name, userId });
+      const res = await walletInstance.post('/categories', { name, type });
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;

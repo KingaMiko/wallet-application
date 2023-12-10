@@ -20,7 +20,7 @@ export const setupRoutes = (app) => {
 
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);
-  rootRouter.get("/statistics", auth, controllers.getStatistics);
+  rootRouter.post("/statistics", auth, controllers.getStatistics);
   rootRouter.get("/currencies", auth, controllers.getCurrencies);
   rootRouter.post("/currencies", controllers.updateCurrencies);
   rootRouter.get("/patterns", controllers.getPatterns);
