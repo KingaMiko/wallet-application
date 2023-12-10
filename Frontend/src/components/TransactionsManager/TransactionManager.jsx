@@ -22,7 +22,7 @@ export const TransactionsManager = () => {
   const handleAddTransaction = newTransactionData => {
     dispatch(addTransactionThunk(newTransactionData))
       .then(() => {
-        setTransactionAdded(true);
+        setTransactionAdded(prevState => !prevState);
       })
       .catch(error => {
         console.error('Błąd podczas dodawania transakcji:', error);
@@ -30,7 +30,13 @@ export const TransactionsManager = () => {
   };
 
   const handleDelete = transactionId => {
-    dispatch(deleteTransaction(transactionId));
+    dispatch(deleteTransaction(transactionId))
+      .then(() => {
+        dispatch(getTransactions());
+      })
+      .catch(error => {
+        console.error('Błąd podczas usuwania transakcji:', error);
+      });
   };
 
   const handleUpdate = updatedTransaction => {

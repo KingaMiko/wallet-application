@@ -16,12 +16,22 @@ import sprite from '../../../images/icons.svg';
 
 export const AddTransactionModal = ({ addTransaction }) => {
   const initialValues = {
-    type: false,
+    type: 'Expense',
     sum: '',
     category: '',
     date: new Date(),
     comment: '',
   };
+
+  const validationSchema = Yup.object().shape({
+    type: Yup.string(),
+    sum: Yup.number()
+      .positive('Sum must be a positive number')
+      .required('Sum is required'),
+    category: Yup.string().required('Category is required'),
+    date: Yup.date().required('Date is required'),
+    comment: Yup.string(),
+  });
 
   const [categories, setCategories] = useState([]);
 
@@ -48,49 +58,32 @@ export const AddTransactionModal = ({ addTransaction }) => {
     dispatch(setIsModalAddTransactionOpen(false));
   };
 
-  const handleSubmit = async (
-    values,
-    { setSubmitting, resetForm, setErrors }
-  ) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    setSubmitting(true);
     try {
       const valuesToSend = {
         sum: values.sum,
-        date: values.date.toISOString().split('T')[0],
-        type: values.type ? 'Income' : 'Expense',
+        date: values.date.toISOString(),
+        type: values.type,
         category: values.category,
         comment: values.comment,
       };
-
+      console.log(valuesToSend.date);
       const response = await walletInstance.post('/transactions', valuesToSend);
-
       if (response.status === 201) {
         console.log('Transaction added successfully!', response.data);
         addTransaction(response.data);
-        handleCloseAddTransactionModal();
-        resetForm();
         toast.success('Transaction added successfully!');
       } else {
-        // Obsługa błędu, np. wyświetlenie komunikatu
-        console.log(
-          'Error adding transaction. Server returned:',
-          response.status
-        );
         toast.error('Error adding transaction. Please try again.');
       }
     } catch (error) {
-      console.error('Validation error:', error);
-      if (error instanceof Yup.ValidationError) {
-        const errors = {};
-        error.inner.forEach(e => {
-          errors[e.path] = e.message;
-        });
-        setErrors(errors);
-      } else {
-        console.error('Error adding transaction:', error);
-        toast.error('Error adding transaction. Please try again.');
-      }
+      console.error('Error adding transaction:', error);
+      toast.error('Error adding transaction. Please try again.');
     } finally {
       setSubmitting(false);
+      resetForm();
+      handleCloseAddTransactionModal();
     }
   };
 
@@ -110,7 +103,11 @@ export const AddTransactionModal = ({ addTransaction }) => {
           </button>
         </div>
         <div>
-          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
             {({
               isSubmitting,
               handleSubmit,

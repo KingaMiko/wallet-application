@@ -27,7 +27,7 @@ export const addTransaction = createAsyncThunk(
       // toast do testów, wykasować później
       toast.success('Success!');
 
-      return res.data.data;
+      return res.data;
     } catch (error) {
       const errorMessage = error.response.data.description;
       toast.error(errorMessage);
