@@ -3,6 +3,10 @@ import { toast } from 'react-hot-toast';
 
 import { walletInstance } from 'utils/api';
 
+//////////////////////////////////
+////////// TRANSACTIONS //////////
+//////////////////////////////////
+
 export const getTransactions = createAsyncThunk(
   'finance/getTransactions',
   async (_, thunkAPI) => {
@@ -69,11 +73,15 @@ export const updateTransaction = createAsyncThunk(
   }
 );
 
+////////////////////////////////
+////////// STATISTICS //////////
+////////////////////////////////
+
 export const getStatistics = createAsyncThunk(
   'finance/getStatistics',
-  async (_, thunkAPI) => {
+  async (requestData, thunkAPI) => {
     try {
-      const res = await walletInstance.get('/statistics');
+      const res = await walletInstance.post('/statistics');
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
@@ -84,6 +92,10 @@ export const getStatistics = createAsyncThunk(
     }
   }
 );
+
+////////////////////////////////
+////////// CATEGORIES //////////
+////////////////////////////////
 
 export const getAllUserCategories = createAsyncThunk(
   'finance/getAllUserCategories',
@@ -119,9 +131,9 @@ export const getUserCategoryById = createAsyncThunk(
 
 export const createCategory = createAsyncThunk(
   'finance/createCategory',
-  async ({ name, userId }, thunkAPI) => {
+  async ({ name, type }, thunkAPI) => {
     try {
-      const res = await walletInstance.post('/categories', { name, userId });
+      const res = await walletInstance.post('/categories', { name, type });
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
