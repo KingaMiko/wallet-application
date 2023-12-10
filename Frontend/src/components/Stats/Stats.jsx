@@ -1,5 +1,5 @@
 import css from './Stats.module.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -12,23 +12,23 @@ import { walletInstance } from 'utils/api';
 import {
   selectMonth,
   selectYear,
-  selectType,
+  // selectType,
 } from '../../redux/finance/selectors';
 import {
-  setExpenseStats,
-  setIncomeStats,
-  setExpanses,
-  setIncome,
-  setEachMonthStats,
+  // setExpenseStats,
+  // setIncomeStats,
+  // setExpanses,
+  // setIncome,
+  // setEachMonthStats,
   setYear,
   setMonth,
 } from '../../redux/finance/financeSlice';
 
 export const Stats = () => {
   const dispatch = useDispatch();
-  const selectedYearRedux = useSelector(selectYear);
-  const selectedMonthRedux = useSelector(selectMonth);
-  const type = useSelector(selectType);
+  const selectedYear = useSelector(selectYear);
+  const selectedMonth = useSelector(selectMonth);
+  // const type = useSelector(selectType);
 
   const handleYearChange = selectedOption => {
     dispatch(setYear(selectedOption.value));
@@ -46,8 +46,7 @@ export const Stats = () => {
         month,
         year,
       });
-      const { expenseStats, incomeStats, expanses, income, eachMonthStats } =
-        response.data.data;
+      const {} = response.data.data;
       console.log('wysłano żądanie');
     } catch (error) {
       console.error('There was a problem fetching the data:', error);
@@ -56,20 +55,16 @@ export const Stats = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const today = new Date();
+      const year = today.getFullYear();
       try {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1;
         dispatch(setYear(year));
-        dispatch(setMonth(month));
 
         const response = await walletInstance.get('/statistics', {
-          month,
           year,
         });
 
-        const { expenseStats, incomeStats, expanses, income, eachMonthStats } =
-          response.data.data;
+        const {} = response.data.data;
         console.log('pierwsze żądanie danych');
       } catch (error) {
         console.error('There was a problem fetching the data:', error);
@@ -78,20 +73,9 @@ export const Stats = () => {
     fetchData();
   }, [dispatch]);
 
-  // const requestData = {
-  //   month: 12,
-  //   year: 2023,
-  //   type: 'someType',
-  // };
-
   /////////////////////////////////////////////
   /////////////////////////////////////////////
   /////////////////////////////////////////////
-  const [selectedYear, setSelectedYear] = useState({
-    value: 2023,
-    label: 2023,
-  });
-  const [selectedMonth, setSelectedMonth] = useState(null);
 
   const yearOptions = [
     { value: 2020, label: 2020 },
@@ -123,7 +107,7 @@ export const Stats = () => {
           <div>
             <Select
               options={yearOptions}
-              value={selectedYearRedux}
+              value={selectedYear}
               onChange={handleYearChange}
             />
           </div>
@@ -133,19 +117,16 @@ export const Stats = () => {
           <div>
             <Select
               options={monthOptions}
-              value={selectedMonthRedux}
+              value={selectedMonth}
               onChange={handleMonthChange}
             />
           </div>
         </div>
       </div>
       {selectedMonth ? (
-        <Monthly
-          selectedYear={selectedYearRedux}
-          selectedMonth={selectedMonthRedux}
-        />
+        <Monthly selectedYear={selectedYear} selectedMonth={selectedMonth} />
       ) : (
-        <Yearly selectedYear={selectedYearRedux} />
+        <Yearly selectedYear={selectedYear} />
       )}
     </div>
   );
