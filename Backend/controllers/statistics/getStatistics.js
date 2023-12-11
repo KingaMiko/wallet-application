@@ -37,7 +37,7 @@ export const getStatistics = async (req, res, next) => {
     const ourTransactions = await findTransactions(ownerId, year);
     const categories = await category.find({ _id: { $in: owner.categories } });
     console.log(ourTransactions);
-    const expenseStats = calculateStats(categories, expenseOrIncome, type);
+    const categoriesStats = calculateStats(categories, expenseOrIncome, type);
 
     const expanses = (
       await getTransactionByType(ownerId, "Expense", year, month)
@@ -56,7 +56,7 @@ export const getStatistics = async (req, res, next) => {
       statusCode: 200,
       description: "Users statistics",
       data: {
-        expenseStats,
+        categoriesStats,
         expanses,
         income,
         eachMonthStats,
