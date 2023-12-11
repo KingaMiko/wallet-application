@@ -28,7 +28,7 @@ export const TransactionsManager = () => {
         setTransactionAdded(prevState => !prevState);
       })
       .catch(error => {
-        console.error('Błąd podczas dodawania transakcji:', error);
+        console.error('Error while adding the transaction:', error);
       });
   };
 
@@ -43,7 +43,7 @@ export const TransactionsManager = () => {
         dispatch(getTransactions());
       })
       .catch(error => {
-        console.error('Błąd podczas usuwania transakcji:', error);
+        console.error('Error while deleting the transaction:', error);
       });
   };
 

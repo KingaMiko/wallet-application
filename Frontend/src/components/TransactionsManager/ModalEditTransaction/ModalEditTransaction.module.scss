@@ -1,25 +1,13 @@
 @import '../../../styles/utils/fonts';
 @import '../../../styles/utils/vars';
+@import '../../../styles/utils/mixins';
 
 .modal {
   background: #fff;
-  padding: 20px;
-  border-radius: 20px;
-  width: 540px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 9px;
+  width: 320px;
+  // width: 100%;
   position: relative;
-  &__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
   &__close {
     position: absolute;
     top: 0;
@@ -36,17 +24,21 @@
   &__title {
     font-family: 'Poppins';
     font-weight: 400;
-    font-size: 30px;
+    font-size: 24px;
     text-align: center;
-    margin: 20px 80px 40px;
+    margin-bottom: 40px;
+    width: 280px;
   }
 }
 
 .form {
+  &__label {
+    position: relative;
+  }
   &__checkbox_container {
     display: flex;
     align-items: center;
-    margin-bottom: 42px;
+    margin-bottom: 40px;
     justify-content: center;
   }
 
@@ -60,7 +52,7 @@
     display: flex;
     align-items: center;
     margin-right: 24px;
-    margin-left: 20px;
+    margin-left: 23px;
     &_expense {
       color: get-color('pink4');
     }
@@ -112,20 +104,23 @@
     font-size: 18px;
     height: 32px;
     &_flex {
-      display: flex;
-      gap: 32px;
+      // display: flex;
+      // gap: 32px;
       margin-bottom: 40px;
       & label {
-        width: 181px;
+        width: 280px;
         height: 32px;
         position: relative;
         & input {
           text-align: center;
         }
-        & .form__date input {
-          text-align: left;
-          padding-left: 20px;
-          width: 181px;
+        & .form__date {
+          display: flex;
+          justify-content: center;
+          & input {
+            text-align: center;
+            // width: 181px;
+          }
         }
       }
     }
@@ -136,7 +131,7 @@
   &__flex_container {
     justify-content: center;
     align-items: center;
-    margin: 0 53px;
+    // margin: 0 53px;
   }
   &__category {
     width: 100%;
@@ -145,30 +140,89 @@
       font-family: 'Circe';
       font-size: 18px;
       color: black;
-      background-color: rgba(0, 0, 0, 0);
-      border-radius: 50px;
-      &:hover {
-        background-color: white;
-        color: get-color('pink4');
-      }
     }
     &_active {
       color: black;
     }
   }
   &__btn_container {
+    & button {
+      width: 300px;
+    }
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 17px;
   }
 }
-.error-message {
+.error_message {
   position: absolute;
   top: 30px;
   left: 0;
   color: get-color('pink4');
   font-size: 14px;
   line-height: 1rem;
+}
+
+@include mq('tablet') {
+  .modal {
+    padding: 40px 73px;
+    border-radius: 20px;
+    width: 540px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    &__overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    &__title {
+      font-size: 30px;
+      margin: 0 auto 40px;
+    }
+  }
+  .form {
+    &__checkbox_container {
+      margin-bottom: 42px;
+    }
+    &__input {
+      &_flex {
+        display: flex;
+        gap: 32px;
+        & label {
+          width: 181px;
+          height: 32px;
+          position: relative;
+          & input {
+            text-align: center;
+          }
+          & .form__date input {
+            text-align: center;
+            width: 181px;
+          }
+        }
+      }
+    }
+    &__btn_container {
+      margin-bottom: 40px;
+    }
+  }
+}
+@include mq('desktop') {
+  .modal {
+    padding: 40px 20px;
+  }
+
+  .form {
+    &__flex_container {
+      margin: 0 53px;
+    }
+  }
 }
