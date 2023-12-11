@@ -36,10 +36,10 @@ export const getStatistics = async (req, res, next) => {
     const owner = await User.findById(ownerId);
     const ourTransactions = await findTransactions(ownerId, year);
     const categories = await category.find({ _id: { $in: owner.categories } });
-    console.log(ourTransactions);
-    const expenseStats = calculateStats(categories, expenseOrIncome, type);
 
-    const expanses = (
+    const categoriesStats = calculateStats(categories, expenseOrIncome, type);
+
+    const expenses = (
       await getTransactionByType(ownerId, "Expense", year, month)
     ).reduce((previouseValue, element) => {
       return (previouseValue += element.sum);
@@ -56,8 +56,8 @@ export const getStatistics = async (req, res, next) => {
       statusCode: 200,
       description: "Users statistics",
       data: {
-        expenseStats,
-        expanses,
+        categoriesStats,
+        expenses,
         income,
         eachMonthStats,
       },
