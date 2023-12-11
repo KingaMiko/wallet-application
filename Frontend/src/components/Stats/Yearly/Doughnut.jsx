@@ -20,7 +20,6 @@ export const DoughnutChart = () => {
   useEffect(() => {
     const fetchStatistics = async () => {
       console.log('fetchstatistics');
-      debugger;
       try {
         const response = await walletInstance.get('/statistics', {
           params: {
@@ -29,8 +28,6 @@ export const DoughnutChart = () => {
         });
 
         const { expanses, income } = response.data.data;
-        console.log('expanses', expanses);
-        console.log('income', income);
         setStatisticsData({ expenses: expanses, incomes: income });
       } catch (error) {
         console.error('There was a problem fetching statistics:', error);
@@ -45,7 +42,7 @@ export const DoughnutChart = () => {
     datasets: [
       {
         label: 'Amount',
-        data: [statisticsData.expenses, statisticsData.incomes], // Użycie danych z API
+        data: [statisticsData.expenses, statisticsData.incomes],
         backgroundColor: ['#24CCA7', '#6E78E8'],
         hoverBackgroundColor: ['#1aab8c', '#4A56E2'],
         borderColor: ['#24CCA7', '#6E78E8'],
