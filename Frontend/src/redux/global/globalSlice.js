@@ -7,6 +7,7 @@ const initialState = {
   isModalAddTransactionOpen: false,
   isModalEditTransactionOpen: false,
   isModalSettingsOpen: false,
+  isModalConfirmDeleteOpen: false,
   patterns: null,
 };
 
@@ -28,6 +29,9 @@ const globalSlice = createSlice({
     },
     setIsModalSettingsOpen: (state, action) => {
       state.isModalSettingsOpen = action.payload;
+    },
+    setIsModalConfirmDeleteOpen: (state, action) => {
+      state.isModalConfirmDeleteOpen = action.payload;
     },
   },
   extraReducers: builder => {
@@ -55,5 +59,6 @@ export const {
   setIsModalAddTransactionOpen,
   setIsModalEditTransactionOpen,
   setIsModalSettingsOpen,
+  setIsModalConfirmDeleteOpen,
 } = globalSlice.actions;
 export const globalReducer = globalSlice.reducer;
