@@ -93,7 +93,7 @@ const financeSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         const index = state.userCategories.findIndex(
-          category => category.id === action.payload.id
+          category => category.id === action.payload
         );
         state.userCategories.splice(index, 1);
       })
