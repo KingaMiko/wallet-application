@@ -174,8 +174,8 @@ export const EditTransactionModal = ({
                             : null
                         }`}
                       >
-                        <option hidden value="">
-                          Select a category
+                        <option selected value={editedTransaction.categoryId}>
+                          {editedTransaction.category}
                         </option>
                         {userCategories
                           .filter(category =>
