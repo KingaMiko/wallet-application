@@ -39,7 +39,7 @@ export const getStatistics = async (req, res, next) => {
 
     const categoriesStats = calculateStats(categories, expenseOrIncome, type);
 
-    const expanses = (
+    const expenses = (
       await getTransactionByType(ownerId, "Expense", year, month)
     ).reduce((previouseValue, element) => {
       return (previouseValue += element.sum);
@@ -57,7 +57,7 @@ export const getStatistics = async (req, res, next) => {
       description: "Users statistics",
       data: {
         categoriesStats,
-        expanses,
+        expenses,
         income,
         eachMonthStats,
       },

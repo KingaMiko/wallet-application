@@ -23,8 +23,8 @@ export const DoughnutChart = ({ selectedYear }) => {
           },
         });
 
-        const { expanses, income } = response.data.data;
-        setStatisticsData({ expenses: expanses, incomes: income });
+        const { expenses, income } = response.data.data;
+        setStatisticsData({ expenses: expenses, incomes: income });
       } catch (error) {
         console.error('There was a problem fetching statistics:', error);
       }
