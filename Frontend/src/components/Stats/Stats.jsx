@@ -31,12 +31,12 @@ export const Stats = () => {
   // const type = useSelector(selectType);
 
   const handleYearChange = selectedOption => {
-    dispatch(setYear(selectedOption.value));
+    dispatch(setYear(selectedOption));
     fetchData(selectedOption.value, selectedMonth?.value);
   };
 
   const handleMonthChange = selectedOption => {
-    dispatch(setMonth(selectedOption.value));
+    dispatch(setMonth(selectedOption));
     fetchData(selectedYear.value, selectedOption.value);
   };
 
@@ -57,9 +57,8 @@ export const Stats = () => {
     const fetchData = async () => {
       const today = new Date();
       const year = today.getFullYear();
+      dispatch(setYear(year));
       try {
-        dispatch(setYear(year));
-
         const response = await walletInstance.get('/statistics', {
           year,
         });

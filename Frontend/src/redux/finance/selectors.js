@@ -11,9 +11,9 @@ export const selectUserCategories = state => state.finance.userCategories;
 export const selectCategoryDetails = state => state.finance.categoryDetails;
 
 // statistics
-export const selectMonth = state => state.finance.month;
+export const selectMonth = state => state.finance.month.value;
 
-export const selectYear = state => state.finance.year;
+export const selectYear = state => state.finance.year.value;
 
 export const selectType = state => state.finance.type;
 
