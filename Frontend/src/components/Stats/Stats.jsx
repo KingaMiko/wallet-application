@@ -7,8 +7,6 @@ import { useDispatch } from 'react-redux';
 import { Yearly } from './Yearly/Yearly';
 import { Monthly } from './Monthly/Monthly';
 
-import { walletInstance } from 'utils/api';
-
 import {
   selectMonth,
   selectYear,
@@ -32,44 +30,16 @@ export const Stats = () => {
 
   const handleYearChange = selectedOption => {
     dispatch(setYear(selectedOption));
-    fetchData(selectedOption.value, selectedMonth?.value);
   };
 
   const handleMonthChange = selectedOption => {
     dispatch(setMonth(selectedOption));
-    fetchData(selectedYear.value, selectedOption.value);
-  };
-
-  const fetchData = async (year, month) => {
-    try {
-      const response = await walletInstance.get('/statistics', {
-        month,
-        year,
-      });
-      const {} = response.data.data;
-      console.log('wysłano żądanie');
-    } catch (error) {
-      console.error('There was a problem fetching the data:', error);
-    }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const today = new Date();
-      const year = today.getFullYear();
-      dispatch(setYear(year));
-      try {
-        const response = await walletInstance.get('/statistics', {
-          year,
-        });
-
-        const {} = response.data.data;
-        console.log('pierwsze żądanie danych');
-      } catch (error) {
-        console.error('There was a problem fetching the data:', error);
-      }
-    };
-    fetchData();
+    const today = new Date();
+    const year = today.getFullYear();
+    dispatch(setYear(year));
   }, [dispatch]);
 
   /////////////////////////////////////////////
