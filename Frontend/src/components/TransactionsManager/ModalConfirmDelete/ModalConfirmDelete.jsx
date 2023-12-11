@@ -18,8 +18,8 @@ export const ModalConfirmDelete = ({ onConfirm }) => {
       <div className={css.modal}>
         <div>
           <h5 className={css.modal__title}>
-            Are you sure you want to delete this transaction? This action cannot
-            be undone.
+            Are you sure you want to delete this transaction?{' '}
+            <p>*This action cannot be undone.</p>
           </h5>
           <button
             type="button"
