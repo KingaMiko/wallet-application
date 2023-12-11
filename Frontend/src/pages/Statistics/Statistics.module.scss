@@ -5,25 +5,16 @@ body {
   font-family: get-font('secondary');
   font-size: get-font-size('primary');
   color: get-color('brand_color-second');
-}
-
-body::-webkit-scrollbar {
-  width: 0px;
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: transparent;
+  background-color: get-color('gray-body');
 }
 
 .background {
+  backdrop-filter: blur(25px);
+  height: 100vh;
+  width: 100vw;
+
   @include mixins.mq(tablet) {
-    z-index: -1;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: get-color('gray-body');
+    position: relative;
 
     &::before {
       content: url('../../images/bg/bg-pink.svg');
@@ -37,7 +28,7 @@ body::-webkit-scrollbar-thumb {
     &::after {
       content: url('../../images/bg/bg-violet.svg');
       position: absolute;
-      bottom: -7px;
+      bottom: 0px;
       left: 0px;
       z-index: -1;
       filter: blur(25px);
@@ -45,25 +36,57 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-.dashboard_container {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(25px);
+.wrapper {
   height: 100vh;
-  width: 100vw;
+  padding-top: 120px;
+  display: flex;
+  flex-direction: column;
+
+  @include mixins.mq(tablet) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  @include mixins.mq(desktop) {
+  }
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 120px 16px 0 16px;
+.mainMobile {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.mainTabletAndDesktop {
+  width: 704px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include mixins.mq(desktop) {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 .sidebar {
-  width: 480px;
+  @include mixins.mq(tablet) {
+    width: 480px;
+    height: 200px;
+    display: flex;
+    align-items: start;
+    gap: 32px;
+  }
+
+  @include mixins.mq(desktop) {
+    flex-direction: column;
+    align-items: start;
+  }
 }
 
 .main {
-  width: 800px;
-  margin-left: 69px;
+  display: flex;
+  justify-content: center;
 }

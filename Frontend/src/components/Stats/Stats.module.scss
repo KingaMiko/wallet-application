@@ -1,3 +1,6 @@
+@use 'styles/utils/mixins';
+@import 'styles/utils/vars';
+
 .statsContainer {
   display: flex;
   flex-direction: column;
@@ -40,9 +43,17 @@
 .selections {
   margin-top: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 300px;
+
+  @include mixins.mq(tablet) {
+    flex-direction: row;
+    gap: 300px;
+  }
+
+  @include mixins.mq(desktop) {
+  }
 }
 
 .selectors {
