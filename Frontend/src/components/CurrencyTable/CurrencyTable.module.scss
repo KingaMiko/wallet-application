@@ -1,7 +1,8 @@
 @import '../../styles/utils/_vars.scss';
+
 .tableBg {
-  // margin-top: 28px;
-  // margin-left: 20px;
+  margin-top: 28px;
+  margin-left: 20px;
   background-color: get-color('purple3');
   width: 280px;
   height: 174px;
@@ -9,41 +10,49 @@
   overflow: hidden;
   overflow-y: auto;
   position: absolute;
+
   @media (min-width: 768px) {
-    // margin-left: 32px;
-    // margin-top: 32px;
+    margin-left: 32px;
+    margin-top: 32px;
     width: 336px;
     height: 182px;
+
+    &::after {
+      content: url('../../images/baseline.svg');
+      position: relative;
+      bottom: -30px;
+      right: 0px;
+    }
   }
-  @media (min-width: 1280) {
-    // margin-left: 18px;
-    // margin-top: 32px;
+
+  @media (min-width: 1280px) {
+    margin-left: 18px;
+    margin-top: 32px;
     width: 393px;
     height: 331px;
-  }
-  &::after {
-    content: url('../../images/baseline.svg');
-    position: relative;
-    bottom: -30px;
-    right: 0px;
-  }
-}
 
-.tableBg::-webkit-scrollbar {
-  width: 0px;
-}
+    &::after {
+      content: url('../../images/baseline.svg');
+      position: relative;
+      bottom: -40px;
+      right: 0px;
+    }
+  }
 
-.tableBg::-webkit-scrollbar-thumb {
-  // background-color: #7a7a7a;
-  background-color: transparent;
-  // border-radius: 6px;
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 }
 
 .currencyTable {
   border-collapse: collapse;
   line-height: 23.58px;
   color: get-color('white');
-  min-width: 393px;
+  min-width: 100%;
   table-layout: fixed;
 }
 
@@ -59,7 +68,8 @@
   width: 33.33%;
   font-size: get-font-size('primary');
   height: 50px;
-  @media (min-width: 1280) {
+
+  @media (min-width: 1280px) {
     height: 60px;
   }
 }
@@ -71,7 +81,8 @@
 
 .currencyTable tr {
   height: 50px;
-  @media (min-width: 1280) {
+
+  @media (min-width: 1280px) {
     height: 60px;
   }
 }

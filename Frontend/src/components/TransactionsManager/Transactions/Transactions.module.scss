@@ -1,25 +1,47 @@
 @import '../../../styles/utils/_vars.scss';
 
 .tableBg {
-  border-radius: 30px;
+  border-radius: 10px;
   overflow: auto;
-  width: 755px;
+  width: 100%;
   background-color: rgba(115, 115, 115, 0.043);
+  @media (min-width: 768px) {
+    border-radius: 20px;
+    width: 765px;
+  }
+  @media (min-width: 1280px) {
+    border-radius: 30px;
+    width: 755px;
+  }
 }
 
 .transactionsTable {
-  width: 755px;
+  width: 100%;
   border-collapse: collapse;
   line-height: 23.58px;
   color: get-color('black');
-  // table-layout: fixed;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 15px;
+  @media (min-width: 768px) {
+    border-radius: 20px;
+  }
+  @media (min-width: 1280px) {
+    border-radius: 30px;
+    width: 755px;
+  }
 }
 
 .transactionsTableHead {
   background-color: get-color('white');
   border-radius: 30px;
+
+  @media (min-width: 768px) {
+    border-radius: 20px;
+  }
+
+  @media (min-width: 1280px) {
+    border-radius: 30px;
+  }
 }
 
 .transactionsTablebody {
