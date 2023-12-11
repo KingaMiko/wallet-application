@@ -1,16 +1,11 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
 import { selectIsModalSettingsOpen } from 'redux/global/selectors';
-import {
-  getAllUserCategories,
-  createCategory,
-  deleteUserCategory,
-} from 'redux/finance/operations';
+import { createCategory, deleteUserCategory } from 'redux/finance/operations';
 import { selectUserCategories } from 'redux/finance/selectors';
 
 import { Button } from 'components';
@@ -19,6 +14,7 @@ import css from './Categories.module.scss';
 import sprite from 'images/icons.svg';
 
 export const OpenSettingsModal = () => {
+  const [categoryType, setCategoryType] = useState(false);
   const dispatch = useDispatch();
 
   const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
@@ -36,40 +32,20 @@ export const OpenSettingsModal = () => {
 
   const close = () => dispatch(setIsModalSettingsOpen(false));
 
-  const handleSubmit = (
-    values,
-    { setSubmitting, resetForm }
-  ) => {
-    try {
-      const valuesToSend = {
-        type: values.type ? 'Income' : 'Expense',
-        name: values.category,
-      };
+  const submit = (values, { resetForm }) => {
+    const valuesToSend = {
+      type: values.type ? 'Income' : 'Expense',
+      name: values.category,
+    };
 
-      dispatch(createCategory(valuesToSend));
-      resetForm();
-      toast.success('New category added successfully!');
-    } catch (error) {
-      console.error(error.message);
-      toast.error('Error adding new category!');
-    } finally {
-      setSubmitting(false);
-    }
+    dispatch(createCategory(valuesToSend));
+    resetForm();
   };
 
-  const handleDeleteCategory = categoryId => {
-    try {
-      dispatch(deleteUserCategory(categoryId));
-      toast.success('Category deleted successfully!');
-    } catch (error) {
-      console.error(error.message);
-      toast.error('Error deleting category!');
-    }
+  const onSetCategoryType = (catType, setFieldValueCB) => {
+    setFieldValueCB('type', catType);
+    setCategoryType(catType ? 'Income' : 'Expense');
   };
-
-  useEffect(() => {
-    dispatch(getAllUserCategories());
-  }, [dispatch]);
 
   return isSettingsModalOpen ? (
     <div className={css.modal__overlay}>
@@ -86,17 +62,11 @@ export const OpenSettingsModal = () => {
           <div>
             <Formik
               initialValues={formInitialValues}
-              onSubmit={handleSubmit}
+              onSubmit={submit}
               validationSchema={formValidationSchema}
             >
-              {({
-                isSubmitting,
-                handleSubmit,
-                setFieldValue,
-                values,
-                setErrors,
-              }) => (
-                <Form onSubmit={handleSubmit}>
+              {({ submit, setFieldValue, values }) => (
+                <Form>
                   <div className={css.form__checkbox_container}>
                     <label className={css.form__checkbox_label}>
                       <span
@@ -113,21 +83,20 @@ export const OpenSettingsModal = () => {
                         type="checkbox"
                         name="type"
                         id="type"
-                        onClick={() => {
-                          setFieldValue('type', !values.type);
-                          setErrors({});
-                        }}
+                        onClick={() =>
+                          onSetCategoryType(!values.type, setFieldValue)
+                        }
                         className={css.form__checkbox_input}
                       />
                       <div className={css.form__checkbox_custom}>
                         <div className={css.form__slider}>
-                          {values.type === false ? '-' : '+'}
+                          {categoryType === 'Expense' ? '-' : '+'}
                         </div>
                       </div>
                       <span
                         htmlFor="type"
                         className={`${css.form__checkbox_label} ${
-                          values.type === false
+                          categoryType === 'Expense'
                             ? css.form__checkbox_label_expense
                             : null
                         }`}
@@ -143,21 +112,15 @@ export const OpenSettingsModal = () => {
                         name="category"
                         placeholder="Add category"
                         className={css.form__category}
-                        onChange={e => {
-                          setFieldValue('category', e.target.value);
-                          setErrors({});
-                        }}
+                        onChange={e =>
+                          setFieldValue('category', e.target.value)
+                        }
                       />
                       <ErrorMessage name="category" component="div" />
                     </label>
                   </div>
                   <div className={css.form__btn_container}>
-                    <Button
-                      type="submit"
-                      theme="color"
-                      disabled={isSubmitting}
-                      onClick={handleSubmit}
-                    >
+                    <Button type="submit" theme="color" onClick={submit}>
                       Add
                     </Button>
                     <Button type="button" theme="white" onClick={close}>
@@ -180,20 +143,24 @@ export const OpenSettingsModal = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {userCategories.map(category => (
-                    <tr key={category._id}>
-                      <td>{category.name}</td>
-                      <td>
-                        <button
-                          type="button"
-                          className={css.deleteButton}
-                          onClick={() => handleDeleteCategory(category._id)}
-                        >
-                          X
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {userCategories
+                    .filter(category => category.type === categoryType)
+                    .map(category => (
+                      <tr id={category._id} key={category._id}>
+                        <td>{category.name}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className={css.deleteButton}
+                            onClick={() =>
+                              dispatch(deleteUserCategory(category._id))
+                            }
+                          >
+                            X
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

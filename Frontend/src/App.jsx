@@ -8,9 +8,10 @@ import {
   PrivateRoute,
   RestrictedRoute,
 } from 'components/';
-import { getPatterns } from 'redux/global/operations';
 import { selectIsLoading } from 'redux/global/selectors';
+import { getPatterns } from 'redux/global/operations';
 import { refreshUser } from 'redux/session/operations';
+import { getAllUserCategories } from 'redux/finance/operations';
 import { useAuth } from './hooks/useAuth';
 
 const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
@@ -27,6 +28,7 @@ export const App = () => {
   useEffect(() => {
     dispatch(refreshUser());
     dispatch(getPatterns());
+    dispatch(getAllUserCategories());
   }, [dispatch]);
 
   return isRefreshing || isLoading ? (

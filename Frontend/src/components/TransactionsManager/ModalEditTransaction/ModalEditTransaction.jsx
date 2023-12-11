@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
@@ -10,6 +9,8 @@ import { Button } from 'components';
 import { walletInstance } from 'utils/api';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalEditTransactionOpen } from 'redux/global/selectors';
+import { selectUserCategories } from 'redux/finance/selectors';
+
 import sprite from '../../../images/icons.svg';
 import css from './ModalEditTransaction.module.scss';
 
@@ -17,21 +18,6 @@ export const EditTransactionModal = ({
   editedTransaction,
   updateTransactionList,
 }) => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await walletInstance.get('/categories');
-        const fetchedCategories = response.data.data;
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error('Error fetching categories', error);
-      }
-    };
-    fetchCategories();
-  }, []);
-
   const initialValues = {
     type: editedTransaction ? editedTransaction.type === 'Income' : false,
     sum: editedTransaction ? editedTransaction.sum : '',
@@ -55,6 +41,7 @@ export const EditTransactionModal = ({
   const isEditTransactionModalOpen = useSelector(
     selectIsModalEditTransactionOpen
   );
+  const userCategories = useSelector(selectUserCategories);
 
   const handleCloseEditTransactionModal = () => {
     dispatch(setIsModalEditTransactionOpen(false));
@@ -190,11 +177,11 @@ export const EditTransactionModal = ({
                         <option hidden value="">
                           Select a category
                         </option>
-                        {categories
+                        {userCategories
                           .filter(category =>
                             values.type === true
-                              ? category.type === 'income'
-                              : category.type === 'expense'
+                              ? category.type === 'Income'
+                              : category.type === 'Expense'
                           )
                           .map(category => (
                             <option key={category._id} value={category._id}>
