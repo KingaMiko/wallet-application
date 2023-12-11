@@ -4,7 +4,7 @@ import category from "#models/category.js";
  * GET /api/categories
  *
  * @security BearerAuth
- * @return {ResponseWithDataSchema<Category[]>} 200 - Success, returns user's categories
+ * @return {ResponseWithDataSchema} 200 - Success, returns user's categories
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
 export const getAllUserCategories = async (req, res) => {
