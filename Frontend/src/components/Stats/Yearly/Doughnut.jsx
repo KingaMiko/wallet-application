@@ -12,9 +12,9 @@ export const DoughnutChart = () => {
       {
         label: 'Amount',
         data: [3500, 5000],
-        backgroundColor: ['#FF6384', '#2E8B57'],
-        hoverBackgroundColor: ['#FF425B', '#227547'],
-        borderColor: ['#FF6384', '#2E8B57'],
+        backgroundColor: ['#24CCA7', '#6E78E8'],
+        hoverBackgroundColor: ['#1aab8c', '#4A56E2'],
+        borderColor: ['#24CCA7', '#6E78E8'],
         borderWidth: 1,
       },
     ],
