@@ -6,7 +6,6 @@ import {
   selectIsModalSettingsOpen,
   selectIsModalLogoutOpen,
 } from 'redux/global/selectors';
-import { logOut } from 'redux/session/operations';
 import {
   setIsModalSettingsOpen,
   setIsModalLogoutOpen,
@@ -34,7 +33,6 @@ const Header = () => {
   const user = useSelector(selectUser);
   const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
 
-  const handleLogout = () => dispatch(logOut());
   const toggleModal = () =>
     dispatch(setIsModalSettingsOpen(!isSettingsModalOpen));
 
