@@ -1,16 +1,44 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { walletInstance } from 'utils/api';
+import { useEffect, useState } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const Incomes = () => {
+export const Incomes = ({ selectedYear, selectedMonth }) => {
+  const [categoryLabels, setCategoryLabels] = useState([]);
+  const [dataValues, setDataValues] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await walletInstance.get('/statistics', {
+          params: {
+            year: selectedYear,
+            type: 'Income',
+            month: selectedMonth,
+          },
+        });
+
+        const { categoriesStats } = response.data.data;
+
+        setCategoryLabels(categoriesStats.map(item => item.category));
+        setDataValues(categoriesStats.map(item => item.total));
+      } catch (error) {
+        console.error('There was a problem fetching the income data:', error);
+      }
+    };
+
+    fetchData();
+  }, [selectedYear, selectedMonth]);
+
   const data = {
-    labels: ['Main job', 'Dance classes', 'English lessons', 'Painting'],
+    labels: categoryLabels,
     datasets: [
       {
         label: 'Amount',
-        data: [5000, 500, 300, 600],
+        data: dataValues,
         backgroundColor: [
           '#FF6384',
           '#36A2EB',
@@ -65,7 +93,7 @@ export const Incomes = () => {
   };
 
   return (
-    <div style={{ width: '400px', height: '400px' }}>
+    <div>
       <Doughnut options={options} data={data} />
     </div>
   );
