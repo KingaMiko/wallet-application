@@ -5,7 +5,7 @@ import { Incomes } from './Incomes';
 import Select from 'react-select';
 import { Button } from 'components';
 
-export const Monthly = () => {
+export const Monthly = ({ selectedYear, selectedMonth, handleResetMonth }) => {
   const [selectedType, setSelectedType] = useState({
     value: 'Expenses',
     label: 'Expenses',
@@ -31,10 +31,14 @@ export const Monthly = () => {
         />
       </div>
       <div className={css.chartsMonthly}>
-        {selectedType.value === 'Expenses' && <Expenses />}
-        {selectedType.value === 'Incomes' && <Incomes />}
+        {selectedType.value === 'Expenses' && (
+          <Expenses selectedYear={selectedYear} selectedMonth={selectedMonth} />
+        )}
+        {selectedType.value === 'Incomes' && (
+          <Incomes selectedYear={selectedYear} selectedMonth={selectedMonth} />
+        )}
       </div>
-      <Button type="button" theme="color">
+      <Button type="button" theme="color" onClick={handleResetMonth}>
         Go back to Total
       </Button>
     </div>

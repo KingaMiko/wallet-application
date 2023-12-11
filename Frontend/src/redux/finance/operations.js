@@ -3,6 +3,10 @@ import { toast } from 'react-hot-toast';
 
 import { walletInstance } from 'utils/api';
 
+//////////////////////////////////
+////////// TRANSACTIONS //////////
+//////////////////////////////////
+
 export const getTransactions = createAsyncThunk(
   'finance/getTransactions',
   async (_, thunkAPI) => {
@@ -70,11 +74,15 @@ export const updateTransaction = createAsyncThunk(
   }
 );
 
+////////////////////////////////
+////////// STATISTICS //////////
+////////////////////////////////
+
 export const getStatistics = createAsyncThunk(
   'finance/getStatistics',
-  async (_, thunkAPI) => {
+  async (requestData, thunkAPI) => {
     try {
-      const res = await walletInstance.get('/statistics');
+      const res = await walletInstance.get('/statistics', requestData);
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
@@ -85,6 +93,10 @@ export const getStatistics = createAsyncThunk(
     }
   }
 );
+
+////////////////////////////////
+////////// CATEGORIES //////////
+////////////////////////////////
 
 export const getAllUserCategories = createAsyncThunk(
   'finance/getAllUserCategories',

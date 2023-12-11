@@ -1,6 +1,7 @@
 import css from './Stats.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+
 import { Yearly } from './Yearly/Yearly';
 import { Monthly } from './Monthly/Monthly';
 
@@ -11,6 +12,24 @@ export const Stats = () => {
   });
   const [selectedMonth, setSelectedMonth] = useState(null);
 
+  const handleYearChange = selectedOption => {
+    setSelectedYear(selectedOption);
+  };
+
+  const handleMonthChange = selectedOption => {
+    setSelectedMonth(selectedOption);
+  };
+
+  const handleResetMonth = () => {
+    setSelectedMonth(null);
+  };
+
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    setSelectedYear({ value: year, label: year });
+  }, [setSelectedYear]);
+
   const yearOptions = [
     { value: 2020, label: 2020 },
     { value: 2021, label: 2021 },
@@ -19,27 +38,19 @@ export const Stats = () => {
   ];
 
   const monthOptions = [
-    { value: 'January', label: 'January' },
-    { value: 'February', label: 'February' },
-    { value: 'March', label: 'March' },
-    { value: 'April', label: 'April' },
-    { value: 'May', label: 'May' },
-    { value: 'June', label: 'June' },
-    { value: 'July', label: 'July' },
-    { value: 'August', label: 'August' },
-    { value: 'September', label: 'September' },
-    { value: 'October', label: 'October' },
-    { value: 'November', label: 'November' },
-    { value: 'December', label: 'December' },
+    { value: '1', label: 'January' },
+    { value: '2', label: 'February' },
+    { value: '3', label: 'March' },
+    { value: '4', label: 'April' },
+    { value: '5', label: 'May' },
+    { value: '6', label: 'June' },
+    { value: '7', label: 'July' },
+    { value: '8', label: 'August' },
+    { value: '9', label: 'September' },
+    { value: '10', label: 'October' },
+    { value: '11', label: 'November' },
+    { value: '12', label: 'December' },
   ];
-
-  const handleYearChange = selectedOption => {
-    setSelectedYear(selectedOption);
-  };
-
-  const handleMonthChange = selectedOption => {
-    setSelectedMonth(selectedOption);
-  };
 
   return (
     <div className={css.statsContainer}>
@@ -66,9 +77,13 @@ export const Stats = () => {
         </div>
       </div>
       {selectedMonth ? (
-        <Monthly selectedYear={selectedYear} selectedMonth={selectedMonth} />
+        <Monthly
+          selectedYear={selectedYear.value}
+          selectedMonth={selectedMonth.value}
+          handleResetMonth={handleResetMonth}
+        />
       ) : (
-        <Yearly selectedYear={selectedYear} />
+        <Yearly selectedYear={selectedYear.value} />
       )}
     </div>
   );

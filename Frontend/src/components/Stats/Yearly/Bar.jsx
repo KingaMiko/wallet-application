@@ -1,5 +1,5 @@
-import React from 'react';
-import css from '../Stats.module.scss';
+import React, { useState, useEffect } from 'react';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +9,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+
+import css from '../Stats.module.scss';
+import { walletInstance } from 'utils/api';
 
 ChartJS.register(
   CategoryScale,
@@ -20,39 +22,57 @@ ChartJS.register(
   Legend
 );
 
-export const BarChart = () => {
-  const dataset = [
-    { Month: 'January', Incomes: 1000, Expenses: 5000 },
-    { Month: 'February', Incomes: 2000, Expenses: 5000 },
-    { Month: 'March', Incomes: 1500, Expenses: 2500 },
-    { Month: 'April', Incomes: 2500, Expenses: 1000 },
-    { Month: 'May', Incomes: 2200, Expenses: 3700 },
-    { Month: 'June', Incomes: 3000, Expenses: 4000 },
-    { Month: 'July', Incomes: 2800, Expenses: 2000 },
-    { Month: 'August', Incomes: 2400, Expenses: 1300 },
-    { Month: 'September', Incomes: 4800, Expenses: 2500 },
-    { Month: 'October', Incomes: 2500, Expenses: 5600 },
-    { Month: 'November', Incomes: 2850, Expenses: 4200 },
-    { Month: 'December', Incomes: 1800, Expenses: 1200 },
-  ];
+export const BarChart = ({ selectedYear }) => {
+  const [chartData, setChartData] = useState(null);
 
-  const labels = dataset.map(entry => entry.Month);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await walletInstance.get('/statistics', {
+          params: {
+            year: selectedYear,
+          },
+        });
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Expenses',
-        data: dataset.map(entry => entry.Expenses),
-        backgroundColor: '#FF6384',
-      },
-      {
-        label: 'Incomes',
-        data: dataset.map(entry => entry.Incomes),
-        backgroundColor: '#2E8B57',
-      },
-    ],
-  };
+        const data = response.data.data;
+
+        const months = Array.from({ length: 12 }, (_, i) => i + 1);
+
+        const expensesData = months.map(
+          month => data.eachMonthStats['Expense'][month] || 0
+        );
+        const incomesData = months.map(
+          month => data.eachMonthStats['Income'][month] || 0
+        );
+
+        const formattedData = {
+          labels: months.map(month =>
+            new Date(selectedYear, month - 1).toLocaleString('en-US', {
+              month: 'long',
+            })
+          ),
+          datasets: [
+            {
+              label: 'Expenses',
+              data: expensesData,
+              backgroundColor: '#24CCA7',
+            },
+            {
+              label: 'Incomes',
+              data: incomesData,
+              backgroundColor: '#6E78E8',
+            },
+          ],
+        };
+
+        setChartData(formattedData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [selectedYear]);
 
   const options = {
     responsive: true,
@@ -62,14 +82,14 @@ export const BarChart = () => {
       },
       title: {
         display: true,
-        text: 'Statistics in months',
+        text: 'Statistics for the year',
       },
     },
   };
 
   return (
     <div className={css.insideChartBar}>
-      <Bar options={options} data={data} />
+      {chartData ? <Bar options={options} data={chartData} /> : 'Loading...'}
     </div>
   );
 };

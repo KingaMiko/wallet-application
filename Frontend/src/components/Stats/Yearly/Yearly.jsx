@@ -3,11 +3,11 @@ import React from 'react';
 import { DoughnutChart } from './Doughnut';
 import { BarChart } from './Bar';
 
-export const Yearly = () => {
+export const Yearly = ({ selectedYear }) => {
   return (
     <div className={css.chartsYearly}>
-      <DoughnutChart />
-      <BarChart />
+      <DoughnutChart selectedYear={selectedYear} />
+      <BarChart selectedYear={selectedYear} />
     </div>
   );
 };

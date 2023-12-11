@@ -35,11 +35,25 @@ const initialState = {
   statistics: null,
   userCategories: [],
   categoryDetails: null,
+  year: '',
+  month: '',
+  type: '',
 };
 
 const financeSlice = createSlice({
   name: 'finance',
   initialState,
+  reducers: {
+    setYear: (state, action) => {
+      state.year = action.payload;
+    },
+    setMonth: (state, action) => {
+      state.month = action.payload;
+    },
+    setType: (state, action) => {
+      state.type = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(getTransactions.fulfilled, (state, action) => {
@@ -109,4 +123,5 @@ const financeSlice = createSlice({
   },
 });
 
+export const { setYear, setMonth, setType } = financeSlice.actions;
 export const financeReducer = financeSlice.reducer;
