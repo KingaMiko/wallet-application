@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import css from '../Stats.module.scss';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,10 +9,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+
+import css from '../Stats.module.scss';
 import { walletInstance } from 'utils/api';
-import { useSelector } from 'react-redux';
-import { selectYear } from '../../../redux/finance/selectors';
 
 ChartJS.register(
   CategoryScale,
@@ -23,9 +22,8 @@ ChartJS.register(
   Legend
 );
 
-export const BarChart = () => {
+export const BarChart = ({ selectedYear }) => {
   const [chartData, setChartData] = useState(null);
-  const selectedYear = useSelector(selectYear);
 
   useEffect(() => {
     const fetchData = async () => {
