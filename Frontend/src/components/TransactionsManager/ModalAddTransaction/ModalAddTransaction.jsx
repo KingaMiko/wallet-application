@@ -53,18 +53,10 @@ export const AddTransactionModal = ({ addTransaction }) => {
         category: values.category,
         comment: values.comment,
       };
-      console.log(valuesToSend.date);
-      const response = await walletInstance.post('/transactions', valuesToSend);
-      if (response.status === 201) {
-        console.log('Transaction added successfully!', response.data);
-        addTransaction(response.data);
-        toast.success('Transaction added successfully!');
-      } else {
-        toast.error('Error adding transaction. Please try again.');
-      }
+      addTransaction(valuesToSend);
+      
     } catch (error) {
       console.error('Error adding transaction:', error);
-      toast.error('Error adding transaction. Please try again.');
     } finally {
       setSubmitting(false);
       resetForm();
