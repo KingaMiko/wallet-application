@@ -51,6 +51,7 @@ export const findTransactions = (ownerId, year, month) => {
       $project: {
         type: 1,
         category: "$categoryData.name",
+        categoryId: "$categoryData._id",
         sum: 1,
         comment: 1,
         date: 1,
