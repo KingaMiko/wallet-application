@@ -94,7 +94,13 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
 
   return (
     <div>
-      <Doughnut options={options} data={data} />
+      {categoryLabels.length > 0 &&
+      dataValues.length > 0 &&
+      dataValues.every(value => value === 0) ? (
+        <p>No statistics for this month</p>
+      ) : (
+        <Doughnut options={options} data={data} />
+      )}
     </div>
   );
 };
