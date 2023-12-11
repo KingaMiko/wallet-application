@@ -1,11 +1,9 @@
 import React from 'react';
 import css from './Transactions.module.scss';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import sprite from 'images/icons.svg';
 
-export const Transactions = ({ transactions, onDelete, onUpdate }) => {
-  console.log(transactions);
-
+export const Transactions = ({ transactions, onDelete, onEdit }) => {
   const [sortOrder, setSortOrder] = useState({
     column: null,
     direction: 'asc',
@@ -30,10 +28,7 @@ export const Transactions = ({ transactions, onDelete, onUpdate }) => {
   const handleDelete = transactionId => {
     onDelete(transactionId);
   };
-  useEffect(() => {}, [transactions]);
-  const handleUpdate = transaction => {
-    onUpdate(transaction);
-  };
+
   const formatDate = dateString => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -102,7 +97,7 @@ export const Transactions = ({ transactions, onDelete, onUpdate }) => {
                   className={css.iconTransactions}
                   width="20px"
                   height="20px"
-                  onClick={() => handleUpdate(transaction._id)}
+                  onClick={() => onEdit(transaction)}
                 >
                   <use href={`${sprite}#icon-pencil2`}></use>
                 </svg>

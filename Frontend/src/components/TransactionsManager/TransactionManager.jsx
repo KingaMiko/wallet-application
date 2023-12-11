@@ -7,13 +7,16 @@ import {
   deleteTransaction,
   updateTransaction,
 } from 'redux/finance/operations';
+import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectTransactions } from 'redux/finance/selectors';
 import { AddTransactionModal } from './ModalAddTransaction/ModalAddTransaction';
+import { EditTransactionModal } from './ModalEditTransaction/ModalEditTransaction';
 
 export const TransactionsManager = () => {
   const dispatch = useDispatch();
   const transactions = useSelector(selectTransactions);
   const [isTransactionAdded, setTransactionAdded] = useState(false);
+  const [editedTransaction, setEditedTransaction] = useState(null);
 
   useEffect(() => {
     dispatch(getTransactions());
@@ -29,6 +32,11 @@ export const TransactionsManager = () => {
       });
   };
 
+  const handleEdit = transaction => {
+    setEditedTransaction(transaction);
+    dispatch(setIsModalEditTransactionOpen(true));
+  };
+
   const handleDelete = transactionId => {
     dispatch(deleteTransaction(transactionId))
       .then(() => {
@@ -39,18 +47,17 @@ export const TransactionsManager = () => {
       });
   };
 
-  const handleUpdate = updatedTransaction => {
-    dispatch(updateTransaction(updatedTransaction));
-  };
-
   return (
     <div>
       <AddTransactionModal addTransaction={handleAddTransaction} />
-
+      <EditTransactionModal
+        editedTransaction={editedTransaction}
+        updateTransactionList={updateTransaction}
+      />
       <Transactions
         transactions={transactions}
         onDelete={handleDelete}
-        onUpdate={handleUpdate}
+        onEdit={handleEdit}
       />
     </div>
   );
