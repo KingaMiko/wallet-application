@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -36,35 +35,18 @@ export const OpenSettingsModal = () => {
 
   const close = () => dispatch(setIsModalSettingsOpen(false));
 
-  const handleSubmit = (
-    values,
-    { setSubmitting, resetForm }
-  ) => {
-    try {
-      const valuesToSend = {
-        type: values.type ? 'Income' : 'Expense',
-        name: values.category,
-      };
+  const handleSubmit = (values, { resetForm }) => {
+    const valuesToSend = {
+      type: values.type ? 'Income' : 'Expense',
+      name: values.category,
+    };
 
-      dispatch(createCategory(valuesToSend));
-      resetForm();
-      toast.success('New category added successfully!');
-    } catch (error) {
-      console.error(error.message);
-      toast.error('Error adding new category!');
-    } finally {
-      setSubmitting(false);
-    }
+    dispatch(createCategory(valuesToSend));
+    resetForm();
   };
 
   const handleDeleteCategory = categoryId => {
-    try {
-      dispatch(deleteUserCategory(categoryId));
-      toast.success('Category deleted successfully!');
-    } catch (error) {
-      console.error(error.message);
-      toast.error('Error deleting category!');
-    }
+    dispatch(deleteUserCategory(categoryId));
   };
 
   useEffect(() => {
@@ -89,14 +71,8 @@ export const OpenSettingsModal = () => {
               onSubmit={handleSubmit}
               validationSchema={formValidationSchema}
             >
-              {({
-                isSubmitting,
-                handleSubmit,
-                setFieldValue,
-                values,
-                setErrors,
-              }) => (
-                <Form onSubmit={handleSubmit}>
+              {({ handleSubmit, setFieldValue, values }) => (
+                <Form>
                   <div className={css.form__checkbox_container}>
                     <label className={css.form__checkbox_label}>
                       <span
@@ -113,10 +89,7 @@ export const OpenSettingsModal = () => {
                         type="checkbox"
                         name="type"
                         id="type"
-                        onClick={() => {
-                          setFieldValue('type', !values.type);
-                          setErrors({});
-                        }}
+                        onClick={() => setFieldValue('type', !values.type)}
                         className={css.form__checkbox_input}
                       />
                       <div className={css.form__checkbox_custom}>
@@ -143,21 +116,15 @@ export const OpenSettingsModal = () => {
                         name="category"
                         placeholder="Add category"
                         className={css.form__category}
-                        onChange={e => {
-                          setFieldValue('category', e.target.value);
-                          setErrors({});
-                        }}
+                        onChange={e =>
+                          setFieldValue('category', e.target.value)
+                        }
                       />
                       <ErrorMessage name="category" component="div" />
                     </label>
                   </div>
                   <div className={css.form__btn_container}>
-                    <Button
-                      type="submit"
-                      theme="color"
-                      disabled={isSubmitting}
-                      onClick={handleSubmit}
-                    >
+                    <Button type="submit" theme="color" onClick={handleSubmit}>
                       Add
                     </Button>
                     <Button type="button" theme="white" onClick={close}>
@@ -181,7 +148,7 @@ export const OpenSettingsModal = () => {
                 </thead>
                 <tbody>
                   {userCategories.map(category => (
-                    <tr key={category._id}>
+                    <tr id={category._id} key={category._id}>
                       <td>{category.name}</td>
                       <td>
                         <button
