@@ -2,19 +2,50 @@ import React from 'react';
 import css from '../Stats.module.scss';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { walletInstance } from 'utils/api';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { selectYear } from '../../../redux/finance/selectors';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const DoughnutChart = () => {
+  const selectedYear = useSelector(selectYear);
+
+  const [statisticsData, setStatisticsData] = useState({
+    expenses: 0,
+    incomes: 0,
+  });
+
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      console.log('fetchstatistics');
+      try {
+        const response = await walletInstance.get('/statistics', {
+          params: {
+            year: selectedYear,
+          },
+        });
+
+        const { expanses, income } = response.data.data;
+        setStatisticsData({ expenses: expanses, incomes: income });
+      } catch (error) {
+        console.error('There was a problem fetching statistics:', error);
+      }
+    };
+
+    fetchStatistics();
+  }, [selectedYear]);
+
   const data = {
     labels: ['Expenses', 'Incomes'],
     datasets: [
       {
         label: 'Amount',
-        data: [3500, 5000],
-        backgroundColor: ['#FF6384', '#2E8B57'],
-        hoverBackgroundColor: ['#FF425B', '#227547'],
-        borderColor: ['#FF6384', '#2E8B57'],
+        data: [statisticsData.expenses, statisticsData.incomes],
+        backgroundColor: ['#24CCA7', '#6E78E8'],
+        hoverBackgroundColor: ['#1aab8c', '#4A56E2'],
+        borderColor: ['#24CCA7', '#6E78E8'],
         borderWidth: 1,
       },
     ],
