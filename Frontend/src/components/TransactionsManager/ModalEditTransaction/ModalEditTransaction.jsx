@@ -20,10 +20,6 @@ export const EditTransactionModal = ({
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    console.log('Edytowana transakcja w modalu:', editedTransaction);
-  }, [editedTransaction]);
-
-  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await walletInstance.get('/categories');
@@ -90,7 +86,7 @@ export const EditTransactionModal = ({
       if (response.status === 200) {
         updateTransactionList(response.data);
         handleCloseEditTransactionModal();
-        resetForm();
+
         toast.success('Transaction updated successfully!');
       } else {
         toast.error('Error updating transaction. Please try again.');
@@ -101,6 +97,7 @@ export const EditTransactionModal = ({
       toast.error('Error processing transaction. Please try again.');
     } finally {
       setSubmitting(false);
+      resetForm();
     }
   };
 
