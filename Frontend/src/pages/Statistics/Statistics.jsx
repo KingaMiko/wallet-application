@@ -4,23 +4,40 @@ import { CurrencyTable } from 'components/CurrencyTable/CurrencyTable';
 import { Balance } from 'components/Balance/Balance';
 import Navigation from 'components/Navigation/Navigation';
 import { Helmet } from 'react-helmet';
+import { useMediaQuery } from 'react-responsive';
+import NavigationMobile from 'components/Navigation/NavigationMobile';
 
 const Statistics = () => {
+  const isMobileView = useMediaQuery({ maxWidth: 767 });
+
   return (
     <div className={css.background}>
       <Helmet>
         <title>Statistics</title>
       </Helmet>
-      <section className={css.dashboard_container}>
-        <div className={css.container}>
-          <div className={css.sidebar}>
-            <Navigation />
-            <Balance />
-            <CurrencyTable />
-          </div>
-          <div className={css.main}>
-            <Stats />
-          </div>
+      <section>
+        <div className={css.wrapper}>
+          {isMobileView ? (
+            <div className={css.mainMobile}>
+              <NavigationMobile />
+              <Stats />
+            </div>
+          ) : (
+            <div className={css.mainTabletAndDesktop}>
+              <div className={css.sidebar}>
+                <div>
+                  <Navigation />
+                  <Balance />
+                </div>
+                <div>
+                  <CurrencyTable />
+                </div>
+              </div>
+              <div className={css.main}>
+                <Stats />
+              </div>
+            </div>
+          )}{' '}
         </div>
       </section>
     </div>

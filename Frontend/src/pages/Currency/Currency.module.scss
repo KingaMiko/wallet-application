@@ -14,7 +14,7 @@ body {
   width: 100vw;
 
   @include mixins.mq(tablet) {
-    position: relative;
+    position: fixed;
 
     &::before {
       content: url('../../images/bg/bg-pink.svg');
@@ -41,49 +41,6 @@ body {
   padding-top: 120px;
   display: flex;
   flex-direction: column;
-
-  @include mixins.mq(tablet) {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  @include mixins.mq(desktop) {
-  }
-}
-
-.mainMobile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-}
-
-.mainTabletAndDesktop {
-  width: 704px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @include mixins.mq(desktop) {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-
-.sidebar {
-  @include mixins.mq(tablet) {
-    width: 480px;
-    height: 200px;
-    display: flex;
-    align-items: start;
-    gap: 32px;
-  }
-
-  @include mixins.mq(desktop) {
-    flex-direction: column;
-    align-items: start;
-  }
 }
 
 .main {

@@ -18,6 +18,7 @@ const RegisterPage = lazy(() => import('pages/AuthPages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/AuthPages/LoginPage'));
 const HomePage = lazy(() => import('pages/Home/Home.jsx'));
 const StatisticsPage = lazy(() => import('pages/Statistics/Statistics.jsx'));
+const CurrencyPage = lazy(() => import('pages/Currency/Currency.jsx'));
 const RedirectPage = lazy(() => import('pages/RedirectPage/RedirectPage.jsx'));
 
 export const App = () => {
@@ -51,6 +52,14 @@ export const App = () => {
             element={
               <PrivateRoute navigateTo="/login">
                 <StatisticsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="currency"
+            element={
+              <PrivateRoute navigateTo="/login">
+                <CurrencyPage />
               </PrivateRoute>
             }
           />

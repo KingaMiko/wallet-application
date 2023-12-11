@@ -1,7 +1,7 @@
 @import '../../styles/utils/_vars.scss';
 .tableBg {
-  margin-top: 28px;
-  margin-left: 20px;
+  // margin-top: 28px;
+  // margin-left: 20px;
   background-color: get-color('purple3');
   width: 280px;
   height: 174px;
@@ -10,14 +10,14 @@
   overflow-y: auto;
   position: absolute;
   @media (min-width: 768px) {
-    margin-left: 32px;
-    margin-top: 32px;
+    // margin-left: 32px;
+    // margin-top: 32px;
     width: 336px;
     height: 182px;
   }
   @media (min-width: 1280) {
-    margin-left: 18px;
-    margin-top: 32px;
+    // margin-left: 18px;
+    // margin-top: 32px;
     width: 393px;
     height: 331px;
   }
