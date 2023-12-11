@@ -49,7 +49,7 @@ export const BarChart = () => {
 
         const formattedData = {
           labels: months.map(month =>
-            new Date(selectedYear, month - 1).toLocaleString('default', {
+            new Date(selectedYear, month - 1).toLocaleString('en-US', {
               month: 'long',
             })
           ),
