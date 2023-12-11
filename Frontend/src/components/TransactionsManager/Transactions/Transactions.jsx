@@ -14,6 +14,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
 
   const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   const dispatch = useDispatch();
+
   const getAmountClass = type => {
     return type === 'Income'
       ? css.amountPlus
@@ -40,8 +41,21 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
   };
 
   const formatDate = dateString => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  };
+
+  const formatType = type => {
+    if (type === 'Expense') {
+      return <span className={css.tableMinus}>-</span>;
+    } else if (type === 'Income') {
+      return <span className={css.tablePlus}>+</span>;
+    }
+    return type;
   };
 
   return (
@@ -97,7 +111,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
           {transactions.map(transaction => (
             <tr key={transaction._id}>
               <td>{formatDate(transaction.date)}</td>
-              <td>{transaction.type}</td>
+              <td>{formatType(transaction.type)}</td>
               <td>{transaction.category}</td>
               <td>{transaction.comment}</td>
               <td className={getAmountClass(transaction.type)}>
