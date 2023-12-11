@@ -1,7 +1,10 @@
 import React from 'react';
 import css from './Transactions.module.scss';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import sprite from 'images/icons.svg';
+import { setIsModalConfirmDeleteOpen } from 'redux/global/globalSlice';
+import { ModalConfirmDelete } from '../ModalConfirmDelete/ModalConfirmDelete';
 
 export const Transactions = ({ transactions, onDelete, onEdit }) => {
   const [sortOrder, setSortOrder] = useState({
@@ -9,6 +12,8 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
     direction: 'asc',
   });
 
+  const [selectedTransactionId, setSelectedTransactionId] = useState(null);
+  const dispatch = useDispatch();
   const getAmountClass = type => {
     return type === 'Income'
       ? css.amountPlus
@@ -26,7 +31,12 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
   };
 
   const handleDelete = transactionId => {
-    onDelete(transactionId);
+    setSelectedTransactionId(transactionId);
+    dispatch(setIsModalConfirmDeleteOpen(true));
+  };
+  const confirmDelete = () => {
+    onDelete(selectedTransactionId);
+    dispatch(setIsModalConfirmDeleteOpen(false));
   };
 
   const formatDate = dateString => {
@@ -36,6 +46,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
 
   return (
     <div className={css.tableBg}>
+      <ModalConfirmDelete onConfirm={confirmDelete} />
       <table className={css.transactionsTable}>
         <thead className={css.transactionsTableHead}>
           <tr>

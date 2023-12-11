@@ -7,3 +7,5 @@ export const selectIsModalEditTransactionOpen = state =>
   state.global.isModalEditTransactionOpen;
 export const selectIsModalSettingsOpen = state =>
   state.global.isModalSettingsOpen;
+export const selectIsModalConfirmDeleteOpen = state =>
+  state.global.isModalConfirmDeleteOpen;
