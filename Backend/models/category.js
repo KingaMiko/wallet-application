@@ -9,7 +9,7 @@ const categorySchema = new Schema({
   type: {
     type: String,
     required: true,
-    num: ["income", "expense"],
+    num: ["Income", "Expense"],
   },
   owner: {
     type: Schema.Types.ObjectId,
