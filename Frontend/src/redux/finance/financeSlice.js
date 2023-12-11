@@ -4,7 +4,6 @@ import {
   addTransaction,
   deleteTransaction,
   updateTransaction,
-  getStatistics,
   getAllUserCategories,
   getUserCategoryById,
   createCategory,
@@ -32,28 +31,13 @@ const initialState = {
   isLoading: false,
   error: false,
   transactions: [],
-  statistics: null,
   userCategories: [],
   categoryDetails: null,
-  year: '',
-  month: '',
-  type: '',
 };
 
 const financeSlice = createSlice({
   name: 'finance',
   initialState,
-  reducers: {
-    setYear: (state, action) => {
-      state.year = action.payload;
-    },
-    setMonth: (state, action) => {
-      state.month = action.payload;
-    },
-    setType: (state, action) => {
-      state.type = action.payload;
-    },
-  },
   extraReducers: builder => {
     builder
       .addCase(getTransactions.fulfilled, (state, action) => {
@@ -87,11 +71,6 @@ const financeSlice = createSlice({
           state.transactions[index] = editedTransaction;
         }
       })
-      .addCase(getStatistics.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.statistics = action.payload.data;
-      })
       .addCase(getAllUserCategories.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
@@ -123,5 +102,4 @@ const financeSlice = createSlice({
   },
 });
 
-export const { setYear, setMonth, setType } = financeSlice.actions;
 export const financeReducer = financeSlice.reducer;

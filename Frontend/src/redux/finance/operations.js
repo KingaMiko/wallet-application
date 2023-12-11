@@ -75,26 +75,6 @@ export const updateTransaction = createAsyncThunk(
 );
 
 ////////////////////////////////
-////////// STATISTICS //////////
-////////////////////////////////
-
-export const getStatistics = createAsyncThunk(
-  'finance/getStatistics',
-  async (requestData, thunkAPI) => {
-    try {
-      const res = await walletInstance.get('/statistics', requestData);
-      // toast do testów, wykasować później
-      toast.success('Success!');
-      return res.data;
-    } catch (error) {
-      const errorMessage = error.response.data.description;
-      toast.error(errorMessage);
-      return thunkAPI.rejectWithValue(errorMessage);
-    }
-  }
-);
-
-////////////////////////////////
 ////////// CATEGORIES //////////
 ////////////////////////////////
 
