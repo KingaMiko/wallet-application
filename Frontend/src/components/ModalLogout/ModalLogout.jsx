@@ -4,13 +4,20 @@ import sprite from '../../images/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsModalLogoutOpen } from 'redux/global/selectors';
 import { setIsModalLogoutOpen } from 'redux/global/globalSlice';
+import { logOut } from 'redux/session/operations';
 
 export const ModalLogout = () => {
   const dispatch = useDispatch();
   const handleCloseModalLogout = () => {
     dispatch(setIsModalLogoutOpen(false));
   };
+
   const isModalLogoutOpen = useSelector(selectIsModalLogoutOpen);
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    dispatch(setIsModalLogoutOpen(false));
+  };
 
   return isModalLogoutOpen ? (
     <div className={css.modal__overlay}>
@@ -27,7 +34,7 @@ export const ModalLogout = () => {
             </svg>
           </button>
           <div className={css.btn_container}>
-            <Button type="button" theme="color">
+            <Button type="button" theme="color" onClick={handleLogout}>
               Yes
             </Button>
 
