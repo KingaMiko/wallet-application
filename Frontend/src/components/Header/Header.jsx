@@ -28,21 +28,26 @@ const Header = () => {
         <Logo />
 
         <div className={css.headerSide}>
-          {isAuth && (
-            <p className={css.headerSideText}>{user.name ?? 'Hello'}</p>
-          )}
+          {isAuth && <p className={css.headerSideText}>Hello, {user.name}</p>}
           {isAuth ? (
             <>
-              <button className={css.headerLogout} onClick={handleLogout}>
-                <p className={css.headerSideText}>Exit</p>
-                <svg icon="logout" width="18px" height="18px">
-                  <use href={`${sprite}#icon-exit`}></use>
-                </svg>
-              </button>
-              <button className={css.headerLogout} onClick={toggleModal}>
-                <p className={css.headerSideText}>Settings</p>
-              </button>
-              <OpenSettingsModal openSettings={data => console.log(data)} />
+              <div>
+                <div className={css.headerSideButtons}>
+                  <button className={css.headerSettings} onClick={toggleModal}>
+                    <p className={css.headerSideText}></p>
+                    <svg icon="settings" width="18px" height="18px">
+                      <use href={`${sprite}#icon-pencil2`}></use>
+                    </svg>
+                  </button>
+                  <button className={css.headerLogout} onClick={handleLogout}>
+                    <p className={css.headerSideText}>Exit</p>
+                    <svg icon="logout" width="18px" height="18px">
+                      <use href={`${sprite}#icon-exit`}></use>
+                    </svg>
+                  </button>
+                </div>
+                <OpenSettingsModal openSettings={data => console.log(data)} />
+              </div>
             </>
           ) : (
             <Link to="/login">Login</Link>
