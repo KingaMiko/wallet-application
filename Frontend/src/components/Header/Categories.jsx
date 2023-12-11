@@ -14,7 +14,7 @@ import css from './Categories.module.scss';
 import sprite from 'images/icons.svg';
 
 export const OpenSettingsModal = () => {
-  const [categoryType, setCategoryType] = useState(false);
+  const [categoryType, setCategoryType] = useState("Expense");
   const dispatch = useDispatch();
 
   const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
@@ -39,7 +39,7 @@ export const OpenSettingsModal = () => {
     };
 
     dispatch(createCategory(valuesToSend));
-    resetForm();
+    values.category = '';
   };
 
   const onSetCategoryType = (catType, setFieldValueCB) => {
