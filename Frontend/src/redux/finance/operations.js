@@ -82,7 +82,7 @@ export const getStatistics = createAsyncThunk(
   'finance/getStatistics',
   async (requestData, thunkAPI) => {
     try {
-      const res = await walletInstance.post('/statistics');
+      const res = await walletInstance.get('/statistics', requestData);
       // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
