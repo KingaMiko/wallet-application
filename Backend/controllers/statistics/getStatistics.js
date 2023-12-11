@@ -36,7 +36,7 @@ export const getStatistics = async (req, res, next) => {
     const owner = await User.findById(ownerId);
     const ourTransactions = await findTransactions(ownerId, year);
     const categories = await category.find({ _id: { $in: owner.categories } });
-    console.log(ourTransactions);
+
     const categoriesStats = calculateStats(categories, expenseOrIncome, type);
 
     const expanses = (
