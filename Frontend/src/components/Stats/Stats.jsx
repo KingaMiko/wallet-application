@@ -1,50 +1,34 @@
 import css from './Stats.module.scss';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 
 import { Yearly } from './Yearly/Yearly';
 import { Monthly } from './Monthly/Monthly';
 
-import {
-  selectMonth,
-  selectYear,
-  // selectType,
-} from '../../redux/finance/selectors';
-import {
-  // setExpenseStats,
-  // setIncomeStats,
-  // setExpanses,
-  // setIncome,
-  // setEachMonthStats,
-  setYear,
-  setMonth,
-} from '../../redux/finance/financeSlice';
-
 export const Stats = () => {
-  const dispatch = useDispatch();
-  const selectedYear = useSelector(selectYear);
-  const selectedMonth = useSelector(selectMonth);
-  // const type = useSelector(selectType);
+  const [selectedYear, setSelectedYear] = useState({
+    value: 2023,
+    label: 2023,
+  });
+  const [selectedMonth, setSelectedMonth] = useState(null);
 
   const handleYearChange = selectedOption => {
-    dispatch(setYear(selectedOption));
+    setSelectedYear(selectedOption);
   };
 
   const handleMonthChange = selectedOption => {
-    dispatch(setMonth(selectedOption));
+    setSelectedMonth(selectedOption);
+  };
+
+  const handleResetMonth = () => {
+    setSelectedMonth(null);
   };
 
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear();
-    dispatch(setYear(year));
-  }, [dispatch]);
-
-  /////////////////////////////////////////////
-  /////////////////////////////////////////////
-  /////////////////////////////////////////////
+    setSelectedYear({ value: year, label: year });
+  }, [setSelectedYear]);
 
   const yearOptions = [
     { value: 2020, label: 2020 },
@@ -93,9 +77,13 @@ export const Stats = () => {
         </div>
       </div>
       {selectedMonth ? (
-        <Monthly selectedYear={selectedYear} selectedMonth={selectedMonth} />
+        <Monthly
+          selectedYear={selectedYear.value}
+          selectedMonth={selectedMonth.value}
+          handleResetMonth={handleResetMonth}
+        />
       ) : (
-        <Yearly selectedYear={selectedYear} />
+        <Yearly selectedYear={selectedYear.value} />
       )}
     </div>
   );
