@@ -1,10 +1,8 @@
 import * as Yup from 'yup';
 
 import Datetime from 'react-datetime';
-import { toast } from 'react-toastify';
 import 'react-datetime/css/react-datetime.css';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
-import { walletInstance } from 'utils/api';
 
 import { Button } from 'components';
 import css from './ModalAddTransaction.module.scss';
@@ -54,7 +52,6 @@ export const AddTransactionModal = ({ addTransaction }) => {
         comment: values.comment,
       };
       addTransaction(valuesToSend);
-      
     } catch (error) {
       console.error('Error adding transaction:', error);
     } finally {
