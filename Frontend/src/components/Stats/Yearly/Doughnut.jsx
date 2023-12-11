@@ -1,17 +1,14 @@
 import React from 'react';
-import css from '../Stats.module.scss';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { walletInstance } from 'utils/api';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
-import { selectYear } from '../../../redux/finance/selectors';
+
+import css from '../Stats.module.scss';
+import { walletInstance } from 'utils/api';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const DoughnutChart = () => {
-  const selectedYear = useSelector(selectYear);
-
+export const DoughnutChart = ({ selectedYear }) => {
   const [statisticsData, setStatisticsData] = useState({
     expenses: 0,
     incomes: 0,
@@ -19,7 +16,6 @@ export const DoughnutChart = () => {
 
   useEffect(() => {
     const fetchStatistics = async () => {
-      console.log('fetchstatistics');
       try {
         const response = await walletInstance.get('/statistics', {
           params: {
