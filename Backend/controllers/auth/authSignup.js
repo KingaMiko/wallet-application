@@ -34,15 +34,15 @@ export const authSignup = async (req, res, next) => {
     await newUser.setPassword(password);
 
     const defaultCategories = [
-      { name: "Products", type: "expense", owner: newUser._id },
-      { name: "Car", type: "expense", owner: newUser._id },
-      { name: "Self care", type: "expense", owner: newUser._id },
-      { name: "Child care", type: "expense", owner: newUser._id },
-      { name: "Household products", type: "expense", owner: newUser._id },
-      { name: "Education", type: "expense", owner: newUser._id },
-      { name: "Leisure", type: "expense", owner: newUser._id },
-      { name: "Job", type: "income", owner: newUser._id },
-      { name: "Extra", type: "income", owner: newUser._id },
+      { name: "Products", type: "Expense", owner: newUser._id },
+      { name: "Car", type: "Expense", owner: newUser._id },
+      { name: "Self care", type: "Expense", owner: newUser._id },
+      { name: "Child care", type: "Expense", owner: newUser._id },
+      { name: "Household products", type: "Expense", owner: newUser._id },
+      { name: "Education", type: "Expense", owner: newUser._id },
+      { name: "Leisure", type: "Expense", owner: newUser._id },
+      { name: "Job", type: "Income", owner: newUser._id },
+      { name: "Extra", type: "Income", owner: newUser._id },
     ];
 
     for (const categoryData of defaultCategories) {
