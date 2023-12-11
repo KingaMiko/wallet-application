@@ -8,7 +8,7 @@ import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
 
 import { Logo } from 'components/Logo/Logo';
 import { OpenSettingsModal } from './Categories';
-
+import sprite from 'images/icons.svg';
 import css from './Header.module.scss';
 
 const Header = () => {
@@ -35,6 +35,9 @@ const Header = () => {
             <>
               <button className={css.headerLogout} onClick={handleLogout}>
                 <p className={css.headerSideText}>Exit</p>
+                <svg icon="logout" width="18px" height="18px">
+                  <use href={`${sprite}#icon-exit`}></use>
+                </svg>
               </button>
               <button className={css.headerLogout} onClick={toggleModal}>
                 <p className={css.headerSideText}>Settings</p>
