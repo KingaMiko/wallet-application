@@ -1,4 +1,5 @@
-import category from "#models/category.js";
+import Category from "#models/category.js";
+import User from "#models/user.js";
 
 /**
  * DELETE /api/categories/{id}
@@ -12,10 +13,9 @@ import category from "#models/category.js";
 
 export const deleteUserCategory = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id;
 
   try {
-    const categoryToDelete = await category.findOne({ _id: id, owner: userId });
+    const categoryToDelete = await Category.findOne({ _id: id }).lean();
 
     if (!categoryToDelete) {
       return res.status(404).json({
@@ -24,7 +24,14 @@ export const deleteUserCategory = async (req, res) => {
       });
     }
 
-    await category.findByIdAndDelete(id);
+    await Category.findByIdAndDelete(id);
+
+    const user = req.user;
+    let categories;
+
+    req.user.categories = categories = user.categories.filter(cid => cid !== id);
+
+    await User.findByIdAndUpdate(user.id, { categories });
 
     return res.status(200).json({
       statusCode: 200,

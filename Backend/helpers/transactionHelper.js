@@ -1,11 +1,11 @@
 import User from "#models/user.js";
-import transaction from "#models/transaction.js";
+import Transaction from "#models/transaction.js";
 export const updateUser = (id, fields) => {
   return User.findByIdAndUpdate({ _id: id }, { $set: fields });
 };
 
 export const updateTransactionById = (id, fields) => {
-  return transaction.findByIdAndUpdate(
+  return Transaction.findByIdAndUpdate(
     { _id: id },
     { $set: fields },
     { new: true }
@@ -15,7 +15,7 @@ export const updateTransactionById = (id, fields) => {
 export const findTransactions = (ownerId, year, month) => {
   const gottenYear = Number(year);
   const gottenMonth = month ? Number(month) : month;
-  return transaction.aggregate([
+  return Transaction.aggregate([
     {
       $match: {
         owner: ownerId,
@@ -66,7 +66,7 @@ export const getTransactionByType = (ownerId, type, year, month) => {
   const gottenYear = Number(year);
   const gottenMonth = month ? Number(month) : month;
 
-  return transaction.aggregate([
+  return Transaction.aggregate([
     {
       $match: {
         owner: ownerId,

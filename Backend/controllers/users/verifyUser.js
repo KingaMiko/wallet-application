@@ -25,10 +25,6 @@ export const verifyUser = async (req, res, next) => {
     user.verified = true;
     await user.save();
 
-    // redirect po pomyślnej weryfikacji użytkownika
-    // const redirectUrl = process.env.FRONT_BASE_URL;
-    // res.redirect(302, redirectUrl);
-
     return res.status(200).json({
       statusCode: 200,
       description: "Verification successful",

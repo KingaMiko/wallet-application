@@ -1,4 +1,4 @@
-import transaction from "#models/transaction.js";
+import Transaction from "#models/transaction.js";
 import User from "#models/user.js";
 import { updateUser } from "#helpers/transactionHelper.js";
 
@@ -23,7 +23,7 @@ export const deleteTransaction = async (req, res) => {
   const ownerId = req.user.id;
 
   try {
-    const ourTransaction = await transaction.findOne({
+    const ourTransaction = await Transaction.findOne({
       _id: id,
       owner: ownerId,
     });
@@ -48,7 +48,7 @@ export const deleteTransaction = async (req, res) => {
     }
 
     // Delete the transaction
-    await transaction.findByIdAndDelete(id);
+    await Transaction.findByIdAndDelete(id);
     return res.status(200).json({
       statusCode: 200,
       description: "Transaction deleted",

@@ -1,4 +1,4 @@
-import category from "#models/category.js";
+import Category from "#models/category.js";
 
 /**
  * GET /api/categories
@@ -7,10 +7,13 @@ import category from "#models/category.js";
  * @return {ResponseWithDataSchema} 200 - Success, returns user's categories
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
+
 export const getAllUserCategories = async (req, res) => {
+  const categories = req.user.categories;
+
   try {
-    const userId = req.user.id;
-    const result = await category.find({ owner: userId });
+    const result = await Category.find({ _id: categories });
+
     return res.status(200).json({
       statusCode: 200,
       description: "User's categories",

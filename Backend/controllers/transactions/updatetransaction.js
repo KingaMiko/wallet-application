@@ -1,4 +1,4 @@
-import transaction from "#models/transaction.js";
+import Transaction from "#models/transaction.js";
 import User from "#models/user.js";
 import { updateUser } from "#helpers/transactionHelper.js";
 
@@ -27,7 +27,7 @@ export const updateTransaction = async (req, res) => {
   const { type, category, sum, comment, date } = req.body;
 
   try {
-    const ourTransaction = await transaction.findOne({
+    const ourTransaction = await Transaction.findOne({
       _id: id,
       owner: ownerId,
     });

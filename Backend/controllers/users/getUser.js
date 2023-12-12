@@ -20,7 +20,7 @@ export const getUser = async (req, res, next) => {
       });
     }
 
-    const { name, email, _id, balance } = user;
+    const { name, email, _id, balance, categories } = user;
 
     return res.status(200).json({
       statusCode: 200,
@@ -28,8 +28,9 @@ export const getUser = async (req, res, next) => {
       data: {
         email,
         name,
-        _id,
+        id: _id,
         balance,
+        categories
       },
     });
   } catch (error) {
