@@ -5,10 +5,12 @@ import css from './EmptyWallet.module.scss';
 
 export const EmptyWallet = () => {
   return (
-    <div className={css.emptywallet}>
-      <p>Your Wallet is empty. Enter your first transaction.</p>
-      <ButtonAddTransactions />
-      <img src={walletImage} alt="Empty Wallet" />
+    <div className={css.container}>
+      <div className={css.emptywallet}>
+        <p>Your Wallet is empty. Enter your first transaction.</p>
+        {/* <ButtonAddTransactions /> */}
+        <img src={walletImage} alt="Empty Wallet" />
+      </div>
     </div>
   );
 };
