@@ -5,16 +5,14 @@ const categorySchema = new Schema({
     type: String,
     required: [true, "Name is required"],
   },
-
   type: {
     type: String,
     required: true,
     num: ["Income", "Expense"],
   },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
+  default: {
+    type: Boolean,
+    default: false,
   },
 });
 
