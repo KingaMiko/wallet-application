@@ -46,7 +46,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
 
-    return `${day}-${month}-${year}`;
+    return `${day}.${month}.${year}`;
   };
 
   const formatType = type => {
@@ -109,15 +109,15 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
         </thead>
         <tbody>
           {transactions.map(transaction => (
-            <tr key={transaction._id}>
-              <td>{formatDate(transaction.date)}</td>
-              <td>{formatType(transaction.type)}</td>
-              <td>{transaction.category}</td>
-              <td>{transaction.comment}</td>
-              <td className={getAmountClass(transaction.type)}>
+            <tr key={transaction._id} data-type={transaction.type}>
+              <td data-label="Date">{formatDate(transaction.date)}</td>
+              <td data-label="Type">{formatType(transaction.type)}</td>
+              <td data-label="Category">{transaction.category}</td>
+              <td data-label="Comment">{transaction.comment}</td>
+              <td data-label="Sum" className={getAmountClass(transaction.type)}>
                 {transaction.sum}
               </td>
-              <td>
+              <td data-label="Options">
                 <svg
                   className={css.iconTransactions}
                   width="20px"

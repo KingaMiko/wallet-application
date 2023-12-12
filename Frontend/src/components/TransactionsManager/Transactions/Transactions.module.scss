@@ -86,7 +86,6 @@
 .transactionsTable tr td:last-child {
   height: 60px;
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 15px;
 }
@@ -118,17 +117,101 @@ svg {
 }
 
 .amountPlus {
-  color: rgb(17, 192, 17);
+  color: #24cca7;
 }
 
 .amountMinus {
-  color: rgb(255, 0, 0);
+  color: #ff6596;
 }
 
 .tablePlus {
-  color: rgb(17, 192, 17);
+  color: #24cca7;
 }
 
 .tableMinus {
-  color: rgb(255, 0, 0);
+  color: #ff6596;
+}
+
+@media (max-width: 767px) {
+  .transactionsTable {
+    display: grid;
+    font-weight: 400;
+    font-size: 16px;
+    position: relative;
+    td {
+      height: 40px;
+      &[data-type='Income']::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+        background-color: #24cca7;
+      }
+      &[data-type='Expense']::before {
+        content: '';
+        border-radius: 30px 0px 0px 30px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+        background-color: #ff6596;
+      }
+    }
+    td::before {
+      font-weight: 700;
+      content: attr(data-label);
+    }
+    td:last-child::before {
+      display: none;
+    }
+    td:last-child {
+      display: flex;
+    }
+    thead {
+      display: none;
+    }
+
+    tr {
+      display: grid;
+      border: 1px solid #dcdcdf;
+      margin-bottom: 10px;
+      height: 338px;
+      background-color: white;
+      position: relative;
+      border-radius: 15px;
+      td:last-child {
+        border: none;
+      }
+
+      &[data-type='Income']::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+        background-color: #24cca7;
+      }
+      &[data-type='Expense']::before {
+        content: '';
+        border-radius: 30px 0px 0px 30px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+        background-color: #ff6596;
+      }
+    }
+    td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 27px;
+      height: 40px;
+    }
+  }
 }
