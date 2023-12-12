@@ -1,8 +1,9 @@
-import css from './Stats.module.scss';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Yearly } from './Yearly/Yearly';
 import { Monthly } from './Monthly/Monthly';
+
+import css from './Stats.module.scss';
 
 export const Stats = () => {
   const [selectedYear, setSelectedYear] = useState({
