@@ -48,7 +48,7 @@ const financeSlice = createSlice({
       .addCase(addTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.transactions.push(action.payload);
+        state.transactions.push(action.payload.data);
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
