@@ -106,7 +106,7 @@ export const OpenSettingsModal = () => {
                     </label>
                   </div>
                   <div className={css.form__input}>
-                    <label>
+                    <label className={css.form__label}>
                       <Field
                         type="text"
                         name="category"
