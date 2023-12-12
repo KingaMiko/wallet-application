@@ -3,12 +3,12 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { walletInstance } from 'utils/api';
 import { useEffect, useState } from 'react';
+import css from '../Stats.module.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const Expenses = ({ selectedYear, selectedMonth }) => {
-  const [categoryLabels, setCategoryLabels] = useState([]);
-  const [dataValues, setDataValues] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,22 +23,38 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
 
         const { categoriesStats } = response.data.data;
 
-        setCategoryLabels(categoriesStats.map(item => item.category));
-        setDataValues(categoriesStats.map(item => item.total));
+        const filteredCategories = categoriesStats.filter(
+          item => item.total !== 0
+        );
+
+        const groupedCategories = filteredCategories.reduce((acc, item) => {
+          const existingCategory = acc.find(
+            category => category.category === item.category
+          );
+          if (existingCategory) {
+            existingCategory.total += item.total;
+          } else {
+            acc.push({ category: item.category, total: item.total });
+          }
+
+          return acc;
+        }, []);
+
+        setCategoryData(groupedCategories);
       } catch (error) {
-        console.error('There was a problem fetching the income data:', error);
+        console.error('There was a problem fetching the expense data:', error);
       }
     };
 
     fetchData();
   }, [selectedYear, selectedMonth]);
 
-  const data = {
-    labels: categoryLabels,
+  const chartData = {
+    labels: categoryData.map(item => item.category),
     datasets: [
       {
         label: 'Amount',
-        data: dataValues,
+        data: categoryData.map(item => item.total),
         backgroundColor: [
           '#FF6384',
           '#36A2EB',
@@ -84,6 +100,7 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
     plugins: {
       legend: {
         position: 'bottom',
+        display: false,
       },
       title: {
         display: true,
@@ -94,12 +111,50 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
 
   return (
     <div>
-      {categoryLabels.length > 0 &&
-      dataValues.length > 0 &&
-      dataValues.every(value => value === 0) ? (
+      {categoryData.length > 0 &&
+      categoryData.every(item => item.total === 0) ? (
         <p>No statistics for this month</p>
       ) : (
-        <Doughnut options={options} data={data} />
+        <div className={css.chartStyle}>
+          <div>
+            <Doughnut options={options} data={chartData} />
+          </div>
+          <div className={css.tableBg}>
+            <table className={css.categoryTable}>
+              <thead className={css.categoryTableHead}>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categoryData.map(({ category, total }, index) => (
+                  <tr key={category}>
+                    <td>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          paddingLeft: '50px',
+                        }}
+                      >
+                        <div
+                          className={css.legendColor}
+                          style={{
+                            backgroundColor:
+                              chartData.datasets[0].backgroundColor[index],
+                          }}
+                        ></div>
+                        {category}
+                      </div>
+                    </td>
+                    <td>{total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );

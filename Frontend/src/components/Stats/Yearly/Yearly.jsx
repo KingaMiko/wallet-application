@@ -2,12 +2,15 @@ import css from '../Stats.module.scss';
 import React from 'react';
 import { DoughnutChart } from './Doughnut';
 import { BarChart } from './Bar';
+import { useMediaQuery } from 'react-responsive';
 
 export const Yearly = ({ selectedYear }) => {
+  const isMobileView = useMediaQuery({ maxWidth: 767 });
+
   return (
     <div className={css.chartsYearly}>
       <DoughnutChart selectedYear={selectedYear} />
-      <BarChart selectedYear={selectedYear} />
+      {!isMobileView && <BarChart selectedYear={selectedYear} />}
     </div>
   );
 };

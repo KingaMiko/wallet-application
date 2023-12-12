@@ -24,7 +24,7 @@ const NavigationMobile = () => {
         <li>
           <ActiveNavLink to="/currency">
             <svg className={css.icon} width="38px" height="38px">
-              <use href={`${sprite}#icon-home3`}></use>
+              <use href={`${sprite}#icon-baseline-dollar`}></use>
             </svg>
           </ActiveNavLink>
         </li>
