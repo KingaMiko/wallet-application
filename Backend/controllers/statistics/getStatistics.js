@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { findTransactions } from "#helpers/transactionHelper.js";
-import category from "#models/category.js";
+import Category from "#models/category.js";
 import User from "#models/user.js";
 import { calculateStats } from "#helpers/transactionHelper.js";
 import { eachMonthTransactions } from "#helpers/transactionHelper.js";
@@ -35,7 +35,7 @@ export const getStatistics = async (req, res, next) => {
     );
     const owner = await User.findById(ownerId);
     const ourTransactions = await findTransactions(ownerId, year);
-    const categories = await category.find({ _id: { $in: owner.categories } });
+    const categories = await Category.find({ _id: { $in: owner.categories } });
 
     const categoriesStats = calculateStats(categories, expenseOrIncome, type);
 

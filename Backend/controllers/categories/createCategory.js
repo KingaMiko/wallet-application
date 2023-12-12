@@ -1,4 +1,4 @@
-import category from "#models/category.js";
+import Category from "#models/category.js";
 import User from "#models/user.js";
 
 /**
@@ -21,10 +21,9 @@ export const createCategory = async (req, res) => {
     const { name, type } = req.body;
     const userId = req.user.id;
 
-    const newCategory = new category({
+    const newCategory = new Category({
       name,
       type,
-      owner: userId,
     });
 
     const savedCategory = await newCategory.save();
