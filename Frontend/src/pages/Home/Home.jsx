@@ -9,10 +9,15 @@ import { ButtonAddTransactions } from 'components/ButtonAddTransactions/ButtonAd
 import { Helmet } from 'react-helmet';
 import NavigationMobile from 'components/Navigation/NavigationMobile';
 import { useMediaQuery } from 'react-responsive';
+import { getAllUserCategories } from 'redux/finance/operations';
+import { useDispatch } from 'react-redux';
 
 const Home = () => {
   //const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobileView = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useDispatch();
+
+  dispatch(getAllUserCategories());
 
   return (
     <div className={css.background}>
