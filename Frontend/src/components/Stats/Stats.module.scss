@@ -65,6 +65,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .chartStyle {
@@ -123,17 +124,20 @@
   @media (min-width: 1280px) {
     border-radius: 30px;
   }
-
-  th {
-    text-align: center;
-    font-size: get-font-size('primary');
-  }
 }
 
 .categoryTable th,
 .categoryTable td {
-  text-align: center;
+  text-align: left;
   font-size: get-font-size('secondary');
+}
+.categoryTable th:first-child,
+.categoryTable td:first-child {
+  padding-left: 20px;
+}
+.categoryTable th:last-child,
+.categoryTable td:last-child {
+  padding-right: 20px;
 }
 
 .categoryTable tr {

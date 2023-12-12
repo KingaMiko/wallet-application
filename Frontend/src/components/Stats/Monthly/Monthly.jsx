@@ -40,7 +40,12 @@ export const Monthly = ({ selectedYear, selectedMonth, handleResetMonth }) => {
           <Incomes selectedYear={selectedYear} selectedMonth={selectedMonth} />
         )}
       </div>
-      <Button type="button" theme="color" onClick={handleResetMonth}>
+      <Button
+        type="button"
+        theme="color"
+        onClick={handleResetMonth}
+        style={{ position: 'fixed', bottom: '20px' }}
+      >
         Go back to Total
       </Button>
     </div>
