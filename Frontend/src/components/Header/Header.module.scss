@@ -49,6 +49,7 @@
   color: #bdbdbd;
   position: relative;
   margin-left: 10px;
+  transition: color 0.3s ease;
 }
 
 .headerSideText:first-child:after {
@@ -65,23 +66,30 @@
   display: flex;
   cursor: pointer;
   background-color: transparent;
-  margin: 0 0;
+  margin: 0;
 }
+
 .headerSettings {
   display: block;
 }
+
 .headerLogout:hover .headerSideText,
-.headerLogout:focus .headerSideText,
-.headerLogout:hover Svg,
-.headerLogout:focus Svg {
-  color: #664ae2;
-  fill: #6b4ae2;
+.headerLogout:focus .headerSideText {
+  color: #172af1;
 }
-.headerLogout Svg {
+
+.headerLogout:hover svg,
+.headerLogout:focus svg {
+  fill: #172af1;
+  filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+}
+
+.headerLogout svg {
   margin-right: 8px;
   margin-left: 8px;
-  margin-top: 5px;
-  fill: #e9cfcf;
+  margin-top: 7px;
+  fill: #4a56e2;
+  transition: filter 0.3s ease, fill 0.3s ease;
 }
 
 .modalOverlay {

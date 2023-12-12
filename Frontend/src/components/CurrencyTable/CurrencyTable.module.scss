@@ -1,7 +1,6 @@
 @import '../../styles/utils/_vars.scss';
 
 .tableBg {
-  margin-top: 28px;
   background-color: get-color('purple3');
   width: 280px;
   height: 174px;
@@ -11,7 +10,7 @@
   position: absolute;
 
   @media (min-width: 768px) {
-    margin-top: 32px;
+    margin-top: 10px;
     width: 336px;
     height: 182px;
 
