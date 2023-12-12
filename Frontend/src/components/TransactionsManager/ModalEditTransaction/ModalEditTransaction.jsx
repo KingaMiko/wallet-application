@@ -178,10 +178,12 @@ export const EditTransactionModal = ({
                           {editedTransaction.category}
                         </option>
                         {userCategories
-                          .filter(category =>
-                            values.type === true
-                              ? category.type === 'Income'
-                              : category.type === 'Expense'
+                          .filter(
+                            category =>
+                              (values.type === true
+                                ? category.type === 'Income'
+                                : category.type === 'Expense') &&
+                              category._id !== editedTransaction.categoryId
                           )
                           .map(category => (
                             <option key={category._id} value={category._id}>
