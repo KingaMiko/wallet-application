@@ -1,10 +1,12 @@
 import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 
-import css from '../Stats.module.scss';
 import { walletInstance } from 'utils/api';
+
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+import css from '../Stats.module.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

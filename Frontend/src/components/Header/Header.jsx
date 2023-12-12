@@ -14,6 +14,7 @@ import {
 import { Logo } from 'components/Logo/Logo';
 import { OpenSettingsModal } from './Categories';
 import { ModalLogout } from 'components/ModalLogout/ModalLogout';
+
 import sprite from 'images/icons.svg';
 import css from './Header.module.scss';
 

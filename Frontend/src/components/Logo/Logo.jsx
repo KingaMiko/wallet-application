@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import css from './Logo.module.scss';
 import sprite from 'images/icons.svg';
 

@@ -1,16 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 import Datetime from 'react-datetime';
 import { toast } from 'react-toastify';
-import 'react-datetime/css/react-datetime.css';
 
-import { Button } from 'components';
-import { walletInstance } from 'utils/api';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalEditTransactionOpen } from 'redux/global/selectors';
 import { selectUserCategories } from 'redux/finance/selectors';
+import { updateTransaction } from 'redux/finance/operations';
 
+import { Button } from 'components';
+
+import 'react-datetime/css/react-datetime.css';
 import sprite from '../../../images/icons.svg';
 import css from './ModalEditTransaction.module.scss';
 
@@ -47,44 +49,28 @@ export const EditTransactionModal = ({
     dispatch(setIsModalEditTransactionOpen(false));
   };
 
-  const handleSubmit = async (
-    values,
-    { setSubmitting, resetForm, setErrors }
-  ) => {
-    console.log('Aktualnie edytowana transakcja:', editedTransaction);
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    setSubmitting(true);
     try {
-      const valuesToSend = {
+      const transactionData = {
+        transactionID: editedTransaction._id,
         sum: values.sum,
         date: values.date.toISOString().split('T')[0],
         type: values.type ? 'Income' : 'Expense',
         category: values.category,
         comment: values.comment,
       };
-      console.log(
-        'Wysyłanie danych do API:',
-        `/transactions/${editedTransaction._id}`,
-        valuesToSend
-      );
-      const response = await walletInstance.patch(
-        `/transactions/${editedTransaction._id}`,
-        valuesToSend
-      );
-      console.log('Odpowiedź z serwera:', response.data);
-      if (response.status === 200) {
-        updateTransactionList(response.data);
-        handleCloseEditTransactionModal();
 
-        toast.success('Transaction updated successfully!');
-      } else {
-        toast.error('Error updating transaction. Please try again.');
-      }
+      await dispatch(updateTransaction(transactionData));
+
+      toast.success('Transaction updated successfully!');
     } catch (error) {
-      console.error('Error:', error);
-      setErrors({ submit: error.message });
-      toast.error('Error processing transaction. Please try again.');
+      console.error('Error updating transaction:', error);
+      toast.error('Error updating transaction. Please try again.');
     } finally {
       setSubmitting(false);
       resetForm();
+      handleCloseEditTransactionModal();
     }
   };
 

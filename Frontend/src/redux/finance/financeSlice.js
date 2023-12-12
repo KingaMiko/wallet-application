@@ -65,7 +65,7 @@ const financeSlice = createSlice({
         state.error = null;
         const editedTransaction = action.payload;
         const index = state.transactions.findIndex(
-          transaction => transaction.id === editedTransaction.id
+          transaction => transaction._id === editedTransaction._id
         );
         if (index !== -1) {
           state.transactions[index] = editedTransaction;

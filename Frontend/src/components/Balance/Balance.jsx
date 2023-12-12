@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import css from './Balance.module.scss';
 import { selectUserDetails } from 'redux/session/selectors';
 import { getUserDetails } from 'redux/session/operations';
+
+import css from './Balance.module.scss';
 
 export const Balance = () => {
   const dispatch = useDispatch();

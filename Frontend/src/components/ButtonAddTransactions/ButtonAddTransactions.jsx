@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
-import css from './ButtonAddTransactions.module.scss';
 import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
+
+import css from './ButtonAddTransactions.module.scss';
 
 export const ButtonAddTransactions = () => {
   const dispatch = useDispatch();
