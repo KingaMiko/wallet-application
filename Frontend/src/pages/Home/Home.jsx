@@ -9,6 +9,7 @@ import { ButtonAddTransactions } from 'components/ButtonAddTransactions/ButtonAd
 import { Helmet } from 'react-helmet';
 import NavigationMobile from 'components/Navigation/NavigationMobile';
 import { useMediaQuery } from 'react-responsive';
+import { BackgroundBlurred } from 'components/Background/BackgroundBlurred';
 
 const Home = () => {
   //const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +21,7 @@ const Home = () => {
         <title>Home</title>
       </Helmet>
       <section>
+        <BackgroundBlurred />
         <div className={css.wrapper}>
           {isMobileView ? (
             <div className={css.mainMobile}>

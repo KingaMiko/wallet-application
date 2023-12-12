@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-
 import { Yearly } from './Yearly/Yearly';
 import { Monthly } from './Monthly/Monthly';
 

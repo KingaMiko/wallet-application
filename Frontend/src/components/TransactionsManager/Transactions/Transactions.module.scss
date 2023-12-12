@@ -3,7 +3,8 @@
 .tableBg {
   border-radius: 10px;
   overflow: auto;
-  width: 100%;
+  width: 280px;
+
   background-color: rgba(115, 115, 115, 0.043);
   @media (min-width: 768px) {
     border-radius: 20px;
@@ -73,6 +74,11 @@
 
 .transactionsTable tr {
   height: 60px;
+  transition: background-color 0.3s ease;
+}
+
+.transactionsTable tr:hover {
+  background-color: rgba(0, 34, 255, 0.05);
 }
 
 .transactionsTable tr td {
