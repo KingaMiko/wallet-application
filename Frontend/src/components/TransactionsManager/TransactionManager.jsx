@@ -5,7 +5,6 @@ import {
   addTransaction as addTransactionThunk,
   getTransactions,
   deleteTransaction,
-  updateTransaction,
 } from 'redux/finance/operations';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectTransactions } from 'redux/finance/selectors';
