@@ -119,8 +119,11 @@
   }
 
   &__input {
+    position: relative;
+    height: 100%;
     margin-bottom: 40px;
     width: 100%;
+    justify-content: center;
     border-bottom: 1px solid get-color('gray2');
     font-family: 'Circe';
     font-size: 18px;
@@ -161,7 +164,7 @@
 
   &__category {
     width: 100%;
-    color: get-color('gray2');
+    color: get-color('gray4');
 
     & option {
       font-family: 'Circe';
@@ -257,14 +260,16 @@
 
 @include mq('tablet') {
   .modal {
-    padding: 40px 73px;
+    padding: 20px 73px;
     border-radius: 20px;
-    width: 540px;
-    height: 650px;
+    width: 750px;
+    height: 550px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
   }
 }

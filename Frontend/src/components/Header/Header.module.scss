@@ -19,12 +19,10 @@
     padding: 20px 16px;
   }
 }
-
 .headerSettings {
   background-color: transparent;
   cursor: pointer;
 }
-
 .headerLogo {
   display: flex;
   align-items: center;
@@ -43,14 +41,13 @@
   // display: flex;
   align-items: center;
 }
-
 .headerSideText {
   background-color: transparent;
   color: #bdbdbd;
   position: relative;
   margin-left: 10px;
+  transition: color 0.3s ease;
 }
-
 .headerSideText:first-child:after {
   bottom: 0;
   right: -5px;
@@ -60,30 +57,31 @@
   width: 1px;
   height: 100%;
 }
-
 .headerLogout {
   display: flex;
   cursor: pointer;
   background-color: transparent;
-  margin: 0 0;
+  margin: 0;
 }
 .headerSettings {
   display: block;
 }
 .headerLogout:hover .headerSideText,
-.headerLogout:focus .headerSideText,
-.headerLogout:hover Svg,
-.headerLogout:focus Svg {
-  color: #664ae2;
-  fill: #6b4ae2;
+.headerLogout:focus .headerSideText {
+  color: #172af1;
 }
-.headerLogout Svg {
+.headerLogout:hover svg,
+.headerLogout:focus svg {
+  fill: #172af1;
+  filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
+}
+.headerLogout svg {
   margin-right: 8px;
   margin-left: 8px;
-  margin-top: 5px;
-  fill: #e9cfcf;
+  margin-top: 7px;
+  fill: #4a56e2;
+  transition: filter 0.3s ease, fill 0.3s ease;
 }
-
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -95,7 +93,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .modalContent {
   background: white;
   padding: 20px;
@@ -103,7 +100,6 @@
   position: relative;
   overflow-y: auto;
 }
-
 .closeModal {
   position: absolute;
   top: 10px;
@@ -111,7 +107,6 @@
   font-size: 20px;
   cursor: pointer;
 }
-
 .buttonAdd {
   background: #24cca7;
   color: #ffffff;
@@ -120,23 +115,19 @@
   cursor: pointer;
   margin-top: 10px;
   height: 50px;
-
   &:hover {
     background-color: #00ad84;
   }
 }
-
 .inputCategory {
   border-bottom: 1px solid #e0e0e0;
   width: 100%;
 }
-
 svg {
   fill: #4a56e2;
   transition: filter 0.3s ease, fill 0.3s ease;
   margin-bottom: -3px;
   margin-left: 8px;
-
   &:hover {
     fill: #172af1;
     filter: drop-shadow(2px 2px 4px rgba(0, 34, 255, 0.232));
