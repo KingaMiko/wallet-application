@@ -52,7 +52,7 @@ export const TransactionsManager = () => {
       <AddTransactionModal addTransaction={handleAddTransaction} />
       <EditTransactionModal
         editedTransaction={editedTransaction}
-        updateTransactionList={updateTransaction}
+        onTransactionUpdate={() => dispatch(getTransactions())}
       />
       <Transactions
         transactions={transactions}

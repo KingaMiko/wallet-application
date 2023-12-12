@@ -18,7 +18,7 @@ import css from './ModalEditTransaction.module.scss';
 
 export const EditTransactionModal = ({
   editedTransaction,
-  updateTransactionList,
+  onTransactionUpdate,
 }) => {
   const initialValues = {
     type: editedTransaction ? editedTransaction.type === 'Income' : false,
@@ -63,6 +63,8 @@ export const EditTransactionModal = ({
 
       await dispatch(updateTransaction(transactionData));
 
+      onTransactionUpdate();
+
       toast.success('Transaction updated successfully!');
     } catch (error) {
       console.error('Error updating transaction:', error);
@@ -70,7 +72,7 @@ export const EditTransactionModal = ({
     } finally {
       setSubmitting(false);
       resetForm();
-      handleCloseEditTransactionModal();
+      handleCloseEditTransactionModal(false);
     }
   };
 
