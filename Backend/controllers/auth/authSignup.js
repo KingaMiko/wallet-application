@@ -32,25 +32,7 @@ export const authSignup = async (req, res, next) => {
 
     const newUser = await new User({ email, name, verificationToken });
     await newUser.setPassword(password);
-
-    const defaultCategories = [
-      { name: "Products", type: "Expense", owner: newUser._id },
-      { name: "Car", type: "Expense", owner: newUser._id },
-      { name: "Self care", type: "Expense", owner: newUser._id },
-      { name: "Child care", type: "Expense", owner: newUser._id },
-      { name: "Household products", type: "Expense", owner: newUser._id },
-      { name: "Education", type: "Expense", owner: newUser._id },
-      { name: "Leisure", type: "Expense", owner: newUser._id },
-      { name: "Job", type: "Income", owner: newUser._id },
-      { name: "Extra", type: "Income", owner: newUser._id },
-    ];
-
-    for (const categoryData of defaultCategories) {
-      const newCategory = new Category(categoryData);
-      await newCategory.save();
-      newUser.categories.push(newCategory._id);
-    }
-
+    await newUser.setDefCategories();
     await newUser.save();
     await sendVerificationMail(email, verificationToken, name);
 
