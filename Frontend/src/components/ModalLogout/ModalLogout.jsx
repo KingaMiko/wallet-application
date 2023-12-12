@@ -1,10 +1,12 @@
 import { Button } from 'components';
-import css from './ModalLogout.module.scss';
-import sprite from '../../images/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { selectIsModalLogoutOpen } from 'redux/global/selectors';
 import { setIsModalLogoutOpen } from 'redux/global/globalSlice';
 import { logOut } from 'redux/session/operations';
+
+import css from './ModalLogout.module.scss';
+import sprite from '../../images/icons.svg';
 
 export const ModalLogout = () => {
   const dispatch = useDispatch();
@@ -37,7 +39,6 @@ export const ModalLogout = () => {
             <Button type="button" theme="color" onClick={handleLogout}>
               Yes
             </Button>
-
             <Button
               type="button"
               theme="white"

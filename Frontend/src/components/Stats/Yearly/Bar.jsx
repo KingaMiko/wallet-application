@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
+import { walletInstance } from 'utils/api';
+
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,7 +14,6 @@ import {
 } from 'chart.js';
 
 import css from '../Stats.module.scss';
-import { walletInstance } from 'utils/api';
 
 ChartJS.register(
   CategoryScale,

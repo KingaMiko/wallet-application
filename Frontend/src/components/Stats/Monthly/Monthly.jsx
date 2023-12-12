@@ -1,9 +1,11 @@
-import css from '../Stats.module.scss';
 import React, { useState } from 'react';
+import Select from 'react-select';
+
 import { Expenses } from './Expenses';
 import { Incomes } from './Incomes';
-import Select from 'react-select';
 import { Button } from 'components';
+
+import css from '../Stats.module.scss';
 
 export const Monthly = ({ selectedYear, selectedMonth, handleResetMonth }) => {
   const [selectedType, setSelectedType] = useState({

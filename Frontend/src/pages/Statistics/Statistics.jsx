@@ -6,6 +6,7 @@ import Navigation from 'components/Navigation/Navigation';
 import { Helmet } from 'react-helmet';
 import { useMediaQuery } from 'react-responsive';
 import NavigationMobile from 'components/Navigation/NavigationMobile';
+import { BackgroundBlurred } from 'components/Background/BackgroundBlurred';
 
 const Statistics = () => {
   const isMobileView = useMediaQuery({ maxWidth: 767 });
@@ -16,6 +17,7 @@ const Statistics = () => {
         <title>Statistics</title>
       </Helmet>
       <section>
+        <BackgroundBlurred />
         <div className={css.wrapper}>
           {isMobileView ? (
             <div className={css.mainMobile}>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import css from './CurrencyTable.module.scss';
-
 import { walletInstance } from 'utils/api';
+
+import css from './CurrencyTable.module.scss';
 
 export const CurrencyTable = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -16,7 +16,6 @@ export const CurrencyTable = () => {
         console.error('Error fetching currencies', error);
       }
     };
-
     fetchData();
   }, []);
 

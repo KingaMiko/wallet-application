@@ -1,9 +1,11 @@
-import { Button } from 'components';
-import css from './ModalConfirmDelete.module.scss';
-import sprite from '../../../images/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsModalConfirmDeleteOpen } from 'redux/global/selectors';
 import { setIsModalConfirmDeleteOpen } from 'redux/global/globalSlice';
+
+import { Button } from 'components';
+
+import css from './ModalConfirmDelete.module.scss';
+import sprite from '../../../images/icons.svg';
 
 export const ModalConfirmDelete = ({ onConfirm }) => {
   const dispatch = useDispatch();

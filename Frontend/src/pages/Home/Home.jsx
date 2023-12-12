@@ -11,6 +11,7 @@ import NavigationMobile from 'components/Navigation/NavigationMobile';
 import { useMediaQuery } from 'react-responsive';
 import { getAllUserCategories } from 'redux/finance/operations';
 import { useDispatch } from 'react-redux';
+import { BackgroundBlurred } from 'components/Background/BackgroundBlurred';
 
 const Home = () => {
   //const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,7 @@ const Home = () => {
         <title>Home</title>
       </Helmet>
       <section>
+        <BackgroundBlurred />
         <div className={css.wrapper}>
           {isMobileView ? (
             <div className={css.mainMobile}>

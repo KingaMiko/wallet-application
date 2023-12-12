@@ -1,15 +1,16 @@
-import * as Yup from 'yup';
-
-import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css';
-import { Formik, Field, ErrorMessage, Form } from 'formik';
-
-import { Button } from 'components';
-import css from './ModalAddTransaction.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import Datetime from 'react-datetime';
+
 import { setIsModalAddTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalAddTransactionOpen } from 'redux/global/selectors';
 import { selectUserCategories } from 'redux/finance/selectors';
+
+import 'react-datetime/css/react-datetime.css';
+import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { Button } from 'components';
+import * as Yup from 'yup';
+
+import css from './ModalAddTransaction.module.scss';
 import sprite from '../../../images/icons.svg';
 
 export const AddTransactionModal = ({ addTransaction }) => {
