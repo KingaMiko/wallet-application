@@ -14,7 +14,7 @@ import css from './Categories.module.scss';
 import sprite from 'images/icons.svg';
 
 export const OpenSettingsModal = () => {
-  const [categoryType, setCategoryType] = useState("Expense");
+  const [categoryType, setCategoryType] = useState('Expense');
   const dispatch = useDispatch();
 
   const isSettingsModalOpen = useSelector(selectIsModalSettingsOpen);
@@ -139,7 +139,7 @@ export const OpenSettingsModal = () => {
               <table>
                 <thead className={css.tableHeader}>
                   <tr className={css.trBackground}>
-                    <th>Category</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
