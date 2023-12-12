@@ -1,19 +1,46 @@
+.container {
+  border-radius: 10px;
+  overflow: auto;
+  width: 100%;
+  margin: 0 auto;
+  background-color: rgba(115, 115, 115, 0.043);
+  padding: 10px;
+  @media (min-width: 768px) {
+    border-radius: 20px;
+    width: 765px;
+  }
+  @media (min-width: 1280px) {
+    border-radius: 30px;
+    width: 755px;
+    padding: 80px;
+  }
+}
+
 .emptywallet {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px; // Adjust the space between elements as needed
+  gap: 20px;
 
   p {
-    font-size: 1.2rem; // Adjust the font size as needed
+    font-size: 1.2rem;
+    font-weight: 500;
     text-align: center;
+    @media (min-width: 1280px) {
+      font-size: 1.4rem;
+    }
   }
 
   img {
-    max-width: 100px; // Adjust the image size as needed
-    height: auto; // Maintain the aspect ratio
+    max-width: 200px;
+    height: auto;
+    border-radius: 15px;
+    @media (min-width: 768px) {
+      max-width: 250px;
+    }
+    @media (min-width: 1280px) {
+      max-width: 300px;
+    }
   }
-
-  // Add any additional styles you want for the button here
 }
