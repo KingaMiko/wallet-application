@@ -13,7 +13,7 @@ export const Balance = () => {
 
   useEffect(() => {
     dispatch(getUserDetails());
-  }, [dispatch]);
+  }, [dispatch, userDetails]);
 
   return (
     <div className={css.balance}>
