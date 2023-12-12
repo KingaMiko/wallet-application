@@ -8,7 +8,6 @@ import { Doughnut } from 'react-chartjs-2';
 
 import css from '../Stats.module.scss';
 
-
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const Expenses = ({ selectedYear, selectedMonth }) => {
@@ -139,7 +138,6 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          paddingLeft: '50px',
                         }}
                       >
                         <div
