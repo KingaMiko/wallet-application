@@ -1,0 +1,19 @@
+.emptywallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; // Adjust the space between elements as needed
+
+  p {
+    font-size: 1.2rem; // Adjust the font size as needed
+    text-align: center;
+  }
+
+  img {
+    max-width: 100px; // Adjust the image size as needed
+    height: auto; // Maintain the aspect ratio
+  }
+
+  // Add any additional styles you want for the button here
+}

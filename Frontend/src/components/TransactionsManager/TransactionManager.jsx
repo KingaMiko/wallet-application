@@ -10,6 +10,7 @@ import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectTransactions } from 'redux/finance/selectors';
 import { AddTransactionModal } from './ModalAddTransaction/ModalAddTransaction';
 import { EditTransactionModal } from './ModalEditTransaction/ModalEditTransaction';
+import { EmptyWallet } from './EmptyWallet/EmptyWallet';
 
 export const TransactionsManager = () => {
   const dispatch = useDispatch();
@@ -53,11 +54,15 @@ export const TransactionsManager = () => {
         editedTransaction={editedTransaction}
         onTransactionUpdate={() => dispatch(getTransactions())}
       />
-      <Transactions
-        transactions={transactions}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-      />
+      {transactions.length === 0 ? (
+        <EmptyWallet />
+      ) : (
+        <Transactions
+          transactions={transactions}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
+      )}
     </div>
   );
 };
