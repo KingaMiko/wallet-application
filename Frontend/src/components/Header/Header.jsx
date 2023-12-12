@@ -51,7 +51,7 @@ const Header = () => {
                   <button className={css.headerSettings} onClick={toggleModal}>
                     <p className={css.headerSideText}></p>
                     <svg icon="settings" width="18px" height="18px">
-                      <use href={`${sprite}#icon-pencil2`}></use>
+                      <use href={`${sprite}#icon-settings`}></use>
                     </svg>
                   </button>
                   <button
@@ -60,7 +60,7 @@ const Header = () => {
                   >
                     <p className={css.headerSideText}>Exit</p>
                     <svg icon="logout" width="18px" height="18px">
-                      <use href={`${sprite}#icon-exit`}></use>
+                      <use href={`${sprite}#icon-exit2`}></use>
                     </svg>
                   </button>
                 </div>
