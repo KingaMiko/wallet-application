@@ -1,21 +1,21 @@
 import express from "express";
 import cors from "cors";
-import { configDotenv } from "dotenv";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const corsPlugin = (app) => {
   const corsOptionsDelegate = (req, callback) => {
-    configDotenv();
-
-    const allowedArray = process.env.ALLOWED_DOMAINS.split(" ");
+    const allowedDomains = process.env.ALLOWED_DOMAINS.split(" ");
     const currOrigin = req.header("Origin");
-    const currOriginIndex = allowedArray.indexOf(currOrigin);
+
     const corsOptions = {
       credentials: true,
       optionsSuccessStatus: 200,
     };
 
-    if (currOriginIndex !== -1) {
-      corsOptions.origin = true;
+    if (allowedDomains.includes(currOrigin)) {
+      corsOptions.origin = currOrigin;
     } else {
       corsOptions.origin = false;
     }
