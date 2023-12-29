@@ -149,15 +149,21 @@ export const OpenSettingsModal = () => {
                       <tr id={category._id} key={category._id}>
                         <td>{category.name}</td>
                         <td>
-                          <button
+                          <Button
                             type="button"
                             className={css.deleteButton}
                             onClick={() =>
                               dispatch(deleteUserCategory(category._id))
                             }
                           >
-                            X
-                          </button>
+                            <svg
+                              className={css.iconTransactions}
+                              width="20px"
+                              height="20px"
+                            >
+                              <use href={`${sprite}#icon-bin`}></use>
+                            </svg>
+                          </Button>
                         </td>
                       </tr>
                     ))}
