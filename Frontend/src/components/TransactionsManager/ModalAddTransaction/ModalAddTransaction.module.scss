@@ -3,8 +3,9 @@
 @import '../../../styles/utils/mixins';
 
 .modal {
+  border-radius: 20px;
   background: #fff;
-  padding: 9px;
+  padding: 40px;
   width: 100vw;
   max-width: 768px;
   position: fixed;
