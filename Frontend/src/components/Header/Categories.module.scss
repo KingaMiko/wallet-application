@@ -208,14 +208,6 @@
   //overflow: auto;
 }
 
-.deleteButton {
-  background: none;
-  border: none;
-  color: red;
-  cursor: pointer;
-  padding-left: 50px;
-}
-
 .tableHeader {
   //position: sticky;
   //top: 0;
@@ -228,9 +220,21 @@
 .tableContainer {
   margin: 0 auto;
   width: 250px;
+
   // overflow: scroll;
   // scrollbar-width: thin;
   // scrollbar-color: transparent transparent;
+}
+
+.trContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+}
+
+.iconTransactions:hover {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

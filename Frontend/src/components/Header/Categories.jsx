@@ -146,24 +146,20 @@ export const OpenSettingsModal = () => {
                   {userCategories
                     .filter(category => category.type === categoryType)
                     .map(category => (
-                      <tr id={category._id} key={category._id}>
-                        <td>{category.name}</td>
-                        <td>
-                          <Button
-                            type="button"
-                            className={css.deleteButton}
+                      <tr key={category._id}>
+                        <td className={css.trContent}>
+                          <span>{category.name}</span>
+
+                          <svg
+                            className={css.iconTransactions}
+                            width="20px"
+                            height="20px"
                             onClick={() =>
                               dispatch(deleteUserCategory(category._id))
                             }
                           >
-                            <svg
-                              className={css.iconTransactions}
-                              width="20px"
-                              height="20px"
-                            >
-                              <use href={`${sprite}#icon-bin`}></use>
-                            </svg>
-                          </Button>
+                            <use href={`${sprite}#icon-bin`}></use>
+                          </svg>
                         </td>
                       </tr>
                     ))}
