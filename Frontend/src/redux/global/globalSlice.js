@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-//import { getPatterns } from './operations';
+import { getPatterns } from './operations';
 
 const initialState = {
   isLoading: false,
@@ -34,23 +34,23 @@ const globalSlice = createSlice({
       state.isModalConfirmDeleteOpen = action.payload;
     },
   },
-  // extraReducers: builder => {
-  //   builder
-  //     .addCase(getPatterns.pending, state => {
-  //       state.isLoading = true;
-  //     })
-  //     .addCase(getPatterns.fulfilled, (state, action) => {
-  //       state.patterns = action.payload.data.patterns;
-  //       state.isLoading = false;
-  //     })
-  //     .addCase(getPatterns.rejected, state => {
-  //       state.patterns = {
-  //         passwordPattern: { pattern: '', description: '' },
-  //         namePattern: { pattern: '', description: '' },
-  //       };
-  //       state.isLoading = false;
-  //     });
-  // },
+  extraReducers: builder => {
+    builder
+      .addCase(getPatterns.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(getPatterns.fulfilled, (state, action) => {
+        state.patterns = action.payload.data.patterns;
+        state.isLoading = false;
+      })
+      .addCase(getPatterns.rejected, state => {
+        state.patterns = {
+          passwordPattern: { pattern: '', description: '' },
+          namePattern: { pattern: '', description: '' },
+        };
+        state.isLoading = false;
+      });
+  },
 });
 
 export const {
