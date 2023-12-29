@@ -6,6 +6,7 @@ import {
   getTransactions,
   deleteTransaction,
 } from 'redux/finance/operations';
+import { getUserDetails } from 'redux/session/operations';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectTransactions } from 'redux/finance/selectors';
 import { AddTransactionModal } from './ModalAddTransaction/ModalAddTransaction';
@@ -26,6 +27,7 @@ export const TransactionsManager = () => {
     dispatch(addTransactionThunk(newTransactionData))
       .then(() => {
         setTransactionAdded(prevState => !prevState);
+        dispatch(getUserDetails());
       })
       .catch(error => {
         console.error('Error while adding the transaction:', error);
@@ -41,6 +43,7 @@ export const TransactionsManager = () => {
     dispatch(deleteTransaction(transactionId))
       .then(() => {
         dispatch(getTransactions());
+        dispatch(getUserDetails());
       })
       .catch(error => {
         console.error('Error while deleting the transaction:', error);
