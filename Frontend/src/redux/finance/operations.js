@@ -53,6 +53,11 @@ export const deleteTransaction = createAsyncThunk(
 export const updateTransaction = createAsyncThunk(
   'finance/updateTransaction',
   async ({ transactionID, ...transactionDetails }, thunkAPI) => {
+    console.log(
+      'Wysyłanie żądania aktualizacji:',
+      transactionID,
+      transactionDetails
+    );
     try {
       const res = await walletInstance.patch(`/transactions/${transactionID}`, {
         ...transactionDetails,
@@ -60,6 +65,7 @@ export const updateTransaction = createAsyncThunk(
       toast.success('Success!');
       return res.data;
     } catch (error) {
+      console.error('Błąd aktualizacji transakcji:', error);
       const errorMessage = error.response.data.description;
       toast.error(errorMessage);
       return thunkAPI.rejectWithValue(errorMessage);
