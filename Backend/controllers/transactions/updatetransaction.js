@@ -22,10 +22,6 @@ import { updateUser } from "#helpers/transactionHelper.js";
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
 
-import Transaction from "#models/transaction.js";
-import User from "#models/user.js";
-import { updateUser } from "#helpers/transactionHelper.js";
-
 export const updateTransaction = async (req, res) => {
   const ownerId = req.user.id;
   const { id } = req.params;
