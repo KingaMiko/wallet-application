@@ -9,6 +9,7 @@ import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
 import { selectIsModalEditTransactionOpen } from 'redux/global/selectors';
 import { selectUserCategories } from 'redux/finance/selectors';
 import { updateTransaction } from 'redux/finance/operations';
+import { getUserDetails } from 'redux/session/operations';
 
 import { Button } from 'components';
 
@@ -23,7 +24,7 @@ export const EditTransactionModal = ({
   const initialValues = {
     type: editedTransaction ? editedTransaction.type === 'Income' : false,
     sum: editedTransaction ? editedTransaction.sum : '',
-    category: editedTransaction ? editedTransaction.category : '',
+    category: editedTransaction ? editedTransaction.categoryId : '',
     date: editedTransaction ? new Date(editedTransaction.date) : new Date(),
     comment: editedTransaction ? editedTransaction.comment : '',
   };
@@ -48,7 +49,6 @@ export const EditTransactionModal = ({
   const handleCloseEditTransactionModal = () => {
     dispatch(setIsModalEditTransactionOpen(false));
   };
-
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     try {
@@ -62,7 +62,7 @@ export const EditTransactionModal = ({
       };
 
       await dispatch(updateTransaction(transactionData));
-
+      await dispatch(getUserDetails());
       onTransactionUpdate();
 
       toast.success('Transaction updated successfully!');
@@ -72,7 +72,7 @@ export const EditTransactionModal = ({
     } finally {
       setSubmitting(false);
       resetForm();
-      handleCloseEditTransactionModal(false);
+      handleCloseEditTransactionModal();
     }
   };
 
@@ -162,16 +162,11 @@ export const EditTransactionModal = ({
                             : null
                         }`}
                       >
-                        <option selected value={editedTransaction.categoryId}>
-                          {editedTransaction.category}
-                        </option>
                         {userCategories
-                          .filter(
-                            category =>
-                              (values.type === true
-                                ? category.type === 'Income'
-                                : category.type === 'Expense') &&
-                              category._id !== editedTransaction.categoryId
+                          .filter(category =>
+                            values.type === true
+                              ? category.type === 'Income'
+                              : category.type === 'Expense'
                           )
                           .map(category => (
                             <option key={category._id} value={category._id}>

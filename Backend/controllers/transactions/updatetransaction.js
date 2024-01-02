@@ -21,6 +21,11 @@ import { updateUser } from "#helpers/transactionHelper.js";
  * @return {ResponseSchema} 403 - Forbidden (No authorization or not owner of the transaction)
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
+
+import Transaction from "#models/transaction.js";
+import User from "#models/user.js";
+import { updateUser } from "#helpers/transactionHelper.js";
+
 export const updateTransaction = async (req, res) => {
   const ownerId = req.user.id;
   const { id } = req.params;
@@ -31,10 +36,25 @@ export const updateTransaction = async (req, res) => {
       _id: id,
       owner: ownerId,
     });
+
     if (!ourTransaction) {
       return res
         .status(403)
         .json({ description: "You don't have permission to do this" });
+    }
+
+    const user = await User.findOne({ _id: ownerId });
+    let balanceUpdate = user.balance;
+
+    if (sum !== ourTransaction.sum || type !== ourTransaction.type) {
+      balanceUpdate -=
+        ourTransaction.type === "Income"
+          ? ourTransaction.sum
+          : -ourTransaction.sum;
+
+      balanceUpdate += type === "Income" ? sum : -sum;
+
+      await updateUser(ownerId, { balance: balanceUpdate });
     }
 
     ourTransaction.type = type;
@@ -42,19 +62,6 @@ export const updateTransaction = async (req, res) => {
     ourTransaction.sum = sum;
     ourTransaction.comment = comment;
     ourTransaction.date = date;
-
-    const user = await User.findOne({ _id: ownerId });
-    if (type !== ourTransaction.type || sum !== ourTransaction.sum) {
-      if (type === "Income") {
-        await updateUser(user.id, {
-          balance: user.balance - ourTransaction.sum + sum,
-        });
-      } else if (type === "Expense") {
-        await updateUser(user.id, {
-          balance: user.balance + ourTransaction.sum - sum,
-        });
-      }
-    }
 
     await ourTransaction.save();
 

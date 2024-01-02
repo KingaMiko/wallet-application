@@ -1,5 +1,6 @@
 import User from "#models/user.js";
 import Transaction from "#models/transaction.js";
+
 export const updateUser = (id, fields) => {
   return User.findByIdAndUpdate({ _id: id }, { $set: fields });
 };

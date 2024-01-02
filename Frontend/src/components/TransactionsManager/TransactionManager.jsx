@@ -35,6 +35,7 @@ export const TransactionsManager = () => {
   };
 
   const handleEdit = transaction => {
+    console.log('Edytowanie transakcji:', transaction);
     setEditedTransaction(transaction);
     dispatch(setIsModalEditTransactionOpen(true));
   };
