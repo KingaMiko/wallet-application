@@ -11,6 +11,7 @@ import NavigationMobile from 'components/Navigation/NavigationMobile';
 import { useMediaQuery } from 'react-responsive';
 import { getAllUserCategories } from 'redux/finance/operations';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { BackgroundBlurred } from 'components/Background/BackgroundBlurred';
 
 const Home = () => {
@@ -18,7 +19,9 @@ const Home = () => {
   const isMobileView = useMediaQuery({ maxWidth: 767 });
   const dispatch = useDispatch();
 
-  dispatch(getAllUserCategories());
+  useEffect(() => {
+    dispatch(getAllUserCategories());
+  }, [dispatch]);
 
   return (
     <div className={css.background}>
