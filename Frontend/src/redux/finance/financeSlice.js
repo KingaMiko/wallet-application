@@ -4,6 +4,7 @@ import {
   addTransaction,
   deleteTransaction,
   updateTransaction,
+  getFilteredTransactions,
   getAllUserCategories,
   getUserCategoryById,
   createCategory,
@@ -70,6 +71,11 @@ const financeSlice = createSlice({
         if (index !== -1) {
           state.transactions[index] = editedTransaction;
         }
+      })
+      .addCase(getFilteredTransactions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.transactions = action.payload.data;
       })
       .addCase(getAllUserCategories.fulfilled, (state, action) => {
         state.isLoading = false;
