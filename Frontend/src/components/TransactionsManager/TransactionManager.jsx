@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Transactions } from './Transactions/Transactions';
+import { FilterTransaction } from './FilterTransaction/FilterTransaction';
 import {
   addTransaction as addTransactionThunk,
   getTransactions,
   deleteTransaction,
+  getFilteredTransactions,
 } from 'redux/finance/operations';
 import { getUserDetails } from 'redux/session/operations';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
@@ -51,8 +53,23 @@ export const TransactionsManager = () => {
       });
   };
 
+  useEffect(() => {
+    dispatch(
+      getFilteredTransactions({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        limit: 10,
+      })
+    );
+  }, [dispatch]);
+
+  const handleFilter = filters => {
+    dispatch(getFilteredTransactions(filters));
+  };
+
   return (
     <div>
+      <FilterTransaction onFilter={handleFilter} />
       <AddTransactionModal addTransaction={handleAddTransaction} />
       <EditTransactionModal
         editedTransaction={editedTransaction}

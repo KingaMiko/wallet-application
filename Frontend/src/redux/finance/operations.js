@@ -73,6 +73,24 @@ export const updateTransaction = createAsyncThunk(
   }
 );
 
+export const getFilteredTransactions = createAsyncThunk(
+  'finance/getFilteredTransactions',
+  async (filters, thunkAPI) => {
+    try {
+      const { year, month, limit } = filters;
+      const response = await walletInstance.get(
+        `/transactions?year=${year}&month=${month}&limit=${limit}`
+      );
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.description
+        : error.message;
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
 ////////////////////////////////
 ////////// CATEGORIES //////////
 ////////////////////////////////

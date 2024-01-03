@@ -13,24 +13,19 @@ export const updateTransactionById = (id, fields) => {
   );
 };
 
-export const findTransactions = (ownerId, year, month) => {
+export const findTransactions = (ownerId, year, month, limit) => {
   const gottenYear = Number(year);
-  const gottenMonth = month ? Number(month) : month;
-  return Transaction.aggregate([
+  const gottenMonth = month ? Number(month) : null;
+
+  let aggregationPipeline = [
     {
       $match: {
         owner: ownerId,
         $expr: {
-          $cond: {
-            if: gottenMonth,
-            then: {
-              $and: [
-                { $eq: [{ $month: "$date" }, gottenMonth] },
-                { $eq: [{ $year: "$date" }, gottenYear] },
-              ],
-            },
-            else: { $and: [{ $eq: [{ $year: "$date" }, gottenYear] }] },
-          },
+          $and: [
+            { $eq: [{ $year: "$date" }, gottenYear] },
+            gottenMonth ? { $eq: [{ $month: "$date" }, gottenMonth] } : {},
+          ],
         },
       },
     },
@@ -60,7 +55,13 @@ export const findTransactions = (ownerId, year, month) => {
       },
     },
     { $sort: { date: -1 } },
-  ]);
+  ];
+
+  if (limit) {
+    aggregationPipeline.push({ $limit: limit });
+  }
+
+  return Transaction.aggregate(aggregationPipeline);
 };
 
 export const getTransactionByType = (ownerId, type, year, month) => {
