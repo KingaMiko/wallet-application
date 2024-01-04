@@ -7,6 +7,36 @@ import { Button } from 'components';
 
 import css from '../Stats.module.scss';
 
+const customStyles = {
+  control: provided => ({
+    ...provided,
+    borderRadius: '30px',
+    borderColor: '#ccc',
+  }),
+  menu: provided => ({
+    ...provided,
+    borderRadius: '30px',
+  }),
+  menuList: provided => ({
+    ...provided,
+    'border-radius': '30px',
+    padding: '0px',
+  }),
+  option: (provided, { isFocused, isSelected }) => {
+    let styles = {
+      ...provided,
+    };
+
+    if (isFocused) {
+      styles = {
+        ...styles,
+        borderRadius: '30px',
+      };
+    }
+    return styles;
+  },
+};
+
 export const Monthly = ({ selectedYear, selectedMonth, handleResetMonth }) => {
   const [selectedType, setSelectedType] = useState({
     value: 'Expenses',
@@ -30,6 +60,7 @@ export const Monthly = ({ selectedYear, selectedMonth, handleResetMonth }) => {
           options={typeOptions}
           value={selectedType}
           onChange={handleTypeChange}
+          styles={customStyles}
         />
       </div>
       <div className={css.chartsMonthly}>
