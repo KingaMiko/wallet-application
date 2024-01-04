@@ -115,7 +115,6 @@ export const Stats = () => {
           selectedYear={selectedYear.value}
           selectedMonth={selectedMonth.value}
           handleResetMonth={handleResetMonth}
-          styles={customStyles}
         />
       ) : (
         <Yearly selectedYear={selectedYear.value} />

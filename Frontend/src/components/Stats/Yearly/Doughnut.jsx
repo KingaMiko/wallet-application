@@ -58,6 +58,9 @@ export const DoughnutChart = ({ selectedYear }) => {
         display: true,
         text: 'Statistics in total',
       },
+      datalabels: {
+        display: false,
+      },
     },
   };
 

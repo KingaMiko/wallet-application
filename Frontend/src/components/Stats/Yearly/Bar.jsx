@@ -86,6 +86,9 @@ export const BarChart = ({ selectedYear }) => {
         display: true,
         text: 'Statistics for the year',
       },
+      datalabels: {
+        display: false,
+      },
     },
   };
 

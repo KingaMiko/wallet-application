@@ -13,6 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export const Expenses = ({ selectedYear, selectedMonth }) => {
   const [categoryData, setCategoryData] = useState([]);
   const [hasData, setHasData] = useState(true);
+  const totalExpenses = categoryData.reduce((acc, item) => acc + item.total, 0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,6 +121,9 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
         display: true,
         text: 'Expenses in categories',
       },
+      datalabels: {
+        display: false,
+      },
     },
   };
 
@@ -164,6 +168,10 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
                     <td>{total}</td>
                   </tr>
                 ))}
+                <tr>
+                  <td>Total Expense</td>
+                  <td>{totalExpenses}</td>
+                </tr>
               </tbody>
             </table>
           </div>
