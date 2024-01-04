@@ -7,12 +7,16 @@
   align-items: center;
   justify-content: center;
   margin-top: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 
   @include mixins.mq(tablet) {
     flex-direction: row;
     align-items: flex-end;
     gap: 20px;
+  }
+
+  @include mixins.mq(tablet) {
+    margin-bottom: 50px;
   }
 
   .selectors {
