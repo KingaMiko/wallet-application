@@ -21,9 +21,19 @@ export const TransactionsManager = () => {
   const [isTransactionAdded, setTransactionAdded] = useState(false);
   const [editedTransaction, setEditedTransaction] = useState(null);
 
+  const [defaultFilters, setDefaultFilters] = useState({
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    limit: 10,
+  });
+
   useEffect(() => {
     dispatch(getTransactions());
   }, [dispatch, isTransactionAdded]);
+
+  useEffect(() => {
+    dispatch(getFilteredTransactions(defaultFilters));
+  }, [dispatch, defaultFilters]);
 
   const handleAddTransaction = newTransactionData => {
     dispatch(addTransactionThunk(newTransactionData))
@@ -64,6 +74,7 @@ export const TransactionsManager = () => {
   }, [dispatch]);
 
   const handleFilter = filters => {
+    setDefaultFilters(filters);
     dispatch(getFilteredTransactions(filters));
   };
 
