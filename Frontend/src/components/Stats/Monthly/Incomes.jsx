@@ -13,6 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export const Incomes = ({ selectedYear, selectedMonth }) => {
   const [categoryData, setCategoryData] = useState([]);
   const [hasData, setHasData] = useState(true);
+  const totalIncomes = categoryData.reduce((acc, item) => acc + item.total, 0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,12 +115,15 @@ export const Incomes = ({ selectedYear, selectedMonth }) => {
   const options = {
     plugins: {
       legend: {
-        position: 'bottom',
+        position: 'top',
         display: false,
       },
       title: {
         display: true,
         text: 'Incomes in categories',
+      },
+      datalabels: {
+        display: false,
       },
     },
   };
@@ -165,6 +169,10 @@ export const Incomes = ({ selectedYear, selectedMonth }) => {
                     <td>{total}</td>
                   </tr>
                 ))}
+                <tr>
+                  <td>Total Incomes</td>
+                  <td>{totalIncomes}</td>
+                </tr>
               </tbody>
             </table>
           </div>

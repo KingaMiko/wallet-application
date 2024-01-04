@@ -47,13 +47,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  gap: 10px;
+  margin-bottom: 20px;
 
   @include mixins.mq(tablet) {
     flex-direction: row;
     gap: 300px;
-  }
-
-  @include mixins.mq(desktop) {
   }
 }
 

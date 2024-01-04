@@ -1,44 +1,105 @@
 import React, { useState } from 'react';
+import Select from 'react-select';
 import css from './FilterTransaction.module.scss';
 
+const customStyles = {
+  control: provided => ({
+    ...provided,
+    borderRadius: '30px',
+    borderColor: '#ccc',
+  }),
+  menu: provided => ({
+    ...provided,
+    borderRadius: '30px',
+  }),
+  menuList: provided => ({
+    ...provided,
+    'border-radius': '30px',
+    padding: '0px',
+  }),
+  option: (provided, { isFocused, isSelected }) => {
+    let styles = {
+      ...provided,
+    };
+
+    if (isFocused) {
+      styles = {
+        ...styles,
+        borderRadius: '30px',
+      };
+    }
+    return styles;
+  },
+};
+
 export const FilterTransaction = ({ onFilter }) => {
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonthName = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+  }).format(today);
+
+  const [year, setYear] = useState({
+    value: currentYear,
+    label: currentYear.toString(),
+  });
+  const [month, setMonth] = useState({
+    value: currentMonthName,
+    label: currentMonthName,
+  });
+
   const [limit, setLimit] = useState(10);
 
+  const yearOptions = [
+    { value: 2020, label: '2020' },
+    { value: 2021, label: '2021' },
+    { value: 2022, label: '2022' },
+    { value: 2023, label: '2023' },
+    { value: 2024, label: '2024' },
+  ];
+
+  const monthOptions = [
+    { value: '1', label: 'January' },
+    { value: '2', label: 'February' },
+    { value: '3', label: 'March' },
+    { value: '4', label: 'April' },
+    { value: '5', label: 'May' },
+    { value: '6', label: 'June' },
+    { value: '7', label: 'July' },
+    { value: '8', label: 'August' },
+    { value: '9', label: 'September' },
+    { value: '10', label: 'October' },
+    { value: '11', label: 'November' },
+    { value: '12', label: 'December' },
+  ];
+
   const handleFilter = () => {
-    onFilter({ year, month, limit });
+    onFilter({
+      year: year.value,
+      month: month.value,
+      limit,
+    });
   };
 
   return (
     <div className={css.filterTransaction}>
       <div className={css.selectors}>
         Year
-        <select
-          className={css.filterSelect}
+        <Select
+          options={yearOptions}
           value={year}
-          onChange={e => setYear(e.target.value)}
-        >
-          {[2020, 2021, 2022, 2023, 2024].map(y => (
-            <option key={y} value={y}>
-              {y}
-            </option>
-          ))}
-        </select>
+          onChange={setYear}
+          styles={customStyles}
+        />
       </div>
       <div className={css.selectors}>
         Month
-        <select
-          className={css.filterSelect}
+        <Select
+          options={monthOptions}
           value={month}
-          onChange={e => setMonth(e.target.value)}
-        >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
+          onChange={setMonth}
+          styles={customStyles}
+        />
       </div>
       <div className={css.selectors}>
         Limit
