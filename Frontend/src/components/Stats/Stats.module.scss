@@ -91,9 +91,9 @@
   overflow: auto;
   width: 280px;
 
-  background-color: rgba(115, 115, 115, 0.043);
+  //background-color: rgba(115, 115, 115, 0.043);
   @media (min-width: 768px) {
-    border-radius: 20px;
+    border-radius: 30px;
     width: 336px;
   }
   @media (min-width: 1280px) {
@@ -108,11 +108,7 @@
   line-height: 23.58px;
   color: get-color('black');
   overflow: hidden;
-  border-radius: 15px;
-
-  @media (min-width: 768px) {
-    border-radius: 20px;
-  }
+  border-radius: 30px;
 
   @media (min-width: 1280px) {
     border-radius: 30px;
@@ -121,10 +117,14 @@
 
 .categoryTableHead {
   background-color: get-color('white');
-  border-radius: 30px;
 
-  @media (min-width: 768px) {
-    border-radius: 20px;
+  th {
+    border-bottom-right-radius: 30px;
+  }
+  th:first-child {
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
   }
 
   @media (min-width: 1280px) {
