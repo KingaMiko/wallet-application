@@ -46,6 +46,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
 
   @include mixins.mq(tablet) {
     flex-direction: row;
@@ -76,7 +77,12 @@
 
   @media (max-width: 767px) {
     flex-direction: column;
-    // align-items: center;
+  }
+  @media (min-width: 767px) {
+    gap: 200px;
+  }
+  @media (min-width: 1280px) {
+    gap: 50px;
   }
 }
 
@@ -131,6 +137,7 @@
   text-align: left;
   font-size: get-font-size('secondary');
 }
+
 .categoryTable th:first-child,
 .categoryTable td:first-child {
   padding-left: 20px;

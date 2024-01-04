@@ -5,6 +5,36 @@ import { Monthly } from './Monthly/Monthly';
 
 import css from './Stats.module.scss';
 
+const customStyles = {
+  control: provided => ({
+    ...provided,
+    borderRadius: '30px',
+    borderColor: '#ccc',
+  }),
+  menu: provided => ({
+    ...provided,
+    borderRadius: '30px',
+  }),
+  menuList: provided => ({
+    ...provided,
+    'border-radius': '30px',
+    padding: '0px',
+  }),
+  option: (provided, { isFocused, isSelected }) => {
+    let styles = {
+      ...provided,
+    };
+
+    if (isFocused) {
+      styles = {
+        ...styles,
+        borderRadius: '30px',
+      };
+    }
+    return styles;
+  },
+};
+
 export const Stats = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -64,6 +94,7 @@ export const Stats = () => {
               options={yearOptions}
               value={selectedYear}
               onChange={handleYearChange}
+              styles={customStyles}
             />
           </div>
         </div>
@@ -74,6 +105,7 @@ export const Stats = () => {
               options={monthOptions}
               value={selectedMonth}
               onChange={handleMonthChange}
+              styles={customStyles}
             />
           </div>
         </div>
@@ -83,6 +115,7 @@ export const Stats = () => {
           selectedYear={selectedYear.value}
           selectedMonth={selectedMonth.value}
           handleResetMonth={handleResetMonth}
+          styles={customStyles}
         />
       ) : (
         <Yearly selectedYear={selectedYear.value} />
