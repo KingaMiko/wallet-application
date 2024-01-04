@@ -12,6 +12,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const Expenses = ({ selectedYear, selectedMonth }) => {
   const [categoryData, setCategoryData] = useState([]);
+  const [hasData, setHasData] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +45,12 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
         }, []);
 
         setCategoryData(groupedCategories);
+        if (groupedCategories.length === 0) {
+          setHasData(false);
+        } else {
+          setHasData(true);
+          setCategoryData(groupedCategories);
+        }
       } catch (error) {
         console.error('There was a problem fetching the expense data:', error);
       }
@@ -51,6 +58,10 @@ export const Expenses = ({ selectedYear, selectedMonth }) => {
 
     fetchData();
   }, [selectedYear, selectedMonth]);
+
+  if (!hasData) {
+    return <p>No Expenses statistics for this month</p>;
+  }
 
   const chartData = {
     labels: categoryData.map(item => item.category),
