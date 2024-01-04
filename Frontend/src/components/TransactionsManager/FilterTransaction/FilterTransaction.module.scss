@@ -16,6 +16,8 @@
   }
 
   .selectors {
+    display: flex;
+    flex-direction: column;
     width: 200px;
     margin-bottom: 10px;
 
@@ -25,9 +27,9 @@
   }
 
   .filterSelect {
-    width: 100%;
+    width: 100px;
     border: 1px solid get-color('gray2');
-    border-radius: 5px;
+    border-radius: 30px;
     padding: 8px 12px;
     font-family: 'Circe';
     font-size: get-font-size('primary');
