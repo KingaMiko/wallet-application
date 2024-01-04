@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import { Yearly } from './Yearly/Yearly';
 import { Monthly } from './Monthly/Monthly';
@@ -6,11 +6,18 @@ import { Monthly } from './Monthly/Monthly';
 import css from './Stats.module.scss';
 
 export const Stats = () => {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
   const [selectedYear, setSelectedYear] = useState({
-    value: 2023,
-    label: 2023,
+    value: currentYear,
+    label: currentYear,
   });
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState({
+    value: currentMonth.toString(),
+    label: new Intl.DateTimeFormat('en-US', { month: 'long' }).format(today),
+  });
 
   const handleYearChange = selectedOption => {
     setSelectedYear(selectedOption);
@@ -23,12 +30,6 @@ export const Stats = () => {
   const handleResetMonth = () => {
     setSelectedMonth(null);
   };
-
-  useEffect(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    setSelectedYear({ value: year, label: year });
-  }, [setSelectedYear]);
 
   const yearOptions = [
     { value: 2020, label: 2020 },
