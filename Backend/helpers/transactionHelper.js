@@ -13,7 +13,7 @@ export const updateTransactionById = (id, fields) => {
   );
 };
 
-export const findTransactions = (ownerId, year, month, limit, skip) => {
+export const findTransactions = (ownerId, year, month, limit) => {
   const gottenYear = Number(year);
   const gottenMonth = month ? Number(month) : null;
 
@@ -57,8 +57,8 @@ export const findTransactions = (ownerId, year, month, limit, skip) => {
     { $sort: { date: -1 } },
   ];
 
-  if (limit !== null) {
-    aggregationPipeline.push({ $skip: skip }, { $limit: limit });
+  if (limit) {
+    aggregationPipeline.push({ $limit: limit });
   }
 
   return Transaction.aggregate(aggregationPipeline);
