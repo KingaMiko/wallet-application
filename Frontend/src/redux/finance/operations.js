@@ -10,13 +10,17 @@ import { walletInstance } from 'utils/api';
 export const getTransactions = createAsyncThunk(
   'finance/getTransactions',
   async (params, thunkAPI) => {
-    const { year, month, limit, page } = params;
+    const defaultParams = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      limit: 10,
+      page: 1,
+    };
+
+    const { year, month, limit, page } = params || defaultParams;
 
     try {
-      const url = `/transactions?${year ? `year=${year}&` : ''}${
-        month ? `month=${month}&` : ''
-      }${limit ? `limit=${limit}&` : ''}${page ? `page=${page}` : ''}`;
-
+      const url = `/transactions?year=${year}&month=${month}&limit=${limit}&page=${page}`;
       const res = await walletInstance.get(url);
       return res.data;
     } catch (error) {
@@ -85,8 +89,11 @@ export const getFilteredTransactions = createAsyncThunk(
   'finance/getFilteredTransactions',
   async ({ year, month, limit, page }, thunkAPI) => {
     try {
+      const validLimit = parseInt(limit, 10) || 10;
+      const validPage = parseInt(page, 10) || 1;
+
       const response = await walletInstance.get(
-        `/transactions?year=${year}&month=${month}&limit=${limit}&page=${page}`
+        `/transactions?year=${year}&month=${month}&limit=${validLimit}&page=${validPage}`
       );
       return response.data;
     } catch (error) {
