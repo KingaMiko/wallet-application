@@ -25,6 +25,7 @@ export const TransactionsManager = () => {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     limit: 10,
+    page: 1,
   });
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export const TransactionsManager = () => {
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1,
         limit: 10,
+        page: 1,
       })
     );
   }, [dispatch]);

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Transaction from "#models/transaction.js";
 
 import { findTransactions } from "#helpers/transactionHelper.js";
 /**
