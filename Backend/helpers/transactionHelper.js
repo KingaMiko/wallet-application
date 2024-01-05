@@ -92,7 +92,7 @@ export const getTransactionByType = (ownerId, type, year, month) => {
     },
     {
       $lookup: {
-        from: "categories", // Upewnij się, że nazwa kolekcji kategorii jest poprawna
+        from: "categories",
         localField: "category",
         foreignField: "_id",
         as: "categoryData",
@@ -107,7 +107,7 @@ export const getTransactionByType = (ownerId, type, year, month) => {
     {
       $project: {
         type: 1,
-        category: "$categoryData.name", // Zamienia 'category' na 'name' z 'categoryData'
+        category: "$categoryData.name",
         sum: 1,
         comment: 1,
         date: 1,
