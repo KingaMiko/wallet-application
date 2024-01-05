@@ -17,6 +17,9 @@ export const findTransactions = (ownerId, year, month, limit, skip) => {
   const gottenYear = Number(year);
   const gottenMonth = month ? Number(month) : null;
 
+  const gottenLimit = limit ? parseInt(limit, 10) : 10;
+  const gottenSkip = skip ? parseInt(skip, 10) : 0;
+
   let aggregationPipeline = [
     {
       $match: {
@@ -57,9 +60,10 @@ export const findTransactions = (ownerId, year, month, limit, skip) => {
     { $sort: { date: -1 } },
   ];
 
-  if (limit) {
-    aggregationPipeline.push({ $skip: skip }, { $limit: limit });
+  if (gottenLimit !== null && !isNaN(gottenLimit)) {
+    aggregationPipeline.push({ $skip: gottenSkip }, { $limit: gottenLimit });
   }
+
   return Transaction.aggregate(aggregationPipeline);
 };
 
