@@ -15,26 +15,34 @@ import { findTransactions } from "#helpers/transactionHelper.js";
  */
 
 export const getTransactions = async (req, res, next) => {
-  const { year, month, limit = 10, page = 1 } = req.query;
-  const ObjectId = mongoose.Types.ObjectId;
-  const ownerId = new ObjectId(req.user.id);
+  const { year, month, limit = "10", page = "1" } = req.query;
+  const ownerId = new mongoose.Types.ObjectId(req.user.id);
 
   try {
     const gottenYear = year || new Date().getFullYear();
     const gottenMonth = month || null;
+    const parsedLimit = parseInt(limit, 10);
+    const parsedPage = parseInt(page, 10);
 
-    const skip = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+    if (!Number.isInteger(parsedLimit) || !Number.isInteger(parsedPage)) {
+      return res.status(400).json({
+        statusCode: 400,
+        description: "Invalid limit or page number.",
+      });
+    }
+
+    const skip = (parsedPage - 1) * parsedLimit;
 
     const result = await findTransactions(
       ownerId,
       gottenYear,
       gottenMonth,
-      parseInt(limit, 10),
+      parsedLimit,
       skip
     );
 
     const totalCount = await Transaction.countDocuments({ owner: ownerId });
-    const totalPages = Math.ceil(totalCount / limit);
+    const totalPages = Math.ceil(totalCount / parsedLimit);
 
     return res.status(200).json({
       statusCode: 200,
@@ -42,14 +50,14 @@ export const getTransactions = async (req, res, next) => {
       data: result,
       pagination: {
         total: totalCount,
-        page: parseInt(page, 10),
+        page: parsedPage,
         totalPages: totalPages,
-        limit: parseInt(limit, 10),
+        limit: parsedLimit,
       },
     });
   } catch (error) {
-    return res.status(400).json({
-      statusCode: 400,
+    return res.status(500).json({
+      statusCode: 500,
       description: error.message,
     });
   }
