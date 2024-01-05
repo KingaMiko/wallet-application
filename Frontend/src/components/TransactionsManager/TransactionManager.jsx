@@ -76,8 +76,11 @@ export const TransactionsManager = () => {
   }, [dispatch]);
 
   const handleFilter = filters => {
-    setDefaultFilters(filters);
-    dispatch(getFilteredTransactions(filters));
+    setDefaultFilters({
+      ...filters,
+      limit: parseInt(filters.limit, 10),
+      page: parseInt(filters.page, 10),
+    });
   };
 
   return (

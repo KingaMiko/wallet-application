@@ -77,8 +77,13 @@ export const FilterTransaction = ({ onFilter }) => {
     onFilter({
       year: year.value,
       month: month.value,
-      limit,
+      limit: parseInt(limit, 10),
     });
+  };
+
+  const handleLimitChange = e => {
+    const newLimit = parseInt(e.target.value, 10);
+    setLimit(newLimit >= 0 ? newLimit : 0);
   };
 
   return (
@@ -107,7 +112,7 @@ export const FilterTransaction = ({ onFilter }) => {
           className={css.filterSelect}
           type="number"
           value={limit}
-          onChange={e => setLimit(e.target.value)}
+          onChange={handleLimitChange}
         />
       </div>
       <button className={css.filterButton} onClick={handleFilter}>
