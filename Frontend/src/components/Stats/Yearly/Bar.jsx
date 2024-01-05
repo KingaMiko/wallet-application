@@ -28,6 +28,7 @@ export const BarChart = ({ selectedYear, onNoData }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
+    console.log('Selected year changed to:', selectedYear);
     const fetchData = async () => {
       try {
         const response = await walletInstance.get('/statistics', {
