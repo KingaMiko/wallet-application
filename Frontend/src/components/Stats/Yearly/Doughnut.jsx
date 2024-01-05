@@ -10,7 +10,7 @@ import css from '../Stats.module.scss';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const DoughnutChart = ({ selectedYear }) => {
+export const DoughnutChart = ({ selectedYear, onNoData }) => {
   const [statisticsData, setStatisticsData] = useState({
     expenses: 0,
     incomes: 0,
@@ -27,13 +27,18 @@ export const DoughnutChart = ({ selectedYear }) => {
 
         const { expenses, income } = response.data.data;
         setStatisticsData({ expenses: expenses, incomes: income });
+        if (expenses === 0 && income === 0) {
+          onNoData(true);
+        } else {
+          onNoData(false);
+        }
       } catch (error) {
         console.error('There was a problem fetching statistics:', error);
       }
     };
 
     fetchStatistics();
-  }, [selectedYear]);
+  }, [selectedYear, onNoData]);
 
   const data = {
     labels: ['Expenses', 'Incomes'],

@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-export const BarChart = ({ selectedYear }) => {
+export const BarChart = ({ selectedYear, onNoData }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
@@ -68,13 +68,21 @@ export const BarChart = ({ selectedYear }) => {
         };
 
         setChartData(formattedData);
+        if (
+          !expensesData.some(value => value > 0) &&
+          !incomesData.some(value => value > 0)
+        ) {
+          onNoData(true);
+        } else {
+          onNoData(false);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [selectedYear]);
+  }, [selectedYear, onNoData]);
 
   const options = {
     responsive: true,
