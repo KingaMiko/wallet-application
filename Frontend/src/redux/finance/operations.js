@@ -9,12 +9,20 @@ import { walletInstance } from 'utils/api';
 
 export const getTransactions = createAsyncThunk(
   'finance/getTransactions',
-  async (_, thunkAPI) => {
+  async (params, thunkAPI) => {
+    const { year, month, limit, page } = params;
+
     try {
-      const res = await walletInstance.get('/transactions');
+      const url = `/transactions?${year ? `year=${year}&` : ''}${
+        month ? `month=${month}&` : ''
+      }${limit ? `limit=${limit}&` : ''}${page ? `page=${page}` : ''}`;
+
+      const res = await walletInstance.get(url);
       return res.data;
     } catch (error) {
-      const errorMessage = error.response.data.description;
+      const errorMessage = error.response
+        ? error.response.data.description
+        : error.message;
       toast.error(errorMessage);
       return thunkAPI.rejectWithValue(errorMessage);
     }
@@ -75,17 +83,17 @@ export const updateTransaction = createAsyncThunk(
 
 export const getFilteredTransactions = createAsyncThunk(
   'finance/getFilteredTransactions',
-  async (filters, thunkAPI) => {
+  async ({ year, month, limit, page }, thunkAPI) => {
     try {
-      const { year, month, limit } = filters;
       const response = await walletInstance.get(
-        `/transactions?year=${year}&month=${month}&limit=${limit}`
+        `/transactions?year=${year}&month=${month}&limit=${limit}&page=${page}`
       );
       return response.data;
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.description
         : error.message;
+      toast.error(errorMessage);
       return thunkAPI.rejectWithValue(errorMessage);
     }
   }
