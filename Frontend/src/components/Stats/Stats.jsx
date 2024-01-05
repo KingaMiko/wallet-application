@@ -38,19 +38,21 @@ const customStyles = {
 export const Stats = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
 
   const [selectedYear, setSelectedYear] = useState({
     value: currentYear,
     label: currentYear,
   });
-  const [selectedMonth, setSelectedMonth] = useState({
-    value: currentMonth.toString(),
-    label: new Intl.DateTimeFormat('en-US', { month: 'long' }).format(today),
-  });
+  const [selectedMonth, setSelectedMonth] = useState(null);
+
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleYearChange = selectedOption => {
     setSelectedYear(selectedOption);
+    if (selectedMonth) {
+      setSelectedMonth(null);
+    }
+    setRefreshKey(prev => prev + 1);
   };
 
   const handleMonthChange = selectedOption => {
@@ -117,7 +119,7 @@ export const Stats = () => {
           handleResetMonth={handleResetMonth}
         />
       ) : (
-        <Yearly selectedYear={selectedYear.value} />
+        <Yearly key={refreshKey} selectedYear={selectedYear.value} />
       )}
     </div>
   );
