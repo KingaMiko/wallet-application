@@ -1,6 +1,6 @@
 import React from 'react';
 import css from './Transactions.module.scss';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import sprite from 'images/icons.svg';
 import { setIsModalConfirmDeleteOpen } from 'redux/global/globalSlice';
@@ -11,6 +11,30 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
     column: null,
     direction: 'asc',
   });
+
+  const sortedTransactions = useMemo(() => {
+    if (!sortOrder.column) return transactions;
+
+    const sortedData = [...transactions].sort((a, b) => {
+      let valueA = a[sortOrder.column];
+      let valueB = b[sortOrder.column];
+
+      if (sortOrder.column === 'date') {
+        valueA = new Date(valueA);
+        valueB = new Date(valueB);
+      }
+
+      if (valueA < valueB) {
+        return sortOrder.direction === 'asc' ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortOrder.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+
+    return sortedData;
+  }, [transactions, sortOrder]);
 
   const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   const dispatch = useDispatch();
@@ -23,12 +47,12 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
       : '';
   };
 
-  const handleSort = sortColumn => {
+  const handleSort = columnKey => {
     const direction =
-      sortColumn === sortOrder.column && sortOrder.direction === 'asc'
+      sortOrder.column === columnKey && sortOrder.direction === 'asc'
         ? 'desc'
         : 'asc';
-    setSortOrder({ column: sortColumn, direction });
+    setSortOrder({ column: columnKey, direction });
   };
 
   const handleDelete = transactionId => {
@@ -64,7 +88,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
       <table className={css.transactionsTable}>
         <thead className={css.transactionsTableHead}>
           <tr>
-            <th onClick={() => handleSort(0)} title="Sort">
+            <th onClick={() => handleSort('date')} title="Sort by Date">
               <div className={css.thName}>
                 <span>Date</span>
                 <svg className={css.iconSort} width="20px" height="20px">
@@ -72,7 +96,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
                 </svg>
               </div>
             </th>
-            <th onClick={() => handleSort(1)} title="Sort">
+            <th onClick={() => handleSort('type')} title="Sort by type">
               <div className={css.thName}>
                 <span>Type</span>
                 <svg className={css.iconSort} width="20px" height="20px">
@@ -80,7 +104,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
                 </svg>
               </div>
             </th>
-            <th onClick={() => handleSort(2)} title="Sort">
+            <th onClick={() => handleSort('category')} title="Sort by category">
               <div className={css.thName}>
                 <span>Category</span>
                 <svg className={css.iconSort} width="20px" height="20px">
@@ -93,7 +117,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
                 <span>Comment</span>
               </div>
             </th>
-            <th onClick={() => handleSort(4)} title="Sort">
+            <th onClick={() => handleSort('sum')} title="Sort by sum">
               <div className={css.thName}>
                 <span>Amount</span>
                 <svg className={css.iconSort} width="20px" height="20px">
@@ -105,7 +129,7 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map(transaction => (
+          {sortedTransactions.map(transaction => (
             <tr key={transaction._id} data-type={transaction.type}>
               <td data-label="Date">{formatDate(transaction.date)}</td>
               <td data-label="Type">{formatType(transaction.type)}</td>

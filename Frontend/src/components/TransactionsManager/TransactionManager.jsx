@@ -93,18 +93,21 @@ export const TransactionsManager = () => {
       {transactions.length === 0 ? (
         <EmptyWallet />
       ) : (
-        <Transactions
-          transactions={transactions}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-        />
-      )}
-      {paginationData.totalPages > 0 && (
-        <Pagination
-          currentPage={paginationData.page}
-          totalPages={paginationData.totalPages}
-          onPageChange={handlePageChange}
-        />
+        <>
+          <Transactions
+            transactions={transactions}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+          {/* Wyświetlaj paginację tylko jeśli są jakieś transakcje i więcej niż jedna strona */}
+          {transactions.length > 0 && paginationData.totalPages > 1 && (
+            <Pagination
+              currentPage={paginationData.page}
+              totalPages={paginationData.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </div>
   );
