@@ -10,7 +10,7 @@ import {
 } from 'redux/finance/operations';
 import { getUserDetails } from 'redux/session/operations';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
-import { selectTransactions, selectPagination } from 'redux/finance/selectors';
+import { selectTransactions } from 'redux/finance/selectors';
 import { AddTransactionModal } from './ModalAddTransaction/ModalAddTransaction';
 import { EditTransactionModal } from './ModalEditTransaction/ModalEditTransaction';
 import { EmptyWallet } from './EmptyWallet/EmptyWallet';
@@ -18,7 +18,10 @@ import { EmptyWallet } from './EmptyWallet/EmptyWallet';
 export const TransactionsManager = () => {
   const dispatch = useDispatch();
   const transactions = useSelector(selectTransactions);
-  const paginationData = useSelector(selectPagination);
+  const [paginationData, setPaginationData] = useState({
+    page: 1,
+    totalPages: 0,
+  });
   const [isTransactionAdded, setIsTransactionAdded] = useState(false);
   const [editedTransaction, setEditedTransaction] = useState(null);
 
@@ -32,7 +35,7 @@ export const TransactionsManager = () => {
   useEffect(() => {
     dispatch(getFilteredTransactions(filters)).then(response => {
       if (response.payload && response.payload.pagination) {
-        selectPagination(response.payload.pagination);
+        setPaginationData(response.payload.pagination);
       }
     });
   }, [dispatch, filters, isTransactionAdded]);
@@ -93,11 +96,13 @@ export const TransactionsManager = () => {
           onEdit={handleEdit}
         />
       )}
-      <Pagination
-        currentPage={paginationData.page}
-        totalPages={paginationData.totalPages}
-        onPageChange={handlePageChange}
-      />
+      {paginationData.totalPages > 0 && (
+        <Pagination
+          currentPage={paginationData.page}
+          totalPages={paginationData.totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 };
