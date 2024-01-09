@@ -34,6 +34,12 @@ const initialState = {
   transactions: [],
   userCategories: [],
   categoryDetails: null,
+  pagination: {
+    total: 0,
+    page: 1,
+    totalPages: 0,
+    limit: 10,
+  },
 };
 
 const financeSlice = createSlice({
@@ -76,6 +82,7 @@ const financeSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.transactions = action.payload.data;
+        state.pagination = action.payload.pagination;
       })
       .addCase(getAllUserCategories.fulfilled, (state, action) => {
         state.isLoading = false;

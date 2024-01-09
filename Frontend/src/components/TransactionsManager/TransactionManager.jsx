@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Transactions } from './Transactions/Transactions';
 import { FilterTransaction } from './FilterTransaction/FilterTransaction';
+import { Pagination } from '../Pagination/Pagination';
 import {
   addTransaction as addTransactionThunk,
-  getTransactions,
-  deleteTransaction,
   getFilteredTransactions,
+  deleteTransaction,
 } from 'redux/finance/operations';
 import { getUserDetails } from 'redux/session/operations';
 import { setIsModalEditTransactionOpen } from 'redux/global/globalSlice';
-import { selectTransactions } from 'redux/finance/selectors';
+import { selectTransactions, selectPagination } from 'redux/finance/selectors';
 import { AddTransactionModal } from './ModalAddTransaction/ModalAddTransaction';
 import { EditTransactionModal } from './ModalEditTransaction/ModalEditTransaction';
 import { EmptyWallet } from './EmptyWallet/EmptyWallet';
@@ -18,10 +18,11 @@ import { EmptyWallet } from './EmptyWallet/EmptyWallet';
 export const TransactionsManager = () => {
   const dispatch = useDispatch();
   const transactions = useSelector(selectTransactions);
-  const [isTransactionAdded, setTransactionAdded] = useState(false);
+  const paginationData = useSelector(selectPagination);
+  const [isTransactionAdded, setIsTransactionAdded] = useState(false);
   const [editedTransaction, setEditedTransaction] = useState(null);
 
-  const [defaultFilters, setDefaultFilters] = useState({
+  const [filters, setFilters] = useState({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     limit: 10,
@@ -29,17 +30,17 @@ export const TransactionsManager = () => {
   });
 
   useEffect(() => {
-    dispatch(getTransactions());
-  }, [dispatch, isTransactionAdded]);
-
-  useEffect(() => {
-    dispatch(getFilteredTransactions(defaultFilters));
-  }, [dispatch, defaultFilters]);
+    dispatch(getFilteredTransactions(filters)).then(response => {
+      if (response.payload && response.payload.pagination) {
+        selectPagination(response.payload.pagination);
+      }
+    });
+  }, [dispatch, filters, isTransactionAdded]);
 
   const handleAddTransaction = newTransactionData => {
     dispatch(addTransactionThunk(newTransactionData))
       .then(() => {
-        setTransactionAdded(prevState => !prevState);
+        setIsTransactionAdded(prev => !prev);
         dispatch(getUserDetails());
       })
       .catch(error => {
@@ -48,7 +49,6 @@ export const TransactionsManager = () => {
   };
 
   const handleEdit = transaction => {
-    console.log('Edytowanie transakcji:', transaction);
     setEditedTransaction(transaction);
     dispatch(setIsModalEditTransactionOpen(true));
   };
@@ -56,7 +56,7 @@ export const TransactionsManager = () => {
   const handleDelete = transactionId => {
     dispatch(deleteTransaction(transactionId))
       .then(() => {
-        dispatch(getTransactions());
+        setIsTransactionAdded(prev => !prev);
         dispatch(getUserDetails());
       })
       .catch(error => {
@@ -64,32 +64,25 @@ export const TransactionsManager = () => {
       });
   };
 
-  useEffect(() => {
-    dispatch(
-      getFilteredTransactions({
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-        limit: 10,
-        page: 1,
-      })
-    );
-  }, [dispatch]);
+  const handleFilterChange = newFilters => {
+    const updatedFilters = { ...filters, ...newFilters };
+    setFilters(updatedFilters);
+    dispatch(getFilteredTransactions(updatedFilters));
+  };
 
-  const handleFilter = filters => {
-    setDefaultFilters({
-      ...filters,
-      limit: parseInt(filters.limit, 10),
-      page: parseInt(filters.page, 10),
-    });
+  const handlePageChange = selectedPage => {
+    const updatedFilters = { ...filters, page: selectedPage };
+    setFilters(updatedFilters);
+    dispatch(getFilteredTransactions(updatedFilters));
   };
 
   return (
     <div>
-      <FilterTransaction onFilter={handleFilter} />
+      <FilterTransaction onFilter={handleFilterChange} />
       <AddTransactionModal addTransaction={handleAddTransaction} />
       <EditTransactionModal
         editedTransaction={editedTransaction}
-        onTransactionUpdate={() => dispatch(getTransactions())}
+        onTransactionUpdate={() => setIsTransactionAdded(prev => !prev)}
       />
       {transactions.length === 0 ? (
         <EmptyWallet />
@@ -100,6 +93,11 @@ export const TransactionsManager = () => {
           onEdit={handleEdit}
         />
       )}
+      <Pagination
+        currentPage={paginationData.page}
+        totalPages={paginationData.totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

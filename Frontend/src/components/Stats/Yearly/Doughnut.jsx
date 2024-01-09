@@ -17,7 +17,6 @@ export const DoughnutChart = ({ selectedYear, onNoData }) => {
   });
 
   useEffect(() => {
-    console.log('Selected year changed to:', selectedYear);
     const fetchStatistics = async () => {
       try {
         const response = await walletInstance.get('/statistics', {

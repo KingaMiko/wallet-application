@@ -123,7 +123,6 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
                   width="20px"
                   height="20px"
                   onClick={() => {
-                    console.log(transaction);
                     onEdit(transaction);
                   }}
                 >

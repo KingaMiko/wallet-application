@@ -9,3 +9,5 @@ export const selectStatistics = state => state.finance.statistics;
 export const selectUserCategories = state => state.finance.userCategories;
 
 export const selectCategoryDetails = state => state.finance.categoryDetails;
+
+export const selectPagination = state => state.finance.pagination;

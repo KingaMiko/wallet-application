@@ -17,7 +17,7 @@ const customStyles = {
   }),
   menuList: provided => ({
     ...provided,
-    'border-radius': '30px',
+    borderRadius: '30px',
     padding: '0px',
   }),
   option: (provided, { isFocused, isSelected }) => {
