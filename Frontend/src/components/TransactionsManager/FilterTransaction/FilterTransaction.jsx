@@ -78,6 +78,7 @@ export const FilterTransaction = ({ onFilter }) => {
       year: year.value,
       month: month.value,
       limit: parseInt(limit, 10),
+      page: 1,
     });
   };
 
