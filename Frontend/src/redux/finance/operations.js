@@ -65,11 +65,6 @@ export const deleteTransaction = createAsyncThunk(
 export const updateTransaction = createAsyncThunk(
   'finance/updateTransaction',
   async ({ transactionID, ...transactionDetails }, thunkAPI) => {
-    console.log(
-      'Wysyłanie żądania aktualizacji:',
-      transactionID,
-      transactionDetails
-    );
     try {
       const res = await walletInstance.patch(`/transactions/${transactionID}`, {
         ...transactionDetails,
@@ -95,7 +90,10 @@ export const getFilteredTransactions = createAsyncThunk(
       const response = await walletInstance.get(
         `/transactions?year=${year}&month=${month}&limit=${validLimit}&page=${validPage}`
       );
-      return response.data;
+      return {
+        data: response.data.data,
+        pagination: response.data.pagination,
+      };
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.description
