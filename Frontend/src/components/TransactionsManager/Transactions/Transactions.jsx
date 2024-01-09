@@ -88,12 +88,9 @@ export const Transactions = ({ transactions, onDelete, onEdit }) => {
                 </svg>
               </div>
             </th>
-            <th onClick={() => handleSort(3)} title="Sort">
+            <th>
               <div className={css.thName}>
                 <span>Comment</span>
-                <svg className={css.iconSort} width="20px" height="20px">
-                  <use href={`${sprite}#icon-sort`}></use>
-                </svg>
               </div>
             </th>
             <th onClick={() => handleSort(4)} title="Sort">
