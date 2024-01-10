@@ -36,11 +36,10 @@ export const getTransactions = async (req, res, next) => {
 
   try {
     const gottenYear = year ? Number(year) : new Date().getFullYear();
-    let gottenMonth;
-    if (month) {
-      gottenMonth = Number(month);
-      gottenMonth = new Date().getMonth();
-    }
+
+    const gottenMonth = month
+      ? monthNamesToNumbers[month]
+      : new Date().getMonth();
 
     const parsedLimit = parseInt(limit, 10);
     const parsedPage = parseInt(page, 10);
@@ -66,7 +65,10 @@ export const getTransactions = async (req, res, next) => {
       owner: ownerId,
       date: {
         $gte: new Date(gottenYear, gottenMonth, 1),
-        $lt: new Date(gottenYear, gottenMonth + 1, 0),
+        $lt:
+          gottenMonth != null
+            ? new Date(gottenYear, gottenMonth + 1, 1)
+            : new Date(gottenYear + 1, 0, 1),
       },
     };
     const totalCount = await Transaction.countDocuments(query);
@@ -84,7 +86,6 @@ export const getTransactions = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({
       statusCode: 500,
       description: error.message,
