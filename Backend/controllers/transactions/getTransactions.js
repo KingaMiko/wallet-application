@@ -20,8 +20,8 @@ export const getTransactions = async (req, res, next) => {
   const ownerId = new mongoose.Types.ObjectId(req.user.id);
 
   try {
-    const gottenYear = year || new Date().getFullYear();
-    const gottenMonth = month || null;
+    const gottenYear = year ? Number(year) : new Date().getFullYear();
+    const gottenMonth = month ? Number(month) : null;
     const parsedLimit = parseInt(limit, 10);
     const parsedPage = parseInt(page, 10);
 
@@ -42,7 +42,17 @@ export const getTransactions = async (req, res, next) => {
       skip
     );
 
-    const totalCount = await Transaction.countDocuments({ owner: ownerId });
+    // Utworzenie zapytania dla filtrowania roku i miesiąca
+    const query = {
+      owner: ownerId,
+      date: {
+        $gte: new Date(gottenYear, gottenMonth - 1, 1),
+        $lt: gottenMonth
+          ? new Date(gottenYear, gottenMonth, 1)
+          : new Date(gottenYear + 1, 0, 1),
+      },
+    };
+    const totalCount = await Transaction.countDocuments(query);
     const totalPages = Math.ceil(totalCount / parsedLimit);
 
     return res.status(200).json({

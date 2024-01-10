@@ -99,7 +99,6 @@ export const TransactionsManager = () => {
             onDelete={handleDelete}
             onEdit={handleEdit}
           />
-          {/* Wyświetlaj paginację tylko jeśli są jakieś transakcje i więcej niż jedna strona */}
           {transactions.length > 0 && paginationData.totalPages > 1 && (
             <Pagination
               currentPage={paginationData.page}
