@@ -38,7 +38,7 @@ export const getTransactions = async (req, res, next) => {
     const gottenYear = year ? Number(year) : new Date().getFullYear();
     let gottenMonth;
     if (month) {
-      gottenMonth = Number(month);
+      gottenMonth = Number(month) - 1;
     } else {
       gottenMonth = new Date().getMonth();
     }
