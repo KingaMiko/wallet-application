@@ -15,32 +15,13 @@ import { findTransactions } from "#helpers/transactionHelper.js";
  * @return {ResponseSchema} 500 - Internal Server Error
  */
 
-const monthNamesToNumbers = {
-  January: 0,
-  February: 1,
-  March: 2,
-  April: 3,
-  May: 4,
-  June: 5,
-  July: 6,
-  August: 7,
-  September: 8,
-  October: 9,
-  November: 10,
-  December: 11,
-};
-
 export const getTransactions = async (req, res, next) => {
   const { year, month, limit = "10", page = "1" } = req.query;
   const ownerId = new mongoose.Types.ObjectId(req.user.id);
 
   try {
     const gottenYear = year ? Number(year) : new Date().getFullYear();
-
-    const gottenMonth = month
-      ? monthNamesToNumbers[month]
-      : new Date().getMonth();
-
+    const gottenMonth = month ? Number(month) : null;
     const parsedLimit = parseInt(limit, 10);
     const parsedPage = parseInt(page, 10);
 
@@ -61,14 +42,14 @@ export const getTransactions = async (req, res, next) => {
       skip
     );
 
+    // Utworzenie zapytania dla filtrowania roku i miesiąca
     const query = {
       owner: ownerId,
       date: {
-        $gte: new Date(gottenYear, gottenMonth, 1),
-        $lt:
-          gottenMonth != null
-            ? new Date(gottenYear, gottenMonth + 1, 1)
-            : new Date(gottenYear + 1, 0, 1),
+        $gte: new Date(gottenYear, gottenMonth - 1, 1),
+        $lt: gottenMonth
+          ? new Date(gottenYear, gottenMonth, 1)
+          : new Date(gottenYear + 1, 0, 1),
       },
     };
     const totalCount = await Transaction.countDocuments(query);
