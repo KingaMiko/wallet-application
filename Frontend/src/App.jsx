@@ -33,7 +33,7 @@ export const App = () => {
   return isRefreshing || isLoading ? (
     <Loader />
   ) : (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader isVisible={true} />}>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Navigate to="/home" replace />} />
