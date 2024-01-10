@@ -94,12 +94,25 @@ export const TransactionsManager = () => {
         <EmptyWallet />
       ) : (
         <>
+          {transactions.length > 0 && (
+            <div style={{ marginBottom: '15px' }}>
+              <p
+                style={{
+                  fontSize: '15px',
+                  marginLeft: '10px',
+                  marginBottom: '-10px',
+                }}
+              >
+                Number of transactions found: {paginationData.total}
+              </p>
+            </div>
+          )}
           <Transactions
             transactions={transactions}
             onDelete={handleDelete}
             onEdit={handleEdit}
           />
-          {/* Wyświetlaj paginację tylko jeśli są jakieś transakcje i więcej niż jedna strona */}
+
           {transactions.length > 0 && paginationData.totalPages > 1 && (
             <Pagination
               currentPage={paginationData.page}
