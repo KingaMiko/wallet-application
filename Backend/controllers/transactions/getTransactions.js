@@ -63,11 +63,19 @@ export const getTransactions = async (req, res, next) => {
       skip
     );
 
+    let endYear = gottenYear;
+    let endMonth = gottenMonth + 1;
+
+    if (gottenMonth === 11) {
+      endYear += 1;
+      endMonth = 0;
+    }
+
     const query = {
       owner: ownerId,
       date: {
         $gte: new Date(gottenYear, gottenMonth, 1),
-        $lt: new Date(gottenYear, gottenMonth + 1, 0),
+        $lt: new Date(endYear, endMonth, 0),
       },
     };
     const totalCount = await Transaction.countDocuments(query);
