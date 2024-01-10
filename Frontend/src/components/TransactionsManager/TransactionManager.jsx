@@ -89,8 +89,6 @@ export const TransactionsManager = () => {
   const handleFilterChange = newFilters => {
     let effectiveLimit = newFilters.limit;
     let effectiveMonth = newFilters.month;
-
-    // Konwersja nazwy miesiąca na liczbę, jeśli jest potrzebna
     if (typeof effectiveMonth === 'string') {
       effectiveMonth = monthNameToNumber(effectiveMonth);
     }

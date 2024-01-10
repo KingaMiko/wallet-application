@@ -20,16 +20,18 @@ export const findTransactions = (ownerId, year, month, limit, skip) => {
   const gottenLimit = limit ? parseInt(limit, 10) : 10;
   const gottenSkip = skip ? parseInt(skip, 10) : 0;
 
+  let dateMatchCondition = gottenMonth
+    ? {
+        $eq: [{ $month: "$date" }, gottenMonth],
+        $eq: [{ $year: "$date" }, gottenYear],
+      }
+    : { $eq: [{ $year: "$date" }, gottenYear] };
+
   let aggregationPipeline = [
     {
       $match: {
         owner: ownerId,
-        $expr: {
-          $and: [
-            { $eq: [{ $year: "$date" }, gottenYear] },
-            gottenMonth ? { $eq: [{ $month: "$date" }, gottenMonth] } : {},
-          ],
-        },
+        $expr: { $and: [dateMatchCondition] },
       },
     },
     {
