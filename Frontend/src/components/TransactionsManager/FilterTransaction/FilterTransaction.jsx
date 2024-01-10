@@ -35,17 +35,15 @@ const customStyles = {
 export const FilterTransaction = ({ onFilter }) => {
   const today = new Date();
   const currentYear = today.getFullYear();
-  const currentMonthName = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-  }).format(today);
+  const currentMonth = today.getMonth() + 1;
 
   const [year, setYear] = useState({
     value: currentYear,
     label: currentYear.toString(),
   });
   const [month, setMonth] = useState({
-    value: currentMonthName,
-    label: currentMonthName,
+    value: currentMonth.toString(),
+    label: new Intl.DateTimeFormat('en-US', { month: 'long' }).format(today),
   });
 
   const [limit, setLimit] = useState(10);
