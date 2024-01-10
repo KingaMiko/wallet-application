@@ -76,7 +76,7 @@ export const FilterTransaction = ({ onFilter }) => {
   const handleFilter = () => {
     onFilter({
       year: year.value,
-      month: month.value,
+      month: parseInt(month.value, 10),
       limit: parseInt(limit, 10),
       page: 1,
     });

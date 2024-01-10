@@ -15,7 +15,7 @@ export const updateTransactionById = (id, fields) => {
 
 export const findTransactions = (ownerId, year, month, limit, skip) => {
   const gottenYear = Number(year);
-  const gottenMonth = month ? Number(month) : null;
+  const gottenMonth = month ? Number(month) - 1 : null;
 
   const gottenLimit = limit ? parseInt(limit, 10) : 10;
   const gottenSkip = skip ? parseInt(skip, 10) : 0;
@@ -27,7 +27,9 @@ export const findTransactions = (ownerId, year, month, limit, skip) => {
         $expr: {
           $and: [
             { $eq: [{ $year: "$date" }, gottenYear] },
-            gottenMonth ? { $eq: [{ $month: "$date" }, gottenMonth] } : {},
+            gottenMonth !== null
+              ? { $eq: [{ $month: "$date" }, gottenMonth] }
+              : {},
           ],
         },
       },
