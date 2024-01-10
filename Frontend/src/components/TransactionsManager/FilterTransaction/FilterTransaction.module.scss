@@ -16,14 +16,14 @@
   }
 
   @include mixins.mq(tablet) {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
 
   .selectors {
     display: flex;
     flex-direction: column;
     width: 200px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
     @include mixins.mq(tablet) {
       margin-bottom: 0;
