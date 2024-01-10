@@ -39,7 +39,6 @@ export const getTransactions = async (req, res, next) => {
     let gottenMonth;
     if (month) {
       gottenMonth = Number(month);
-    } else {
       gottenMonth = new Date().getMonth();
     }
 
@@ -85,6 +84,7 @@ export const getTransactions = async (req, res, next) => {
       },
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       statusCode: 500,
       description: error.message,
