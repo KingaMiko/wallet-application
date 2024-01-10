@@ -67,38 +67,12 @@ export const TransactionsManager = () => {
       });
   };
 
-  const monthNameToNumber = monthName => {
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    const monthNumber = monthNames.indexOf(monthName) + 1;
-    return monthNumber > 0 ? monthNumber : null;
-  };
-
   const handleFilterChange = newFilters => {
     let effectiveLimit = newFilters.limit;
-    let effectiveMonth = newFilters.month;
-    if (typeof effectiveMonth === 'string') {
-      effectiveMonth = monthNameToNumber(effectiveMonth);
+    if (paginationData.total && newFilters.limit > paginationData.total) {
+      effectiveLimit = paginationData.total;
     }
-
-    setFilters({
-      ...filters,
-      month: effectiveMonth,
-      limit: effectiveLimit,
-      page: newFilters.page,
-    });
+    setFilters({ ...filters, ...newFilters, limit: effectiveLimit });
   };
   const handlePageChange = selectedPage => {
     let effectivePage = selectedPage;
