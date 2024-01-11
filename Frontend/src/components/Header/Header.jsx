@@ -60,7 +60,7 @@ const Header = () => {
                   <button
                     className={css.headerLogout}
                     onClick={handleLogoutClick}
-                    aria-label="Log out"
+                    aria-label="Exit"
                   >
                     <p className={css.headerSideText}>Exit</p>
                     <svg icon="logout" width="18px" height="18px">
