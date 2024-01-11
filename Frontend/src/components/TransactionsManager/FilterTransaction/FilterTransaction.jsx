@@ -88,8 +88,9 @@ export const FilterTransaction = ({ onFilter }) => {
   return (
     <div className={css.filterTransaction}>
       <div className={css.selectors}>
-        Year
+        <label htmlFor="year-select">Year</label>
         <Select
+          inputId="year-select"
           options={yearOptions}
           value={year}
           onChange={setYear}
@@ -97,8 +98,9 @@ export const FilterTransaction = ({ onFilter }) => {
         />
       </div>
       <div className={css.selectors}>
-        Month
+        <label htmlFor="month-select">Month</label>
         <Select
+          inputId="month-select"
           options={monthOptions}
           value={month}
           onChange={setMonth}
@@ -106,8 +108,9 @@ export const FilterTransaction = ({ onFilter }) => {
         />
       </div>
       <div className={css.selectors}>
-        Limit
+        <label htmlFor="limit-input">Limit</label>
         <input
+          id="limit-input"
           className={css.filterSelect}
           type="number"
           value={limit}
