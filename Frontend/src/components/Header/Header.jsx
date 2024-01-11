@@ -48,8 +48,11 @@ const Header = () => {
             <>
               <div>
                 <div className={css.headerSideButtons}>
-                  <button className={css.headerSettings} onClick={toggleModal}>
-                    <p className={css.headerSideText}></p>
+                  <button
+                    className={css.headerSettings}
+                    onClick={toggleModal}
+                    aria-label="Open settings"
+                  >
                     <svg icon="settings" width="18px" height="18px">
                       <use href={`${sprite}#icon-settings`}></use>
                     </svg>
@@ -57,6 +60,7 @@ const Header = () => {
                   <button
                     className={css.headerLogout}
                     onClick={handleLogoutClick}
+                    aria-label="Log out"
                   >
                     <p className={css.headerSideText}>Exit</p>
                     <svg icon="logout" width="18px" height="18px">
