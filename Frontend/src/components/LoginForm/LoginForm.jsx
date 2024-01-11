@@ -1,10 +1,10 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { signIn } from 'redux/session/operations';
-//import { selectPatterns } from 'redux/global/selectors';
+import { selectPatterns } from 'redux/global/selectors';
 
 import styles from './LoginForm.module.scss';
 import { Button, Input } from 'components';
@@ -12,7 +12,7 @@ import { Button, Input } from 'components';
 export const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const patterns = useSelector(selectPatterns);
+  const patterns = useSelector(selectPatterns);
 
   const initialValues = {
     email: '',
@@ -22,10 +22,10 @@ export const LoginForm = () => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
-      .matches
-      // new RegExp(patterns.passwordPattern.pattern),
-      // patterns.passwordPattern.description
-      ()
+      .matches(
+        new RegExp(patterns.passwordPattern.pattern),
+        patterns.passwordPattern.description
+      )
       .required('Password is required')
       .min(6, 'Password should be at least 6 characters')
       .max(20, 'Password should be at most 20 characters'),

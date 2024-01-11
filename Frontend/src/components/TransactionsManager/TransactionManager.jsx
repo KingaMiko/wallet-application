@@ -68,18 +68,11 @@ export const TransactionsManager = () => {
   };
 
   const handleFilterChange = newFilters => {
-    let effectiveLimit = newFilters.limit;
-    if (paginationData.total && newFilters.limit > paginationData.total) {
-      effectiveLimit = paginationData.total;
-    }
-    setFilters({ ...filters, ...newFilters, limit: effectiveLimit });
+    setFilters({ ...filters, ...newFilters, page: 1 });
   };
+
   const handlePageChange = selectedPage => {
-    let effectivePage = selectedPage;
-    if (selectedPage > paginationData.totalPages) {
-      effectivePage = paginationData.totalPages;
-    }
-    setFilters({ ...filters, page: effectivePage });
+    setFilters({ ...filters, page: selectedPage });
   };
 
   return (
