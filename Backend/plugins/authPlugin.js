@@ -21,18 +21,18 @@ export const authPlugin = (app) => {
         const user = await User.findById(token.id);
 
         if (!user) {
-          throw new Error("User not found");
+          return onVerified(new Error("User not found"), false);
         }
 
         const userToken = JWT.verify(user.token, process.env.SECRET_KEY);
 
         if (userToken.iat !== token.iat) {
-          throw new Error("Not valid token");
+          return onVerified(new Error("Not valid token"), false);
         }
 
         return onVerified(null, user);
       } catch (error) {
-        onVerified(error);
+        return onVerified(error, false);
       }
     })
   );
@@ -77,18 +77,18 @@ export const cleanNotValidSessions = async () => {
   const sessions = await Session.find().lean();
 
   for (const session of sessions) {
-    if (session.expireAt >= now) {
-      await Session.findByIdAndDelete(session.id);
+    if (session.expireAt < now) {
+      await Session.findByIdAndDelete(session._id);
     }
   }
 };
 
 export const auth = (request, response, next) => {
   passport.authenticate("jwt", { session: false }, (error, user, info) => {
-    if (error) {
+    if (error || !user) {
       return response.status(401).json({
         statusCode: 401,
-        description: error.message,
+        description: error ? error.message : "Access unauthorized",
       });
     }
 
@@ -96,13 +96,6 @@ export const auth = (request, response, next) => {
       return response.status(401).json({
         statusCode: 401,
         description: "Access expired",
-      });
-    }
-
-    if (!user) {
-      return response.status(401).json({
-        statusCode: 401,
-        description: "Access unauthorized",
       });
     }
 
