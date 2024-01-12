@@ -1,66 +1,81 @@
 import JWT from "jsonwebtoken";
-import User from "#models/user.js";
-import Session from "#models/session.js";
+import { configDotenv } from "dotenv";
+
 import {
   createTokens,
   sendRefreshToken,
   cleanNotValidSessions,
 } from "#plugins/authPlugin.js";
+import User from "#models/user.js";
+import Session from "#models/session.js";
+
+/**
+ * POST /api/auth/refresh
+ *
+ * @return {ResponseWithTokenSchema} 200 - Success
+ * @return {ResponseSchema} 404 - Not Found
+ * @return {ResponseSchema} 400 - Error
+ */
 
 export const authRefresh = async (req, res, next) => {
-  if (!req.cookies?.jwt) {
-    return res.status(400).json({
-      statusCode: 400,
-      description: "No refresh token cookie found",
-    });
-  }
+  if (req.cookies?.jwt) {
+    try {
+      configDotenv();
 
-  const refreshToken = req.cookies.jwt;
-  try {
-    const decodedRefreshToken = JWT.verify(
-      refreshToken,
-      process.env.REFRESH_SECRET_KEY
-    );
+      const refSecret = process.env.REFRESH_SECRET_KEY;
+      const refreshToken = req.cookies.jwt;
 
-    const existingSession = await Session.findOne({ refreshToken }).lean();
-    if (existingSession) {
-      await Session.findByIdAndDelete(existingSession._id);
-    }
+      const stealedSession = await Session.findOne({ refreshToken }).lean();
 
-    const user = await User.findOne({ _id: decodedRefreshToken.id });
+      if (stealedSession) {
+        return res.status(400).json({
+          statusCode: 400,
+          description: "Attemption of use refresh token from stealed session!",
+        });
+      }
 
-    if (!user || user.refreshToken !== refreshToken) {
-      return res.status(401).json({
-        statusCode: 401,
-        description: "Unauthorized - Invalid refresh token",
+      const decodedRefreshToken = JWT.verify(refreshToken, refSecret);
+      const user = await User.findOne({ _id: decodedRefreshToken.id });
+
+      if (!user) {
+        return res.status(404).json({
+          statusCode: 404,
+          description: "Current user not found",
+        });
+      }
+
+      const { id, name, email } = user;
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        await createTokens({ id, name });
+
+      user.token = newAccessToken;
+      user.refreshToken = newRefreshToken;
+      await user.save();
+
+      await cleanNotValidSessions();
+
+      sendRefreshToken(res, newRefreshToken);
+      const blacklistedSession = await new Session({ refreshToken });
+      blacklistedSession.issuedAt = decodedRefreshToken.iat;
+      blacklistedSession.expireAt = decodedRefreshToken.exp;
+      blacklistedSession.save();
+
+      return res.status(200).json({
+        statusCode: 200,
+        description: "User successfuly refreshed",
+        token: newAccessToken,
+        data: {
+          email,
+          name,
+        },
       });
+    } catch (error) {
+      next(error);
     }
-
-    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-      await createTokens({ id: user.id, name: user.name });
-
-    user.token = newAccessToken;
-    user.refreshToken = newRefreshToken;
-    await user.save();
-
-    await cleanNotValidSessions();
-
-    sendRefreshToken(res, newRefreshToken);
-
-    const newSession = new Session({ refreshToken: newRefreshToken });
-    newSession.issuedAt = Date.now();
-    newSession.expireAt = decodedRefreshToken.exp;
-    await newSession.save();
-
-    return res.status(200).json({
-      statusCode: 200,
-      description: "User successfully refreshed",
-      token: newAccessToken,
-    });
-  } catch (error) {
-    return res.status(401).json({
-      statusCode: 401,
-      description: "Invalid or expired refresh token",
-    });
   }
+
+  return res.status(400).json({
+    statusCode: 400,
+    description: "No cookie",
+  });
 };
