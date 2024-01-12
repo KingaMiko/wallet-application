@@ -41,7 +41,7 @@ export const authPlugin = (app) => {
 
 export const createTokens = async (
   data,
-  accessTokenExpIn = "20m",
+  accessTokenExpIn = "2m",
   refreshTokenExpIn = "1d"
 ) => {
   const secret = process.env.SECRET_KEY;
