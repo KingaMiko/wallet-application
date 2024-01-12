@@ -9,14 +9,6 @@ import {
 import User from "#models/user.js";
 import Session from "#models/session.js";
 
-/**
- * POST /api/auth/refresh
- *
- * @return {ResponseWithTokenSchema} 200 - Success
- * @return {ResponseSchema} 404 - Not Found
- * @return {ResponseSchema} 400 - Error
- */
-
 export const authRefresh = async (req, res, next) => {
   if (req.cookies?.jwt) {
     try {
@@ -25,16 +17,25 @@ export const authRefresh = async (req, res, next) => {
       const refSecret = process.env.REFRESH_SECRET_KEY;
       const refreshToken = req.cookies.jwt;
 
+      let decodedRefreshToken;
+      try {
+        decodedRefreshToken = JWT.verify(refreshToken, refSecret);
+      } catch (error) {
+        return res.status(401).json({
+          statusCode: 401,
+          description: "Invalid or expired refresh token",
+        });
+      }
+
       const stealedSession = await Session.findOne({ refreshToken }).lean();
 
       if (stealedSession) {
         return res.status(400).json({
           statusCode: 400,
-          description: "Attemption of use refresh token from stealed session!",
+          description: "Attempt of use refresh token from a stolen session!",
         });
       }
 
-      const decodedRefreshToken = JWT.verify(refreshToken, refSecret);
       const user = await User.findOne({ _id: decodedRefreshToken.id });
 
       if (!user) {
@@ -55,14 +56,17 @@ export const authRefresh = async (req, res, next) => {
       await cleanNotValidSessions();
 
       sendRefreshToken(res, newRefreshToken);
-      const blacklistedSession = await new Session({ refreshToken });
-      blacklistedSession.issuedAt = decodedRefreshToken.iat;
-      blacklistedSession.expireAt = decodedRefreshToken.exp;
-      blacklistedSession.save();
+
+      await Session.findOneAndDelete({ refreshToken: req.cookies.jwt });
+
+      const newSession = new Session({ refreshToken: newRefreshToken });
+      newSession.issuedAt = Date.now();
+      newSession.expireAt = decodedRefreshToken.exp;
+      await newSession.save();
 
       return res.status(200).json({
         statusCode: 200,
-        description: "User successfuly refreshed",
+        description: "User successfully refreshed",
         token: newAccessToken,
         data: {
           email,
@@ -72,10 +76,10 @@ export const authRefresh = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
+  } else {
+    return res.status(400).json({
+      statusCode: 400,
+      description: "No refresh token cookie found",
+    });
   }
-
-  return res.status(400).json({
-    statusCode: 400,
-    description: "No cookie",
-  });
 };
