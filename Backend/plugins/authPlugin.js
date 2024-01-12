@@ -3,6 +3,7 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { config } from "dotenv";
+import NodeCache from "node-cache";
 
 import User from "#models/user.js";
 import Session from "#models/session.js";
@@ -15,10 +16,16 @@ export const authPlugin = (app) => {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   };
 
+  const userCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+
   passport.use(
     new Strategy(options, async (token, onVerified) => {
       try {
-        const user = await User.findById(token.id);
+        let user = userCache.get(token.id);
+        if (!user) {
+          user = await User.findById(token.id);
+          userCache.set(token.id, user);
+        }
 
         if (!user) {
           return onVerified(new Error("User not found"), false);

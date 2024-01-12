@@ -11,7 +11,9 @@ import User from "#models/user.js";
 
 export const getUser = async (req, res, next) => {
   try {
-    const user = await User.findOne({ _id: req.user.id }).lean();
+    const user = await User.findOne({ _id: req.user.id })
+      .select("name email balance categories")
+      .lean();
 
     if (!user) {
       return res.status(404).json({
@@ -30,7 +32,7 @@ export const getUser = async (req, res, next) => {
         name,
         id: _id,
         balance,
-        categories
+        categories,
       },
     });
   } catch (error) {

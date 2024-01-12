@@ -12,6 +12,7 @@ const userSchema = {
     type: String,
     required: [true, "Email is required"],
     unique: true,
+    index: true,
   },
   name: {
     type: String,
@@ -87,7 +88,9 @@ user.methods.setDefCategories = async function () {
   ];
 
   for (const category of defaultCategories) {
-    const defUserCategoryExist = await Category.findOne({ name: category.name }).lean();
+    const defUserCategoryExist = await Category.findOne({
+      name: category.name,
+    }).lean();
 
     if (!defUserCategoryExist) {
       const newDefUserCategory = new Category(category);
