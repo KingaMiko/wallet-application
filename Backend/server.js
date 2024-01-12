@@ -4,11 +4,13 @@ import { config } from "dotenv";
 
 import app from "./app.js";
 import { connectToMongo } from "./drivers/mongo.js";
+import patterns from "#utils/regexPatterns.json" assert { type: "json" };
 
 async function startServer() {
   try {
     await connectToMongo();
     console.log("Database connection successful");
+    global.cachedPatterns = patterns;
     app.listen(3000, function () {
       console.log("Server running. Use our API on port: 3000");
     });
