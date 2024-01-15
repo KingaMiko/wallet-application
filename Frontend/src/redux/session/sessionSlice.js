@@ -23,7 +23,6 @@ const initialState = {
   isAuth: false,
   user: { name: null, email: null },
   isRefreshing: false,
-  token: null,
   error: false,
   userDetails: null,
 };

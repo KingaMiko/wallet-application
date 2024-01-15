@@ -1,5 +1,5 @@
 import { loginUserSchema } from "#schemas/loginUser.schema.js";
-import { createTokens, sendRefreshToken } from "#plugins/authPlugin.js";
+import { createTokens } from "#plugins/authPlugin.js";
 import User from "#models/user.js";
 
 /**
