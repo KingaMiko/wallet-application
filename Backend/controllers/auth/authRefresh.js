@@ -10,8 +10,6 @@ import User from "#models/user.js";
  * @return {ResponseSchema} 404 - Not Found
  * @return {ResponseSchema} 400 - Error
  */
-import JWT from "jsonwebtoken";
-import User from "#models/user.js";
 
 export const authRefresh = async (req, res, next) => {
   try {
