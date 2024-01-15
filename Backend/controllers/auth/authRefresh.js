@@ -1,13 +1,7 @@
 import JWT from "jsonwebtoken";
-import { configDotenv } from "dotenv";
 
-import {
-  createTokens,
-  sendRefreshToken,
-  cleanNotValidSessions,
-} from "#plugins/authPlugin.js";
+import { createTokens } from "#plugins/authPlugin.js";
 import User from "#models/user.js";
-import Session from "#models/session.js";
 
 /**
  * POST /api/auth/refresh
@@ -16,15 +10,15 @@ import Session from "#models/session.js";
  * @return {ResponseSchema} 404 - Not Found
  * @return {ResponseSchema} 400 - Error
  */
+import JWT from "jsonwebtoken";
+import User from "#models/user.js";
 
 export const authRefresh = async (req, res, next) => {
-  const refreshToken = req.body.refreshToken;
-
   try {
-    const decodedRefreshToken = JWT.verify(
-      refreshToken,
-      process.env.REFRESH_SECRET_KEY
-    );
+    const refreshToken = req.body.refreshToken;
+    const refSecret = process.env.REFRESH_SECRET_KEY;
+
+    const decodedRefreshToken = JWT.verify(refreshToken, refSecret);
     const user = await User.findOne({ _id: decodedRefreshToken.id });
 
     if (!user) {

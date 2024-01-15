@@ -3,7 +3,6 @@ import { nanoid } from "nanoid";
 import { sendVerificationMail } from "#plugins/index.js";
 import { registerUserSchema } from "#schemas/registerUser.schema.js";
 import User from "#models/user.js";
-import Category from "#models/category.js";
 
 /**
  * POST /api/auth/signup
