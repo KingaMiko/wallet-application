@@ -11,14 +11,12 @@ const setAuthStatus = (state, action) => {
   state.isAuth = true;
   state.user = action.payload.data;
   state.isRefreshing = false;
-  state.token = action.payload.token;
 };
 
 const unsetAuthState = state => {
   state.isAuth = false;
   state.user = null;
   state.isRefreshing = false;
-  state.token = null;
 };
 
 const initialState = {

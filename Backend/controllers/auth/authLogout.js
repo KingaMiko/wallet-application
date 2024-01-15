@@ -14,10 +14,7 @@ export const authLogout = async (req, res, next) => {
       token: null,
       refreshToken: null,
     });
-
     req.user = null;
-    res.cookie("jwt", null);
-
     return res.status(204).end();
   } catch (error) {
     next(error);

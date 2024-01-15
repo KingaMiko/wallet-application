@@ -40,8 +40,9 @@ export const signIn = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const res = await walletInstance.post('/auth/signin', credentials);
+      localStorage.setItem('accessToken', res.data.token);
+      localStorage.setItem('refreshToken', res.data.refreshToken);
       setAuthHeader(res.data.token);
-      // toast do testów, wykasować później
       toast.success('Success!');
       return res.data;
     } catch (error) {
@@ -61,6 +62,8 @@ export const logOut = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await walletInstance.get('/auth/logout');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       clearAuthHeader();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -75,33 +78,21 @@ export const logOut = createAsyncThunk(
 export const refreshUser = createAsyncThunk(
   'session/refresh',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState();
-    const persistedToken = state.session.token;
+    const persistedToken = localStorage.getItem('refreshToken');
 
-    if (persistedToken === null) {
+    if (!persistedToken) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
 
     try {
-      setAuthHeader(persistedToken);
-      const res = await walletInstance.get('/users/current');
-
-      res.data.token = persistedToken;
-
+      const res = await walletInstance.post('/auth/refresh', {
+        refreshToken: persistedToken,
+      });
+      localStorage.setItem('accessToken', res.data.token);
+      localStorage.setItem('refreshToken', res.data.refreshToken);
+      setAuthHeader(res.data.token);
       return res.data;
     } catch (error) {
-      const message = error.response.data.description;
-
-      if (message === 'Access expired') {
-        const checkThis = await walletInstance.post('/auth/refresh');
-
-        if (checkThis.data.token) {
-          setAuthHeader(checkThis.data.token);
-
-          return checkThis.data;
-        }
-      }
-
       return thunkAPI.rejectWithValue(error.message);
     }
   }

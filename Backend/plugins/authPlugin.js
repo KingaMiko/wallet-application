@@ -60,22 +60,6 @@ export const createTokens = async (
   };
 };
 
-export const sendRefreshToken = (res, refreshToken, numOfDays = 1) => {
-  const durationMs = numOfDays * 24 * 60 * 60 * 1000;
-  const allowedDomains = process.env.ALLOWED_DOMAINS.split(" ");
-  const currentOrigin = new URL(req.get("origin")).hostname;
-  const domain = allowedDomains.includes(currentOrigin) ? currentOrigin : null;
-
-  res.cookie("jwt", refreshToken, {
-    httpOnly: true,
-    maxAge: durationMs,
-    secure: true,
-    domain: domain,
-  });
-
-  return durationMs;
-};
-
 export const cleanNotValidSessions = async () => {
   const now = Date.now();
   const sessions = await Session.find().lean();

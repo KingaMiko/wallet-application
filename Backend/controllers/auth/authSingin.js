@@ -32,12 +32,11 @@ export const authSignin = async (req, res, next) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    sendRefreshToken(res, refreshToken);
-
     return res.status(200).json({
       statusCode: 200,
-      description: "User successfuly logged in",
+      description: "User successfully logged in",
       token: accessToken,
+      refreshToken,
       data: {
         email,
         name,
