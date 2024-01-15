@@ -9,3 +9,5 @@ export const selectIsModalSettingsOpen = state =>
   state.global.isModalSettingsOpen;
 export const selectIsModalConfirmDeleteOpen = state =>
   state.global.isModalConfirmDeleteOpen;
+export const selectIsModalConfirmDeleteCategoryOpen = state =>
+  state.global.isModalConfirmDeleteCategoryOpen;
