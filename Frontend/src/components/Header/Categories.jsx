@@ -3,12 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { setIsModalSettingsOpen } from 'redux/global/globalSlice';
-import { selectIsModalSettingsOpen } from 'redux/global/selectors';
+import {
+  setIsModalSettingsOpen,
+  setIsModalConfirmDeleteCategoryOpen,
+} from 'redux/global/globalSlice';
+import {
+  selectIsModalSettingsOpen,
+  selectIsModalConfirmDeleteCategoryOpen,
+} from 'redux/global/selectors';
 import { createCategory, deleteUserCategory } from 'redux/finance/operations';
 import { selectUserCategories } from 'redux/finance/selectors';
 
 import { Button } from 'components';
+import { ModalConfirmDeleteCategory } from './ModalConfimDeleteCategory';
 
 import css from './Categories.module.scss';
 import sprite from 'images/icons.svg';
@@ -29,6 +36,27 @@ export const OpenSettingsModal = () => {
     type: Yup.boolean(),
     category: Yup.string(),
   });
+
+  const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
+  const isModalConfirmDeleteCategoryOpen = useSelector(
+    selectIsModalConfirmDeleteCategoryOpen
+  );
+
+  const openConfirmDeleteModal = categoryId => {
+    setCategoryIdToDelete(categoryId);
+    dispatch(setIsModalConfirmDeleteCategoryOpen(true));
+  };
+
+  const closeConfirmDeleteModal = () => {
+    dispatch(setIsModalConfirmDeleteCategoryOpen(false));
+  };
+
+  const handleDeleteCategory = () => {
+    if (categoryIdToDelete) {
+      dispatch(deleteUserCategory(categoryIdToDelete));
+      closeConfirmDeleteModal();
+    }
+  };
 
   const close = () => dispatch(setIsModalSettingsOpen(false));
 
@@ -154,9 +182,7 @@ export const OpenSettingsModal = () => {
                             className={css.iconTransactions}
                             width="20px"
                             height="20px"
-                            onClick={() =>
-                              dispatch(deleteUserCategory(category._id))
-                            }
+                            onClick={() => openConfirmDeleteModal(category._id)}
                           >
                             <use href={`${sprite}#icon-bin`}></use>
                           </svg>
@@ -168,6 +194,12 @@ export const OpenSettingsModal = () => {
             </div>
           </div>
         </div>
+        {isModalConfirmDeleteCategoryOpen && (
+          <ModalConfirmDeleteCategory
+            onConfirm={handleDeleteCategory}
+            onClose={closeConfirmDeleteModal}
+          />
+        )}
       </div>
     </div>
   ) : null;

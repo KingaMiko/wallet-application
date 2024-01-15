@@ -4,7 +4,6 @@
 
 .modal {
   border-radius: 20px;
-
   background: #fff;
   padding: 40px;
   width: 100vw;
@@ -207,28 +206,15 @@
   line-height: 1rem;
 }
 
-.tableContainer {
-  overflow: auto;
-  //max-height: 300px;
-  //overflow: auto;
-}
-
 .tableHeader {
-  //position: sticky;
-  //top: 0;
   padding-bottom: 10px;
   background-color: #fff;
   z-index: 1;
 }
 
-/* Styl dla całej tabeli */
 .tableContainer {
   margin: 0 auto;
   width: 250px;
-
-  // overflow: scroll;
-  // scrollbar-width: thin;
-  // scrollbar-color: transparent transparent;
 }
 
 .trContent {
@@ -245,8 +231,6 @@
 @media screen and (max-width: 768px) {
   .modal {
     flex-direction: column;
-    //justify-content: center;
-    // align-items: center;
   }
 
   .form__btn_container > p {
@@ -261,7 +245,6 @@
 
 @include mq('tablet') {
   .modal {
-    padding: 20px 73px;
     border-radius: 20px;
     width: 750px;
     height: 550px;
