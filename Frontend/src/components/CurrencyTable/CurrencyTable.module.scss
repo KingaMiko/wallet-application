@@ -3,17 +3,17 @@
 .tableBg {
   margin-top: 28px;
   background-color: get-color('purple3');
-  width: 280px;
-  height: 174px;
+  width: 320px;
+  height: 100vh;
   border-radius: 30px;
   overflow: hidden;
   overflow-y: auto;
   position: absolute;
 
   @media (min-width: 768px) {
-    margin-top: 3px;
-    width: 336px;
-    height: 182px;
+    margin-top: 30px;
+    width: 400px;
+    height: 200px;
 
     &::after {
       content: url('../../images/baseline.svg');
@@ -58,7 +58,8 @@
   top: 0;
   background-color: #6e78e8;
   z-index: 10;
-  padding-left: 15px;
+  text-align: center;
+  //padding-left: 15px;
 }
 
 .currencyTable th {
