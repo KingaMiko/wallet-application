@@ -47,7 +47,7 @@ body {
 
 .sidebar {
   @include mixins.mq(tablet) {
-    width: 390px;
+    width: 400px;
     height: 200px;
     display: flex;
     align-items: flex-start;
