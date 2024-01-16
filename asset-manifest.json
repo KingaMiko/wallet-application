@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/wallet-application/static/css/main.5ab6e2ea.css",
-    "main.js": "/wallet-application/static/js/main.b919f8c9.js",
+    "main.css": "/wallet-application/static/css/main.66e53664.css",
+    "main.js": "/wallet-application/static/js/main.30b97194.js",
     "static/css/609.712801ad.chunk.css": "/wallet-application/static/css/609.712801ad.chunk.css",
     "static/js/609.cb950c4c.chunk.js": "/wallet-application/static/js/609.cb950c4c.chunk.js",
     "static/css/165.712801ad.chunk.css": "/wallet-application/static/css/165.712801ad.chunk.css",
     "static/js/165.167c0aff.chunk.js": "/wallet-application/static/js/165.167c0aff.chunk.js",
-    "static/css/663.4029eaed.chunk.css": "/wallet-application/static/css/663.4029eaed.chunk.css",
+    "static/css/663.4d6d68c8.chunk.css": "/wallet-application/static/css/663.4d6d68c8.chunk.css",
     "static/js/663.0b10f38b.chunk.js": "/wallet-application/static/js/663.0b10f38b.chunk.js",
-    "static/css/786.70ff4575.chunk.css": "/wallet-application/static/css/786.70ff4575.chunk.css",
+    "static/css/786.426f5c6f.chunk.css": "/wallet-application/static/css/786.426f5c6f.chunk.css",
     "static/js/786.284faf96.chunk.js": "/wallet-application/static/js/786.284faf96.chunk.js",
-    "static/css/132.a3d5b549.chunk.css": "/wallet-application/static/css/132.a3d5b549.chunk.css",
+    "static/css/132.7ee2ef57.chunk.css": "/wallet-application/static/css/132.7ee2ef57.chunk.css",
     "static/js/132.fe6f7b54.chunk.js": "/wallet-application/static/js/132.fe6f7b54.chunk.js",
     "static/js/314.f711e4a9.chunk.js": "/wallet-application/static/js/314.f711e4a9.chunk.js",
     "static/js/270.63d8c000.chunk.js": "/wallet-application/static/js/270.63d8c000.chunk.js",
@@ -28,17 +28,17 @@
     "static/media/baseline.svg": "/wallet-application/static/media/baseline.2965f3691046b64b7ba2.svg",
     "static/media/bg-violet.svg": "/wallet-application/static/media/bg-violet.e3b21cd71af418f15107.svg",
     "static/media/bg-pink.svg": "/wallet-application/static/media/bg-pink.d8867914c743fa4879f9.svg",
-    "main.5ab6e2ea.css.map": "/wallet-application/static/css/main.5ab6e2ea.css.map",
-    "main.b919f8c9.js.map": "/wallet-application/static/js/main.b919f8c9.js.map",
+    "main.66e53664.css.map": "/wallet-application/static/css/main.66e53664.css.map",
+    "main.30b97194.js.map": "/wallet-application/static/js/main.30b97194.js.map",
     "609.712801ad.chunk.css.map": "/wallet-application/static/css/609.712801ad.chunk.css.map",
     "609.cb950c4c.chunk.js.map": "/wallet-application/static/js/609.cb950c4c.chunk.js.map",
     "165.712801ad.chunk.css.map": "/wallet-application/static/css/165.712801ad.chunk.css.map",
     "165.167c0aff.chunk.js.map": "/wallet-application/static/js/165.167c0aff.chunk.js.map",
-    "663.4029eaed.chunk.css.map": "/wallet-application/static/css/663.4029eaed.chunk.css.map",
+    "663.4d6d68c8.chunk.css.map": "/wallet-application/static/css/663.4d6d68c8.chunk.css.map",
     "663.0b10f38b.chunk.js.map": "/wallet-application/static/js/663.0b10f38b.chunk.js.map",
-    "786.70ff4575.chunk.css.map": "/wallet-application/static/css/786.70ff4575.chunk.css.map",
+    "786.426f5c6f.chunk.css.map": "/wallet-application/static/css/786.426f5c6f.chunk.css.map",
     "786.284faf96.chunk.js.map": "/wallet-application/static/js/786.284faf96.chunk.js.map",
-    "132.a3d5b549.chunk.css.map": "/wallet-application/static/css/132.a3d5b549.chunk.css.map",
+    "132.7ee2ef57.chunk.css.map": "/wallet-application/static/css/132.7ee2ef57.chunk.css.map",
     "132.fe6f7b54.chunk.js.map": "/wallet-application/static/js/132.fe6f7b54.chunk.js.map",
     "314.f711e4a9.chunk.js.map": "/wallet-application/static/js/314.f711e4a9.chunk.js.map",
     "270.63d8c000.chunk.js.map": "/wallet-application/static/js/270.63d8c000.chunk.js.map",
@@ -47,7 +47,7 @@
     "623.d975465b.chunk.js.map": "/wallet-application/static/js/623.d975465b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5ab6e2ea.css",
-    "static/js/main.b919f8c9.js"
+    "static/css/main.66e53664.css",
+    "static/js/main.30b97194.js"
   ]
 }
