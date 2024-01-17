@@ -51,9 +51,7 @@ const globalSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(getPatterns.pending, state => {
-        state.isLoading = true;
-      })
+      .addCase(getPatterns.pending, state => {})
       .addCase(getPatterns.fulfilled, (state, action) => {
         state.patterns = action.payload.data.patterns;
         state.isLoading = false;
