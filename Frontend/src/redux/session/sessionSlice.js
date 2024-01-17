@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 import {
   signUp,
   signIn,
@@ -12,6 +13,7 @@ const setAuthStatus = (state, action) => {
   state.user = action.payload.data;
   state.isRefreshing = false;
   state.token = action.payload.token;
+  state.error = false;
 };
 
 const unsetAuthState = state => {
@@ -30,6 +32,8 @@ const initialState = {
   userDetails: null,
 };
 
+export const clearErrorAction = createAction('session/clearError');
+
 const sessionSlice = createSlice({
   name: 'session',
   initialState,
@@ -40,9 +44,16 @@ const sessionSlice = createSlice({
       })
       .addCase(signIn.pending, state => {
         state.isRefreshing = true;
+        state.error = false;
       })
       .addCase(signIn.fulfilled, setAuthStatus)
-      .addCase(signIn.rejected, unsetAuthState)
+      .addCase(signIn.rejected, (state, action) => {
+        unsetAuthState(state);
+        state.error = action.payload;
+      })
+      .addCase(clearErrorAction, state => {
+        state.error = false;
+      })
       .addCase(logOut.fulfilled, unsetAuthState)
       .addCase(logOut.rejected, unsetAuthState)
       .addCase(refreshUser.pending, state => {
