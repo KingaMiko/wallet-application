@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { signIn } from 'redux/session/operations';
 import { selectPatterns } from 'redux/global/selectors';
+import { clearErrorAction } from 'redux/session/sessionSlice';
 
 import styles from './LoginForm.module.scss';
 import { Button, Input } from 'components';
@@ -13,6 +14,7 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const patterns = useSelector(selectPatterns);
+  const error = useSelector(state => state.session.error);
 
   const initialValues = {
     email: '',
@@ -44,6 +46,12 @@ export const LoginForm = () => {
     }
   };
 
+  const resetError = () => {
+    if (error) {
+      dispatch(clearErrorAction());
+    }
+  };
+
   return (
     <>
       <Formik
@@ -58,7 +66,8 @@ export const LoginForm = () => {
               name="email"
               placeholder="E-mail"
               iconID="icon-baseline-email"
-              title="Enter your name"
+              title="Enter your email"
+              onFocus={resetError}
             />
 
             <Input
@@ -68,8 +77,9 @@ export const LoginForm = () => {
               autoComplete="off"
               iconID="icon-baseline-lock"
               title="Enter your password"
+              onFocus={resetError}
             />
-
+            {error && <div className={styles['error-message']}>{error}</div>}
             <Button type="submit" theme="color">
               Log in
             </Button>

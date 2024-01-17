@@ -9,7 +9,18 @@ const initialState = {
   isModalSettingsOpen: false,
   isModalConfirmDeleteOpen: false,
   isModalConfirmDeleteCategoryOpen: false,
-  patterns: null,
+  patterns: {
+    passwordPattern: {
+      pattern:
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+-=\\[\\]{}\'"\\|,.<>/?~\\\\])',
+      description:
+        'The password should contain at least one uppercase letter, one special character, and one digit',
+    },
+    namePattern: {
+      pattern: '^[a-zA-ZąćęłńóśżźĄĆĘŁŃÓŚŻŹ]+$',
+      description: 'Name can only contains letters',
+    },
+  },
 };
 
 const globalSlice = createSlice({
