@@ -33,7 +33,7 @@ cron.schedule("0 0 0 * * *", async () => {
 
 cron.schedule("*/15 * * * *", async () => {
   try {
-    await axios.get(`${process.env.BASE_URL}/api/keep-alive`);
+    await axios.get(`${process.env.BASE_URL}/keep-alive`);
     console.log(`Keep-alive request sent: ${new Date().toISOString()}`);
   } catch (error) {
     console.error("Error sending keep-alive request:", error);
