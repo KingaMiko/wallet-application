@@ -14,6 +14,7 @@ export * from "./categories/createCategory.js";
 export * from "./categories/deleteCategory.js";
 
 export * from "./statistics/getStatistics.js";
+export * from "./keepAlive/keepAlive.js";
 
 export * from "./users/getUser.js";
 export * from "./users/verifyUser.js";

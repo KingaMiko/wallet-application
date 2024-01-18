@@ -17,6 +17,7 @@ export const setupRoutes = (app) => {
   rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
   rootRouter.post("/categories", auth, controllers.createCategory);
   rootRouter.delete("/categories/:id", auth, controllers.deleteUserCategory);
+  rootRouter.get("/keep-alive", controllers.keepAlive);
 
   rootRouter.post("/transactions", auth, controllers.addTransaction);
   rootRouter.get("/transactions", auth, controllers.getTransactions);
