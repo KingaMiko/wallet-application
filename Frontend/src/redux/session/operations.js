@@ -20,8 +20,6 @@ export const signUp = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const res = await walletInstance.post('/auth/signup', credentials);
-      // toast do testów, wykasować później
-      toast.success('Success!');
       return res.data;
     } catch (error) {
       const errorMessage = error.response.data.description;
@@ -41,8 +39,6 @@ export const signIn = createAsyncThunk(
     try {
       const res = await walletInstance.post('/auth/signin', credentials);
       setAuthHeader(res.data.token);
-      // toast do testów, wykasować później
-      toast.success('Success!');
       return res.data;
     } catch (error) {
       const errorMessage = error.response.data.description;
