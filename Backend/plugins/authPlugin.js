@@ -19,18 +19,11 @@ export const authPlugin = (app) => {
     new Strategy(options, async (token, onVerified) => {
       try {
         const user = await User.findById(token.id);
-
         if (!user) {
           return onVerified(new Error("User not found"), false);
         }
 
-        const userToken = JWT.verify(user.token, process.env.SECRET_KEY);
-
-        if (userToken.iat !== token.iat) {
-          return onVerified(new Error("Not valid token"), false);
-        }
-
-        return onVerified(null, user);
+        onVerified(null, user);
       } catch (error) {
         return onVerified(error, false);
       }
@@ -74,13 +67,7 @@ export const sendRefreshToken = (res, refreshToken, numOfDays = 1) => {
 
 export const cleanNotValidSessions = async () => {
   const now = Date.now();
-  const sessions = await Session.find().lean();
-
-  for (const session of sessions) {
-    if (session.expireAt < now) {
-      await Session.findByIdAndDelete(session._id);
-    }
-  }
+  await Session.deleteMany({ expireAt: { $lt: now } });
 };
 
 export const auth = (request, response, next) => {
