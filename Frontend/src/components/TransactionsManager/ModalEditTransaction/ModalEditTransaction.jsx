@@ -32,11 +32,11 @@ export const EditTransactionModal = ({
   const validationSchema = Yup.object().shape({
     type: Yup.string(),
     sum: Yup.number()
-      .typeError('Amount must be a number')
-      .required('Amount is required')
-      .positive('Amount must be a positive number'),
-    date: Yup.date().required('Date is required'),
+      .positive('Sum must be a positive number')
+      .max(1000000, 'Sum must not exceed 1,000,000')
+      .required('Sum is required'),
     category: Yup.string().required('Category is required'),
+    date: Yup.date().required('Date is required'),
     comment: Yup.string(),
   });
 
@@ -152,7 +152,7 @@ export const EditTransactionModal = ({
                 </div>
                 <div className={css.form__flex_container}>
                   <div className={css.form__input}>
-                    <label>
+                    <label className={css.form__label}>
                       <Field
                         as="select"
                         name="category"
@@ -174,7 +174,11 @@ export const EditTransactionModal = ({
                             </option>
                           ))}
                       </Field>
-                      <ErrorMessage name="category" component="div" />
+                      <ErrorMessage
+                        name="category"
+                        component="div"
+                        className={css.error_message}
+                      />
                     </label>
                   </div>
                   <div className={css.form__input_flex}>
@@ -185,7 +189,11 @@ export const EditTransactionModal = ({
                         placeholder="0.00"
                         className={css.form__input}
                       />
-                      <ErrorMessage name="sum" component="div" />
+                      <ErrorMessage
+                        name="sum"
+                        component="div"
+                        className={css.error_message}
+                      />
                     </label>
                     <label>
                       <Datetime
@@ -196,7 +204,11 @@ export const EditTransactionModal = ({
                         timeFormat={false}
                       />
                       <span className={css.form__date_icon}></span>
-                      <ErrorMessage name="date" component="div" />
+                      <ErrorMessage
+                        name="date"
+                        component="div"
+                        className={css.error_message}
+                      />
                     </label>
                   </div>
                   <div className={css.form__input}>
