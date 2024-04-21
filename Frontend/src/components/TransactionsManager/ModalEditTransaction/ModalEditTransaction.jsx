@@ -32,6 +32,7 @@ export const EditTransactionModal = ({
   const validationSchema = Yup.object().shape({
     type: Yup.string(),
     sum: Yup.number()
+      .integer('Sum must be an integer')
       .positive('Sum must be a positive number')
       .max(1000000, 'Sum must not exceed 1,000,000')
       .required('Sum is required'),
