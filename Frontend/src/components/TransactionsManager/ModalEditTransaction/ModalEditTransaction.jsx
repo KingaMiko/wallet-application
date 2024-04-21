@@ -187,7 +187,7 @@ export const EditTransactionModal = ({
                       <Field
                         type="number"
                         name="sum"
-                        placeholder="0.00"
+                        placeholder="00"
                         className={css.form__input}
                       />
                       <ErrorMessage
