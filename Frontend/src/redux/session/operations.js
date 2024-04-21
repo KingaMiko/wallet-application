@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-hot-toast';
-
+import { toast } from 'react-toastify';
 import { walletInstance } from 'utils/api';
 
 const setAuthHeader = token => {

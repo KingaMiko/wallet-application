@@ -26,6 +26,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
     type: Yup.string(),
     sum: Yup.number()
       .positive('Sum must be a positive number')
+      .max(1000000, 'Sum must not exceed 1,000,000')
       .required('Sum is required'),
     category: Yup.string().required('Category is required'),
     date: Yup.date().required('Date is required'),
@@ -138,7 +139,7 @@ export const AddTransactionModal = ({ addTransaction }) => {
                 </div>
                 <div className={css.form__flex_container}>
                   <div className={css.form__input}>
-                    <label>
+                    <label className={css.form__label}>
                       <Field
                         as="select"
                         name="category"
@@ -163,7 +164,11 @@ export const AddTransactionModal = ({ addTransaction }) => {
                             </option>
                           ))}
                       </Field>
-                      <ErrorMessage name="category" component="div" />
+                      <ErrorMessage
+                        name="category"
+                        component="div"
+                        className={css.error_message}
+                      />
                     </label>
                   </div>
                   <div className={css.form__input_flex}>
@@ -174,7 +179,11 @@ export const AddTransactionModal = ({ addTransaction }) => {
                         placeholder="0.00"
                         className={css.form__input}
                       />
-                      <ErrorMessage name="sum" component="div" />
+                      <ErrorMessage
+                        name="sum"
+                        component="div"
+                        className={css.error_message}
+                      />
                     </label>
                     <label>
                       <Datetime
@@ -185,7 +194,11 @@ export const AddTransactionModal = ({ addTransaction }) => {
                         timeFormat={false}
                       />
                       <span className={css.form__date_icon}></span>
-                      <ErrorMessage name="date" component="div" />
+                      <ErrorMessage
+                        name="date"
+                        component="div"
+                        className={css.error_message}
+                      />
                     </label>
                   </div>
                   <div className={css.form__input}>
