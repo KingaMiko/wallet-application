@@ -1,5 +1,7 @@
 import Category from "#models/category.js";
 import User from "#models/user.js";
+import Filter from "bad-words";
+const filter = new Filter();
 
 /**
  * @typedef {object} CategoryCreate
@@ -19,14 +21,16 @@ import User from "#models/user.js";
 export const createCategory = async (req, res) => {
   try {
     const { name, type } = req.body;
+    if (filter.isProfane(name)) {
+      return res
+        .status(400)
+        .json({ description: "Name contains prohibited words" });
+    }
+
     const userId = req.user.id;
-
-    const newCategory = new Category({
-      name,
-      type,
-    });
-
+    const newCategory = new Category({ name, type });
     const savedCategory = await newCategory.save();
+
     const user = await User.findById(userId);
     user.categories.push(savedCategory._id);
     await user.save();
