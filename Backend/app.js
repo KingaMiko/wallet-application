@@ -21,7 +21,7 @@ authPlugin(app);
 bodyParserPlugin(app);
 
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
+  windowMs: 15 * 60 * 1000,
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
