@@ -17,10 +17,14 @@ const filter = new Filter();
  * @return {ResponseWithDataSchema<CategoryCreate>} 201 - Success, category created
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
-
 export const createCategory = async (req, res) => {
   try {
     const { name, type } = req.body;
+
+    if (name.length > 20) {
+      return res.status(400).json({ description: "Name is too long" });
+    }
+
     if (filter.isProfane(name)) {
       return res
         .status(400)
