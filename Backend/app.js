@@ -1,4 +1,5 @@
 import express from "express";
+import rateLimit from "express-rate-limit";
 
 import {
   corsPlugin,
@@ -18,6 +19,16 @@ loggerPlugin(app);
 corsPlugin(app);
 authPlugin(app);
 bodyParserPlugin(app);
+
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
+app.use(limiter);
+
 setupRoutes(app);
 swaggerPlugin(app);
 
