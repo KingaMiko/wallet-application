@@ -1,4 +1,5 @@
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
 
 import { auth } from "./plugins/authPlugin.js";
 import * as controllers from "./controllers/index.js";
@@ -8,6 +9,12 @@ export const setupRoutes = (app) => {
   const usersRouter = Router();
   const authRouter = Router();
 
+  const postLimiter = rateLimit({
+    windowMs: 11 * 60 * 1000,
+    max: 15,
+    message: "Too many requests, please try again later.",
+  });
+
   authRouter.post("/signup", controllers.authSignup);
   authRouter.post("/signin", controllers.authSignin);
   authRouter.post("/refresh", controllers.authRefresh);
@@ -15,11 +22,16 @@ export const setupRoutes = (app) => {
 
   rootRouter.get("/categories", auth, controllers.getAllUserCategories);
   rootRouter.get("/categories/:id", auth, controllers.getUserCategoryById);
-  rootRouter.post("/categories", auth, controllers.createCategory);
+  rootRouter.post("/categories", auth, postLimiter, controllers.createCategory);
   rootRouter.delete("/categories/:id", auth, controllers.deleteUserCategory);
   rootRouter.get("/keep-alive", controllers.keepAlive);
 
-  rootRouter.post("/transactions", auth, controllers.addTransaction);
+  rootRouter.post(
+    "/transactions",
+    auth,
+    postLimiter,
+    controllers.addTransaction
+  );
   rootRouter.get("/transactions", auth, controllers.getTransactions);
   rootRouter.get("/statistics", auth, controllers.getStatistics);
   rootRouter.get("/currencies", auth, controllers.getCurrencies);
