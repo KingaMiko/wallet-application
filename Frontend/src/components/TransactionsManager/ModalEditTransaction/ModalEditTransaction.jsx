@@ -124,13 +124,7 @@ export const EditTransactionModal = ({
                       type="checkbox"
                       name="type"
                       id="type"
-                      onClick={() => {
-                        setValues({
-                          ...initialValues,
-                          type: values.type,
-                        });
-                        setErrors({});
-                      }}
+                      disabled={true}
                       className={css.form__checkbox_input}
                     />
                     <div className={css.form__checkbox_custom}>
