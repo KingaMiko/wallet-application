@@ -17,17 +17,13 @@ import Filter from "bad-words";
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
 
-const customRegex = new RegExp(
-  [regex.source, "ą", "ć", "ę", "ł", "ń", "ó", "ś", "ź", "ż"].join(""),
-  "i"
-);
-
 const customList = [
   // Odmiany słowa "kurwa"
   "kurwa",
   "kurwie",
   "kurwą",
   "kurwę",
+  "kurwe",
   "kurwo",
   "kurwy",
   "kurwach",
@@ -208,23 +204,47 @@ const customList = [
   "pizdva",
 ];
 
-const customFilterConfig = { list: customList };
-const filter = new Filter({ customFilterConfig, replaceRegex: customRegex });
+const customFilter = new Filter({ emptyList: true });
+customFilter.addWords(...customList);
 
-filter.addWords(...customList);
+const defaultFilter = new Filter();
+
+function createProfanityRegex(words) {
+  const pattern = words
+    .map((word) =>
+      word
+        .replace(/a/g, "[aą]")
+        .replace(/c/g, "[cć]")
+        .replace(/e/g, "[eę]")
+        .replace(/l/g, "[lł]")
+        .replace(/n/g, "[nń]")
+        .replace(/o/g, "[oó]")
+        .replace(/s/g, "[sś]")
+        .replace(/z/g, "[zźż]")
+        .split("")
+        .join("\\W*")
+    )
+    .join("|");
+
+  return new RegExp(`(${pattern})`, "gi");
+}
+
+const profanityRegex = createProfanityRegex(customList);
 
 export const createCategory = async (req, res) => {
   try {
+    const hasEnglishProfanity = defaultFilter.isProfane(value);
+    const hasCustomProfanity =
+      customFilter.isProfane(value) || profanityRegex.test(value);
     const { name, type } = req.body;
 
-    if (name.length > 20) {
-      return res.status(400).json({ description: "Name is too long" });
-    }
-
-    if (filter.isProfane(name)) {
+    if (hasEnglishProfanity || hasCustomProfanity) {
       return res
         .status(400)
-        .json({ description: "Name contains prohibited words" });
+        .json({ description: "Please avoid using offensive language" });
+    }
+    if (name.length > 20) {
+      return res.status(400).json({ description: "Name is too long" });
     }
 
     const userId = req.user.id;
