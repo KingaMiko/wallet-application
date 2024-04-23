@@ -1,6 +1,7 @@
 import Category from "#models/category.js";
 import User from "#models/user.js";
 import Filter from "bad-words";
+import regex from "bad-words/lib/regexp";
 
 /**
  * @typedef {object} CategoryCreate
@@ -16,6 +17,11 @@ import Filter from "bad-words";
  * @return {ResponseWithDataSchema<CategoryCreate>} 201 - Success, category created
  * @return {ResponseSchema} 400 - Error: Bad Request
  */
+
+const customRegex = new RegExp(
+  [regex.source, "ą", "ć", "ę", "ł", "ń", "ó", "ś", "ź", "ż"].join(""),
+  "i"
+);
 
 const customList = [
   // Odmiany słowa "kurwa"
@@ -204,7 +210,9 @@ const customList = [
 ];
 
 const customFilterConfig = { list: customList };
-const filter = new Filter(customFilterConfig);
+const filter = new Filter({ customFilterConfig, replaceRegex: customRegex });
+
+filter.addWords(...customList);
 
 export const createCategory = async (req, res) => {
   try {
