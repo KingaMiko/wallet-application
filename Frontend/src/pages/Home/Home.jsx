@@ -5,7 +5,7 @@ import Navigation from 'components/Navigation/Navigation';
 import { TransactionsManager } from 'components/TransactionsManager/TransactionManager';
 //import React, { useState } from 'react';
 import React from 'react';
-import { ButtonAddTransactions } from 'components/ButtonAddTransactions/ButtonAddTransactions';
+// import { ButtonAddTransactions } from 'components/ButtonAddTransactions/ButtonAddTransactions';
 import { Helmet } from 'react-helmet';
 import NavigationMobile from 'components/Navigation/NavigationMobile';
 import { useMediaQuery } from 'react-responsive';
@@ -55,7 +55,7 @@ const Home = () => {
             </div>
           )}{' '}
         </div>
-        <ButtonAddTransactions />
+        {/* <ButtonAddTransactions /> */}
       </section>
     </div>
   );
