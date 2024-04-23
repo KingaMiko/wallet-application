@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
+import { ButtonAddTransactions } from 'components/ButtonAddTransactions/ButtonAddTransactions';
 import css from './FilterTransaction.module.scss';
 
 const customStyles = {
@@ -117,6 +118,7 @@ export const FilterTransaction = ({ onFilter }) => {
           onChange={handleLimitChange}
         />
       </div>
+      <ButtonAddTransactions />
       <button className={css.filterButton} onClick={handleFilter}>
         Filter
       </button>

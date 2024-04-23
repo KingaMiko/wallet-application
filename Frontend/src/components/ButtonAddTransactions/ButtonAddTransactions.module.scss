@@ -8,8 +8,11 @@
   font-size: 30px;
   background-color: get-color('green1');
   box-shadow: 0 6px 15px get-color('green1');
+  gap: 20px;
   cursor: pointer;
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+  }
 }
