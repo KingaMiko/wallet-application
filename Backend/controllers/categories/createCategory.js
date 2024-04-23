@@ -1,7 +1,7 @@
 import Category from "#models/category.js";
 import User from "#models/user.js";
 import Filter from "bad-words";
-const customFilterConfig = { list: customList };
+
 const filter = new Filter(customFilterConfig);
 
 /**
@@ -204,6 +204,8 @@ const customList = [
   "spierdvlaj",
   "pizdva",
 ];
+
+const customFilterConfig = { list: customList };
 
 export const createCategory = async (req, res) => {
   try {
