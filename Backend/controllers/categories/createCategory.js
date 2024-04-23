@@ -2,8 +2,6 @@ import Category from "#models/category.js";
 import User from "#models/user.js";
 import Filter from "bad-words";
 
-const filter = new Filter(customFilterConfig);
-
 /**
  * @typedef {object} CategoryCreate
  * @property {string} name.required - Name of the category
@@ -206,6 +204,7 @@ const customList = [
 ];
 
 const customFilterConfig = { list: customList };
+const filter = new Filter(customFilterConfig);
 
 export const createCategory = async (req, res) => {
   try {
