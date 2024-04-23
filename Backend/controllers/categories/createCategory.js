@@ -1,7 +1,6 @@
 import Category from "#models/category.js";
 import User from "#models/user.js";
 import Filter from "bad-words";
-import regex from "bad-words/lib/regexp";
 
 /**
  * @typedef {object} CategoryCreate
