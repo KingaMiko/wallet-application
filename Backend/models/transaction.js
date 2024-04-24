@@ -16,6 +16,7 @@ const transactionSchema = {
   },
   comment: {
     type: String,
+    maxlength: [100, "Comment is too long (maximum 100 characters)"],
   },
   date: {
     type: Date,
