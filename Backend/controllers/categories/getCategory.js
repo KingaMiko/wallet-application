@@ -1,5 +1,4 @@
 import Category from "#models/category.js";
-import User from "#models/user.js";
 
 /**
  * GET /api/categories/{id}
