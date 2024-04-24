@@ -1,4 +1,5 @@
 import swagger from "express-jsdoc-swagger";
+import { dateSchema } from "#schemas/swagger.schema.js";
 
 export const swaggerPlugin = (app) => {
   const options = {
@@ -23,6 +24,11 @@ export const swaggerPlugin = (app) => {
     exposeSwaggerUI: true,
     exposeApiDocs: false,
     notRequiredAsNullable: false,
+    components: {
+      schemas: {
+        date: dateSchema,
+      },
+    },
   };
 
   swagger(app)(options);
