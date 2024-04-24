@@ -5,7 +5,7 @@ import Filter from "bad-words";
 
 /**
  * @typedef {object} Transaction
- * @property {string} type - type of transaction
+ * @property {string} type of transaction - "Income" or "Expense"
  * @property {string} category - ObjectId of the transaction category from MongoDB
  * @property {number} sum - sum of transaction
  * @property {string} comment - comment of transaction
@@ -14,7 +14,7 @@ import Filter from "bad-words";
 
 /**
  * POST /api/transactions
- *
+ * @tags Transactions
  * @security BearerAuth
  * @param {Transaction} request.body.required
  * @return {ResponseWithDataSchema} 201 - Success

@@ -11,7 +11,7 @@ import Session from "#models/session.js";
 
 /**
  * POST /api/auth/refresh
- *
+ * @tags Auth
  * @return {ResponseWithTokenSchema} 200 - Success
  * @return {ResponseSchema} 404 - Not Found
  * @return {ResponseSchema} 400 - Error

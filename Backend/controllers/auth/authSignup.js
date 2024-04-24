@@ -7,7 +7,7 @@ import Category from "#models/category.js";
 
 /**
  * POST /api/auth/signup
- *
+ * @tags Auth
  * @param {RegisterUserSchema} request.body.required
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 409 - Error: Email in use

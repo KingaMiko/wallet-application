@@ -4,7 +4,7 @@ import Transaction from "#models/transaction.js";
 import { findTransactions } from "#helpers/transactionHelper.js";
 /**
  * GET /api/transactions
- *
+ * @tags Transactions
  * @security BearerAuth
  * @param {number} year.query.required - Year to filter transactions
  * @param {number} month.query.required - Month to filter transactions

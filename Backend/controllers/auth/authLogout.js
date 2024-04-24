@@ -2,7 +2,7 @@ import User from "#models/user.js";
 
 /**
  * GET /api/auth/logout
- *
+ * @tags Auth
  * @security BearerAuth
  * @return 204 - Ok
  * @return {ResponseSchema} 400 - Error

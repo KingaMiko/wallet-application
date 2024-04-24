@@ -15,7 +15,7 @@ import { getTransactionByType } from "#helpers/transactionHelper.js";
 
 /**
  * GET /api/statistics
- *
+ * @tags Statistics
  * @security BearerAuth
  * @param {Date} request.query.required
  * @return {ResponseWithDataSchema} 200 - Success

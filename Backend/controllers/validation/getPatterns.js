@@ -2,7 +2,7 @@ import patterns from "#utils/regexPatterns.json" assert { type: "json" };
 
 /**
  * GET /api/patterns
- *
+ * @tags Pattern
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error
  */

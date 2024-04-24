@@ -19,7 +19,7 @@ export const swaggerPlugin = (app) => {
     },
     baseDir: process.cwd(),
     filesPattern: ["./schemas/*.js", "./controllers/**/*.js"],
-    swaggerUIPath: "/api/doc",
+    swaggerUIPath: "/api-docs",
     exposeSwaggerUI: true,
     exposeApiDocs: false,
     notRequiredAsNullable: false,
