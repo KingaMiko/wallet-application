@@ -9,6 +9,9 @@ import User from "#models/user.js";
  * @return {ResponseWithTokenSchema} 200 - Success
  * @return {ResponseSchema} 401 - Not Authorized
  * @return {ResponseSchema} 400 - Error
+ * @description To test the documentation, you can use the following test credentials:<br>
+ *              <strong>Email:</strong> kinga.mikola@gmail.com<br>
+ *              <strong>Password:</strong> TestTest1+<br>
  */
 
 export const authSignin = async (req, res, next) => {
