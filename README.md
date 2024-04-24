@@ -1,5 +1,7 @@
 # Wallet App
 
+The Swagger documentation is available at https://wallet-backend-r5ts.onrender.com/api-docs/ for detailed information about each endpoint.
+
 ## 🌟 Introduction
 
 Welcome to the Wallet App, a comprehensive personal finance tool developed as a key project during my Full Stack Developer course at GoIT. As the team leader, I'm proud to present this application, which has evolved from a group assignment into a robust and continuously improving financial management system.
