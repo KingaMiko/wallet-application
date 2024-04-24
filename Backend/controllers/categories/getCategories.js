@@ -2,7 +2,7 @@ import Category from "#models/category.js";
 
 /**
  * GET /api/categories
- *
+ * @tags Categories
  * @security BearerAuth
  * @return {ResponseWithDataSchema} 200 - Success, returns user's categories
  * @return {ResponseSchema} 400 - Error: Bad Request

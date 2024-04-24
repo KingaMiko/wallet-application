@@ -2,7 +2,7 @@ import Currency from "#models/currency.js";
 
 /**
  * GET /api/currencies
- *
+ * @tags Currencies
  * @security BearerAuth
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error

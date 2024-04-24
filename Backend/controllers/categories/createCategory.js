@@ -4,13 +4,13 @@ import Filter from "bad-words";
 
 /**
  * @typedef {object} CategoryCreate
- * @property {string} name.required - Name of the category
- * @property {string} type.required - Type of the category. Should be one of the following: "income" or "expense".
+ * @property {string} Name of the category
+ * @property {string} type of transaction - "Income" or "Expense"
  */
 
 /**
  * POST /api/categories
- *
+ * @tags Categories
  * @security BearerAuth
  * @param {CategoryCreate} request.body.required - Category data
  * @return {ResponseWithDataSchema<CategoryCreate>} 201 - Success, category created

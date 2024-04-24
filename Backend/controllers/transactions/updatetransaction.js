@@ -5,7 +5,7 @@ import Filter from "bad-words";
 
 /**
  * @typedef {object} TransactionUpdate
- * @property {string} type.required - Type of transaction (Income/Expense)
+ * @property {string} type of transaction - "Income" or "Expense"
  * @property {string} category - ObjectId of the transaction category from MongoDB
  * @property {number} sum - Sum of transaction
  * @property {string} comment - Comment of transaction
@@ -14,7 +14,7 @@ import Filter from "bad-words";
 
 /**
  * PATCH /api/transactions/{id}
- *
+ * @tags Transactions
  * @security BearerAuth
  * @param {string} id.path.required - ID of the transaction to update
  * @param {TransactionUpdate} request.body.required - Data to update the transaction

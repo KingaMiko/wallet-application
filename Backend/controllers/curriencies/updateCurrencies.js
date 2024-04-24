@@ -4,7 +4,7 @@ import Currency from "#models/currency.js";
 
 /**
  * POST /api/currencies
- *
+ * @tags Currencies
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 400 - Error
  */

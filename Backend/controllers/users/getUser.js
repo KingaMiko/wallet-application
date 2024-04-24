@@ -2,7 +2,7 @@ import User from "#models/user.js";
 
 /**
  * GET /api/users/current
- *
+ * @tags User
  * @security BearerAuth
  * @return {ResponseWithDataSchema} 200 - Success
  * @return {ResponseSchema} 404 - User Not Found

@@ -3,7 +3,7 @@ import User from "#models/user.js";
 
 /**
  * DELETE /api/categories/{id}
- *
+ * @tags Categories
  * @security BearerAuth
  * @param {string} id.path.required - ID of the category to delete
  * @return {ResponseSchema} 200 - Success, category deleted
@@ -29,7 +29,9 @@ export const deleteUserCategory = async (req, res) => {
     const user = req.user;
     let categories;
 
-    req.user.categories = categories = user.categories.filter(cid => cid !== id);
+    req.user.categories = categories = user.categories.filter(
+      (cid) => cid !== id
+    );
 
     await User.findByIdAndUpdate(user.id, { categories });
 

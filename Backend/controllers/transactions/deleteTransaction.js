@@ -9,7 +9,7 @@ import { updateUser } from "#helpers/transactionHelper.js";
 
 /**
  * DELETE /api/transactions/{id}
- *
+ * @tags Transactions
  * @security BearerAuth
  * @param {string} id.path.required - ID of the transaction to delete
  * @return {ResponseSchema} 200 - Success, transaction deleted

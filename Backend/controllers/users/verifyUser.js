@@ -2,7 +2,7 @@ import User from "#models/user.js";
 
 /**
  * GET /api/users/verify/{verificationToken}
- *
+ * @tags User
  * @param {string} verificationToken.path - Verification token
  * @return {ResponseSchema} 200 - Success
  * @return {ResponseSchema} 404 - User not found
