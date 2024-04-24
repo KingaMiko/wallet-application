@@ -241,6 +241,10 @@ const profanityRegex = createProfanityRegex(customList);
 export const addTransaction = async (req, res, next) => {
   const { type, category, sum, comment, date } = req.body;
   const ownerId = req.user.id;
+  const transactionDate = new Date(date);
+
+  const startDate = new Date("2020-01-01");
+  const endDate = new Date();
 
   if (
     comment &&
@@ -254,13 +258,20 @@ export const addTransaction = async (req, res, next) => {
     });
   }
 
+  if (transactionDate < startDate || transactionDate > endDate) {
+    return res.status(400).json({
+      statusCode: 400,
+      description: "Date must be between January 1, 2020, and today.",
+    });
+  }
+
   try {
     const newTransaction = new Transaction({
       type,
       category,
       sum,
       comment,
-      date,
+      date: transactionDate,
       owner: ownerId,
     });
 
