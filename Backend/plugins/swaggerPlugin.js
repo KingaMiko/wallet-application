@@ -1,5 +1,10 @@
 import swagger from "express-jsdoc-swagger";
-import { dateSchema } from "#schemas/swagger.schema.js";
+
+const dateSchema = {
+  type: "string",
+  pattern: "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$",
+  description: "Date in DD/MM/YYYY format",
+};
 
 export const swaggerPlugin = (app) => {
   const options = {
