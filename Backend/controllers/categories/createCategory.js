@@ -144,6 +144,9 @@ const customList = [
 
   // Inne wulgaryzmy i ich odmiany
   "cipa",
+  "kutas",
+  "debil",
+  "debilny",
   "cipie",
   "cipą",
   "cipę",
