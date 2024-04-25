@@ -27,6 +27,7 @@ const customList = [
   "kurwo",
   "kurwy",
   "kurwach",
+  "kurew",
   "kurwami",
   "kurwiska",
   "kurwiszcze",

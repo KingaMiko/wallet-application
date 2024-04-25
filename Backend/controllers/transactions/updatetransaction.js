@@ -33,6 +33,7 @@ const customList = [
   "kurwo",
   "kurwy",
   "kurwach",
+  "kurew",
   "kurwami",
   "kurwiska",
   "kurwiszcze",
@@ -150,6 +151,9 @@ const customList = [
 
   // Inne wulgaryzmy i ich odmiany
   "cipa",
+  "kutas",
+  "debil",
+  "debilny",
   "cipie",
   "cipą",
   "cipę",
@@ -257,7 +261,6 @@ export const updateTransaction = async (req, res) => {
         .json({ description: "You don't have permission to do this" });
     }
 
-    // Sprawdzenie długości komentarza i obecności wulgaryzmów
     if (
       comment &&
       (comment.length > 100 ||
